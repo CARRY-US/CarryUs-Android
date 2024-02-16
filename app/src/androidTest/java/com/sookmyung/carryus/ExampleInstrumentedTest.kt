@@ -1,4 +1,4 @@
-package com.sopetit.carryus
+package com.sookmyung.carryus
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -17,6 +17,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.sopetit.carryus", appContext.packageName)
+        assertEquals("com.sookmyung.carryus", appContext.packageName)
     }
 }

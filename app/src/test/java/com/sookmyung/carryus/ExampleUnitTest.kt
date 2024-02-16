@@ -1,4 +1,4 @@
-package com.sopetit.carryus
+package com.sookmyung.carryus
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -11,14 +11,14 @@ plugins {
 }
 
 android {
-    namespace = "com.sopetit.carryus"
+    namespace = "com.sookmyung.carryus"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.sopetit.carryus"
+        applicationId = "com.sookmyung.carryus"
         minSdk = 28
         targetSdk = 34
-        versionCode = 3
+        versionCode = 1
         versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "BASE_URL", getApiKey("BASE_URL"))
@@ -53,6 +53,9 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.13.2")
     kapt("com.github.bumptech.glide:glide:4.13.2")
+
+    // kakao
+    implementation("com.kakao.sdk:v2-user:2.12.1")
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
@@ -115,9 +118,6 @@ dependencies {
 
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.1")
-
-    // kakao
-    implementation("com.kakao.sdk:v2-user:2.12.1")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
