@@ -11,6 +11,5 @@ assignees: ''
 * comments
 
 # 🛠️ To Do
-* * *
 - [ ] to do
 - [ ] to do
