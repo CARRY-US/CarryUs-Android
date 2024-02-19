@@ -4,4 +4,9 @@
     <!-- util -->
     <string name="finish_app_toast_msg">뒤로가기를 한 번 더 누르면 종료됩니다</string>
 
+    <!-- bottom navigation -->
+    <string name="bottom_navigation_menu_search">검색</string>
+    <string name="bottom_navigation_menu_list">예약기록</string>
+    <string name="bottom_navigation_menu_my">마이페이지</string>
+
 </resources>
