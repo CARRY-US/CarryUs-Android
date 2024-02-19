@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_navigation_search"
+        android:icon="@drawable/selector_bottom_navigation_search"
+        android:title="@string/bottom_navigation_menu_search" />
+    <item
+        android:id="@+id/bottom_navigation_list"
+        android:icon="@drawable/selector_bottom_navigation_list"
+        android:title="@string/bottom_navigation_menu_list" />
+    <item
+        android:id="@+id/bottom_navigation_my"
+        android:icon="@drawable/selector_bottom_navigation_my"
+        android:title="@string/bottom_navigation_menu_my" />
+</menu>
