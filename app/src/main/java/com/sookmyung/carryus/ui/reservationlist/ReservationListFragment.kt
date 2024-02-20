@@ -18,8 +18,12 @@ class ReservationListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.tabItems.observe(viewLifecycleOwner, Observer { tabItems ->
-            setupTabLayout(tabItems)
+        setObserveTabItems()
+    }
+
+    private fun setObserveTabItems() {
+        viewModel.tabItems.observe(viewLifecycleOwner, Observer {
+            setupTabLayout(it)
         })
     }
 
