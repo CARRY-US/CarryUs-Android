@@ -9,4 +9,8 @@
     <string name="bottom_navigation_menu_list">예약기록</string>
     <string name="bottom_navigation_menu_my">마이페이지</string>
 
+    <!-- reservation list -->
+    <string name="reservation_list_toolbar_title">예약 기록</string>
+    <string name="reservation_list_empty_text">요청한 예약이 없어요!</string>
+
 </resources>
