@@ -7,6 +7,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.sookmyung.carryus.domain.entity.ReservationStatus
 
 class ReservationPagerStateAdapter (fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
+    companion object {
+        const val POSITION_ACCEPTED = 0
+        const val POSITION_WAITING = 1
+        const val POSITION_COMPLETED = 2
+        const val POSITION_CANCELED = 3
+    }
 
     override fun getItemCount(): Int {
         return 4
@@ -17,13 +23,14 @@ class ReservationPagerStateAdapter (fragmentActivity: FragmentActivity): Fragmen
 
         val arguments = Bundle()
         when (position) {
-            0 -> arguments.putString("content", ReservationStatus.ACCEPTED.name)
-            1 -> arguments.putString("content", ReservationStatus.WAITING.name)
-            2 -> arguments.putString("content", ReservationStatus.COMPLETED.name)
-            3 -> arguments.putString("content", ReservationStatus.CANCELED.name)
+            POSITION_ACCEPTED -> arguments.putString("content", ReservationStatus.ACCEPTED.name)
+            POSITION_WAITING -> arguments.putString("content", ReservationStatus.WAITING.name)
+            POSITION_COMPLETED -> arguments.putString("content", ReservationStatus.COMPLETED.name)
+            POSITION_CANCELED -> arguments.putString("content", ReservationStatus.CANCELED.name)
         }
 
         fragment.arguments = arguments
         return fragment
     }
+
 }
