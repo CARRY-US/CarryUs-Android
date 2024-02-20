@@ -18,8 +18,6 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inflate the layout for this fragment
-
         val content = arguments?.getString("content")
         if(content != null){
             when(content){
@@ -45,7 +43,6 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
         }
     }
 
-    // 데이터가 없을 때 보여줄 화면
     private fun setEmptyView(){
         binding.recyclerView.visibility = View.GONE
     }

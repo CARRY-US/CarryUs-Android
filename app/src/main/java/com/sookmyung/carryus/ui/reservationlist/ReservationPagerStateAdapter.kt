@@ -8,12 +8,10 @@ import com.sookmyung.carryus.domain.entity.ReservationStatus
 
 class ReservationPagerStateAdapter (fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
 
-    // FragmentStateAdapter 상속 시 무조건 override 해야하는 fun
     override fun getItemCount(): Int {
         return 4
     }
 
-    // FragmentStateAdapter 상속 시 무조건 override 해야하는 fun (View Pager의 position에 해당하는 fragment return)
     override fun createFragment(position: Int): Fragment {
         val fragment = ReservationPagerFragment()
 
