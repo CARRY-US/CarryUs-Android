@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class ReservationListViewModel : ViewModel(){
-    val tabItems: LiveData<List<String>> get() = _tabItems
-    val position: LiveData<Int> get() = _position
 
     private val _tabItems: MutableLiveData<List<String>> = MutableLiveData()
     private val _position: MutableLiveData<Int> = MutableLiveData()
+
+    val tabItems: LiveData<List<String>> get() = _tabItems
+    val position: LiveData<Int> get() = _position
 
     companion object {
         private val TAB_ITEMS = listOf("수락", "대기", "완료", "취소")
