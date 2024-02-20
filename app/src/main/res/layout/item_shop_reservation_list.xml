@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chip_happy_add_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:paddingBottom="8dp">
+
+        <ImageView
+            android:id="@+id/iv_shop_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/body2_bold"
+            android:id="@+id/tv_shop_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="4dp"
+            android:text="가게이름 최대 14자"
+            android:textColor="@color/black000"
+            app:layout_constraintStart_toEndOf="@+id/iv_shop_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
+
+        <TextView
+            style="@style/detail3_regular"
+            android:id="@+id/tv_shop_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="27dp"
+            android:text="위치 최대 18자 노출되고 나머지는 ..."
+            android:textColor="@color/gray700"
+            app:layout_constraintStart_toEndOf="@+id/iv_shop_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
+
+
+        <ImageView
+            android:id="@+id/iv_check_icon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_shop_icon"
+            app:layout_constraintStart_toEndOf="@+id/iv_shop_icon" />
+
+        <TextView
+            android:id="@+id/tv_reservation_date"
+            style="@style/detail2_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginBottom="8dp"
+            android:text="2024.01.10 00:00 예약"
+            android:textColor="@color/blue400"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_shop_icon"
+            app:layout_constraintStart_toEndOf="@+id/iv_check_icon" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
