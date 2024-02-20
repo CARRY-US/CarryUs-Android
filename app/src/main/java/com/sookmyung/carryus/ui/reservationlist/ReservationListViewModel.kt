@@ -3,6 +3,7 @@ package com.sookmyung.carryus.ui.reservationlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.sookmyung.carryus.domain.entity.ReservationStatus
 
 class ReservationListViewModel : ViewModel(){
 
@@ -13,7 +14,12 @@ class ReservationListViewModel : ViewModel(){
     val position: LiveData<Int> get() = _position
 
     companion object {
-        private val TAB_ITEMS = listOf("수락", "대기", "완료", "취소")
+        private val TAB_ITEMS = listOf(
+            ReservationStatus.ACCEPTED.status,
+            ReservationStatus.WAITING.status,
+            ReservationStatus.COMPLETED.status,
+            ReservationStatus.CANCELED.status
+        )
     }
 
     init {
