@@ -3,7 +3,6 @@ package com.sookmyung.carryus.ui.reservationlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.viewpager.widget.PagerAdapter
 
 class ReservationListViewModel : ViewModel(){
     val tabItems: LiveData<List<String>> get() = _tabItems

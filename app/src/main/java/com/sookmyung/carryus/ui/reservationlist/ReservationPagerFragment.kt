@@ -1,11 +1,7 @@
 package com.sookmyung.carryus.ui.reservationlist
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentReservationPagerBinding
