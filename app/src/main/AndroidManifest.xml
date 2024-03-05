@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".CarryUsApplication"
@@ -19,6 +21,8 @@
         android:theme="@style/Theme.CarryUs"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+        <meta-data android:name="com.kakao.sdk.AppKey" android:value="587e1e6dd22e364bf42b2e9be8041033"/>
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"

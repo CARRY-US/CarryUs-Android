@@ -52,10 +52,14 @@ dependencies {
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.13.2")
+    implementation(files("src\\main\\jniLib"))
     kapt("com.github.bumptech.glide:glide:4.13.2")
 
     // kakao
     implementation("com.kakao.sdk:v2-user:2.12.1")
+
+    // kakao map
+    implementation(files("libs/libDaumMapAndroid.jar"))
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
