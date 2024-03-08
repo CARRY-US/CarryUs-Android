@@ -1,14 +1,80 @@
 package com.sookmyung.carryus.ui.search
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
+import com.sookmyung.carryus.domain.entity.Position
 import com.sookmyung.carryus.util.binding.BindingFragment
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
+import net.daum.mf.map.api.MapView
 
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
-
+    private val viewModel by viewModels<SearchViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+        viewModel.storeList
+
+        // 마커 띄우기
+        viewModel.storeList.value?.forEach { position ->
+            val marker = MapPoint.mapPointWithGeoCoord(position.latitude, position.longitude)
+            val markerIcon = MapPOIItem()
+            markerIcon.apply {
+                itemName = "marker name"
+                customImageResourceId = R.drawable.ic_store_default
+                customSelectedImageResourceId = R.drawable.ic_store_select
+                mapPoint = marker
+                setCustomImageAnchor(0.5f, 0.5f)
+                isCustomImageAutoscale = false
+                markerType = MapPOIItem.MarkerType.CustomImage
+                tag = 0
+            }
+            binding.mapSearch.addPOIItem(markerIcon)
+        }
+        startTracking()
+    }
+
+    private fun checkLocationService(): Boolean {
+        val locationManager =
+            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    }
+
+    // 현재 사용자 위치추적 및 경도, 위도 받아오기
+    @SuppressLint("MissingPermission")
+    private fun startTracking() {
+        binding.mapSearch.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
+
+        binding.mapSearch.setCustomCurrentLocationMarkerTrackingImage(
+            R.drawable.ic_store_select,
+            MapPOIItem.ImageOffset(38, 43)
+        )
+
+        val locationManager: LocationManager =
+            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val currentLocation: Location? =
+            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        val currentLatitude = currentLocation?.latitude ?: 0
+        val currentLongitude = currentLocation?.longitude ?: 0
+        val currentPosition = Position(currentLatitude.toDouble(), currentLongitude.toDouble())
+        viewModel.updateCurrentLocation(currentPosition)
+    }
+
+    private fun stopTracking() {
+        binding.mapSearch.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOff
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopTracking()
     }
 }
