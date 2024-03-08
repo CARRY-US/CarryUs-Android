@@ -1,16 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.sookmyung.carryus.ui.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <net.daum.mf.map.api.MapView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <net.daum.mf.map.api.MapView
+                android:id="@+id/map_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tv_search_search"
+                style="@style/head4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/white000"
+                android:gravity="center|start"
+                android:paddingStart="48dp"
+                android:text="어디로 여행가시나요?"
+                android:textColor="@color/black000"
+                tools:ignore="RtlSymmetry" />
+
+            <ImageView
+                android:id="@+id/iv_search_search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_search" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="bottom|right"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="@color/orange400"
+                android:src="@drawable/ic_list_cta"
+                app:fabCustomSize="60dp"
+                app:maxImageSize="38dp"
+                app:tint="@null" />
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
