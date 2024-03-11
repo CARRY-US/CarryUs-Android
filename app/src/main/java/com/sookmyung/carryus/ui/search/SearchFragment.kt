@@ -2,6 +2,7 @@ package com.sookmyung.carryus.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -11,6 +12,7 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
 import com.sookmyung.carryus.domain.entity.Position
 import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
+import com.sookmyung.carryus.ui.search.result.SearchResultActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
 import net.daum.mf.map.api.CameraUpdate
@@ -24,10 +26,15 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        viewModel.storeList
+
         showMarkerOnMap()
         startTracking()
         moveMapToUserLocation()
+        initStoreListView()
+        initSearchViewClickListener()
+    }
+
+    private fun initStoreListView() {
         viewModel.simpleStoreReviewInfoList.observe(viewLifecycleOwner) { simpleStoreReviewInfoList ->
             if (simpleStoreReviewInfoList == null) {
                 setViewVisibility(View.GONE, View.GONE)
@@ -51,6 +58,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                     }
                 }
             }
+        }
+    }
+
+    private fun initSearchViewClickListener() {
+        binding.tvSearchSearch.setOnClickListener {
+            val toSearch = Intent(requireActivity(), SearchResultActivity::class.java)
+            startActivity(toSearch)
         }
     }
 

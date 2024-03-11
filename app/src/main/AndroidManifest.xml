@@ -21,7 +21,9 @@
         android:theme="@style/Theme.CarryUs"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value="587e1e6dd22e364bf42b2e9be8041033"/>
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="587e1e6dd22e364bf42b2e9be8041033" />
 
         <activity
             android:name=".ui.main.MainActivity"
@@ -33,6 +35,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.search.result.SearchResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

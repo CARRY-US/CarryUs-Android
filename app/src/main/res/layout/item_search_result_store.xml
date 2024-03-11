@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@color/white000">
+
+        <ImageView
+            android:id="@+id/iv_search_result_item_store"
+            setImage="@{data.storeImg}"
+            android:layout_width="94dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@color/black000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_search_result_item_store_title"
+            style="@style/body2_bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="12dp"
+            android:lineSpacingExtra="7.5sp"
+            android:text="@{data.storeTitle}"
+            android:textColor="@color/black000"
+            app:layout_constraintStart_toEndOf="@id/iv_search_result_item_store"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="가게이름 최대 14자" />
+
+        <TextView
+            android:id="@+id/tv_search_result_item_store_sub_title"
+            style="detail3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5.5sp"
+            android:text="@{data.storeSubTitle}"
+            android:textColor="@color/gray400"
+            app:layout_constraintStart_toStartOf="@id/tv_search_result_item_store_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_search_result_item_store_title"
+            tools:text="위치 최대 18자 노출되고 나머지는 ..." />
+
+        <ImageView
+            android:id="@+id/iv_search_result_item_store_review_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_star_small_full"
+            app:layout_constraintDimensionRatio="1"
+            app:layout_constraintStart_toStartOf="@id/tv_search_result_item_store_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_search_result_item_store_sub_title" />
+
+        <TextView
+            android:id="@+id/tv_search_result_item_store_review"
+            style="@style/detail2_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:lineSpacingExtra="6sp"
+            android:text="@{@string/search_review_score_count(data.storeReviewScore, data.storeReviewCount)}"
+            android:textColor="@color/orange400"
+            app:layout_constraintBottom_toBottomOf="@id/iv_search_result_item_store_review_star"
+            app:layout_constraintStart_toEndOf="@id/iv_search_result_item_store_review_star"
+            app:layout_constraintTop_toTopOf="@id/iv_search_result_item_store_review_star"
+            tools:text="4.5 (99+)" />
+
+        <View
+            android:id="@+id/view_search_result_item"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray100"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

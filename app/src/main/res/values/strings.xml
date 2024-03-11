@@ -17,4 +17,8 @@
     <string name="search_review_score_count">%s (%s)</string>
     <string name="search_search_hint">어디로 여행가시나요?</string>
 
+    <!-- search result-->
+    <string name="search_result_search_hint">여행지 검색</string>
+    <string name="search_result_empty_title">검색어에 해당되는 지역이 없어요!</string>
+
 </resources>

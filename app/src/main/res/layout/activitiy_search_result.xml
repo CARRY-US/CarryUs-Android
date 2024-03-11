@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.sookmyung.carryus.ui.search.result.SearchResultViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white000">
+
+        <FrameLayout
+            android:id="@+id/fl_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/tv_search_result_search"
+                style="@style/head4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/gray50"
+                android:gravity="center|start"
+                android:hint="@string/search_result_search_hint"
+                android:inputType="text"
+                android:paddingStart="48dp"
+                android:textColor="@color/black000"
+                tools:ignore="RtlSymmetry" />
+
+            <ImageView
+                android:id="@+id/iv_search_result_search_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="24dp"
+                android:src="@drawable/ic_search" />
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/iv_search_result_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="220dp"
+            android:src="@drawable/ic_empty_search"
+            android:visibility="@{viewModel.searchResultList.size == 0 &amp;&amp; viewModel.startSearch? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fl_search_result"
+            tools:visibility="gone" />
+
+        <TextView
+            style="@style/body1_medi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="8sp"
+            android:text="@string/search_result_empty_title"
+            android:textColor="@color/gray300"
+            android:visibility="@{viewModel.searchResultList.size == 0 &amp;&amp; viewModel.startSearch? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_search_result_empty"
+            tools:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_result_store_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:paddingHorizontal="18dp"
+            android:visibility="@{viewModel.startSearch ? View.VISIBLE : View.GONE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fl_search_result" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
