@@ -10,7 +10,11 @@ import androidx.fragment.app.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
 import com.sookmyung.carryus.domain.entity.Position
+import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
+import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
+import net.daum.mf.map.api.CameraUpdate
+import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -21,8 +25,36 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         viewModel.storeList
+        showMarkerOnMap()
+        startTracking()
+        moveMapToUserLocation()
+        viewModel.simpleStoreReviewInfoList.observe(viewLifecycleOwner) { simpleStoreReviewInfoList ->
+            if (simpleStoreReviewInfoList == null) {
+                setViewVisibility(View.GONE, View.GONE)
+            } else {
+                when (simpleStoreReviewInfoList.size) {
+                    1 -> {
+                        updateStoreInfo(View.VISIBLE, View.GONE, simpleStoreReviewInfoList[0])
+                    }
 
-        // 마커 띄우기
+                    2 -> {
+                        updateStoreInfo(
+                            View.VISIBLE,
+                            View.VISIBLE,
+                            simpleStoreReviewInfoList[0],
+                            simpleStoreReviewInfoList[1]
+                        )
+                    }
+
+                    else -> {
+                        setViewVisibility(View.GONE, View.GONE)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showMarkerOnMap() {
         viewModel.storeList.value?.forEach { position ->
             val marker = MapPoint.mapPointWithGeoCoord(position.latitude, position.longitude)
             val markerIcon = MapPOIItem()
@@ -38,7 +70,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             }
             binding.mapSearch.addPOIItem(markerIcon)
         }
-        startTracking()
     }
 
     private fun checkLocationService(): Boolean {
@@ -55,7 +86,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
         binding.mapSearch.setCustomCurrentLocationMarkerTrackingImage(
             R.drawable.ic_store_select,
-            MapPOIItem.ImageOffset(38, 43)
+            MapPOIItem.ImageOffset(0, 0)
         )
 
         val locationManager: LocationManager =
@@ -68,13 +99,66 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         viewModel.updateCurrentLocation(currentPosition)
     }
 
+    private fun moveMapToUserLocation() {
+        viewModel.currentLocation.observe(viewLifecycleOwner) {
+            val cameraUpdate: CameraUpdate =
+                CameraUpdateFactory.newMapPoint(
+                    viewModel.currentLocation.value?.let {
+                        MapPoint.mapPointWithGeoCoord(
+                            it.latitude,
+                            it.longitude
+                        )
+                    }
+                )
+            binding.mapSearch.moveCamera(cameraUpdate)
+        }
+    }
+
+    private fun setViewVisibility(firstVisibility: Int, secondVisibility: Int) {
+        binding.clSearchFirstStoreInfo.visibility = firstVisibility
+        binding.clSearchSecondStoreInfo.visibility = secondVisibility
+    }
+
+    private fun updateStoreInfo(
+        firstVisibility: Int,
+        secondVisibility: Int,
+        firstStoreInfo: SimpleStoreReviewInfo,
+        secondStoreInfo: SimpleStoreReviewInfo? = null
+    ) {
+        setViewVisibility(firstVisibility, secondVisibility)
+
+        with(binding) {
+            tvSearchFirstStoreTitle.text = firstStoreInfo.storeTitle
+            tvSearchFirstStoreSubTitle.text = firstStoreInfo.storeSubTitle
+            ivSearchFirstStore.setImage(firstStoreInfo.storeImg)
+            tvSearchFirstStoreReview.text = getString(
+                R.string.search_review_score_count,
+                firstStoreInfo.storeReviewScore,
+                firstStoreInfo.storeReviewCount
+            )
+        }
+
+        with(binding) {
+            secondStoreInfo?.let {
+                tvSearchSecondStoreTitle.text = secondStoreInfo.storeTitle
+                tvSearchSecondStoreSubTitle.text = secondStoreInfo.storeSubTitle
+                ivSearchSecondStore.setImage(secondStoreInfo.storeImg)
+                tvSearchSecondStoreReview.text = getString(
+                    R.string.search_review_score_count,
+                    secondStoreInfo.storeReviewScore,
+                    secondStoreInfo.storeReviewCount
+                )
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        stopTracking()
+        super.onDestroyView()
+    }
+
     private fun stopTracking() {
         binding.mapSearch.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stopTracking()
     }
 }
