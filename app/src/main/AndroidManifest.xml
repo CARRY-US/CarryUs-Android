@@ -41,6 +41,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.search.list.SearchListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ui.search.result.map.SearchResultMapActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

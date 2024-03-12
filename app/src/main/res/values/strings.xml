@@ -21,4 +21,8 @@
     <string name="search_result_search_hint">여행지 검색</string>
     <string name="search_result_empty_title">검색어에 해당되는 지역이 없어요!</string>
 
+    <!-- search list-->
+    <string name="search_list_empty_title">지역에 해당되는 가게가 없어요!</string>
+    <string name="search_list_title">가게 리스트</string>
+
 </resources>

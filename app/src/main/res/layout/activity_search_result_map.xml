@@ -75,11 +75,11 @@
                 android:id="@+id/iv_search_result_map_first_store_review_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
                 android:src="@drawable/ic_star_small_full"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_first_store_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_search_result_map_first_store_sub_title" />
+                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_first_store_title" />
 
             <TextView
                 android:id="@+id/tv_search_result_map_first_store_review"
@@ -144,11 +144,11 @@
                 android:id="@+id/iv_search_result_map_second_store_review_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
                 android:src="@drawable/ic_star_small_full"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_second_store_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_search_result_map_second_store_sub_title" />
+                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_second_store_title" />
 
             <TextView
                 android:id="@+id/tv_search_result_map_second_store_review"

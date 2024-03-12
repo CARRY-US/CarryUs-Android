@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.view.KeyEvent
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
-import com.sookmyung.carryus.databinding.ActivitiySearchResultBinding
+import com.sookmyung.carryus.databinding.ActivitySearchResultBinding
 import com.sookmyung.carryus.ui.search.result.map.SearchResultMapActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class SearchResultActivity :
-    BindingActivity<ActivitiySearchResultBinding>(R.layout.activitiy_search_result) {
+    BindingActivity<ActivitySearchResultBinding>(R.layout.activity_search_result) {
     private val viewModel by viewModels<SearchResultViewModel>()
     private val searchResultAdapter: SearchResultAdapter?
         get() = binding.rvSearchResultStoreList.adapter as? SearchResultAdapter

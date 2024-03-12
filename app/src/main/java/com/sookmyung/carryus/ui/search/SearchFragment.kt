@@ -12,6 +12,7 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
 import com.sookmyung.carryus.domain.entity.Position
 import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
+import com.sookmyung.carryus.ui.search.list.SearchListActivity
 import com.sookmyung.carryus.ui.search.result.SearchResultActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
@@ -32,6 +33,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         moveMapToUserLocation()
         initStoreListView()
         initSearchViewClickListener()
+        moveToSearchList()
     }
 
     private fun initStoreListView() {
@@ -163,6 +165,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                     secondStoreInfo.storeReviewCount
                 )
             }
+        }
+    }
+
+    private fun moveToSearchList() {
+        binding.fabSearch.setOnClickListener {
+            val toSearchList = Intent(requireActivity(), SearchListActivity::class.java)
+            startActivity(toSearchList)
         }
     }
 
