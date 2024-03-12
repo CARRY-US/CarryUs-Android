@@ -10,17 +10,39 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_reservation_history"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white000">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="68dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.063"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:contentInsetStartWithNavigation="0dp">
+            <TextView
+                style="@style/head4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reservation_detail_toolbar_title"
+                android:textColor="@color/black000"
+                android:layout_marginTop="29dp"
+                android:layout_gravity="center"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
         <ScrollView
             android:id="@+id/scrollView2"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/button"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:scrollbars="none">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -296,7 +318,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="19dp"
+                    android:layout_marginBottom="92dp"
                     android:text="결제 금액"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_pay_info" />
 
@@ -305,24 +329,41 @@
                     style="@style/head4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="60dp"
                     android:layout_marginEnd="18dp"
                     android:text="20,000원"
                     android:textColor="@color/orange400"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_price"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view7" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_price" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rl_btn_cta_area"
+            android:layout_width="0dp"
+            android:layout_height="92dp"
+            android:background="@drawable/bg_btn_cta"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/btn_detail_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="18dp"
+                android:background="@drawable/shape_orange400_fill_5_rect"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
