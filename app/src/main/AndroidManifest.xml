@@ -40,6 +40,10 @@
             android:name=".ui.search.result.SearchResultActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.search.result.map.SearchResultMapActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

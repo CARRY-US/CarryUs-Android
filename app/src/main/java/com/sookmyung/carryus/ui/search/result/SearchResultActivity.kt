@@ -1,10 +1,12 @@
 package com.sookmyung.carryus.ui.search.result
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitiySearchResultBinding
+import com.sookmyung.carryus.ui.search.result.map.SearchResultMapActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class SearchResultActivity :
@@ -17,14 +19,25 @@ class SearchResultActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
+        setSearchResultAdapter()
+        setSearchResultObserver()
+        pressEnter()
+        setFabMapClickListener()
+    }
+
+    private fun setSearchResultAdapter() {
         binding.rvSearchResultStoreList.adapter = SearchResultAdapter { _, item ->
             viewModel.updateSelectedStoreId(item.storeTitle)
         }
+    }
 
+    private fun setSearchResultObserver() {
         viewModel.searchResultList.observe(this) { list ->
             searchResultAdapter?.submitList(list)
         }
+    }
 
+    private fun pressEnter() {
         binding.tvSearchResultSearch.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
                 viewModel.getResult()
@@ -34,7 +47,10 @@ class SearchResultActivity :
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    private fun setFabMapClickListener() {
+        binding.fabSearchResultMap.setOnClickListener {
+            val toSearchResultMap = Intent(this, SearchResultMapActivity::class.java)
+            startActivity(toSearchResultMap)
+        }
     }
 }
