@@ -13,4 +13,8 @@
     <string name="reservation_list_toolbar_title">예약 기록</string>
     <string name="reservation_list_empty_text">요청한 예약이 없어요!</string>
 
+    <!-- reservation detail -->
+    <string name="reservation_detail_toolbar_title">예약 상세</string>
+
+
 </resources>
