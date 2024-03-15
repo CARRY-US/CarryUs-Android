@@ -1,20 +1,23 @@
 package com.sookmyung.carryus.ui.reservationlist
 
-import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
+import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelDialogBinding
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBinding>(R.layout.activity_reservation_detail) {
     private val viewModel: ReservationDetailViewModel by viewModels()
-    private lateinit var customDialog: CustomCancelDialog
+
+    private var cancelReason: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,13 +32,13 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         customDialog.setTitle("정말로 취소하실건가요?")
         customDialog.setMessage("취소하시면 되돌릴 수 없어요.")
         customDialog.setPositiveButton("취소할게요", View.OnClickListener {
-
             alertDialog.dismiss()
+            showBottomSheet()
         })
 
-        customDialog.setNegativeButton("캐리할게", View.OnClickListener {
-            // 취소버튼 누르면 대화상자 종료
+        customDialog.setNegativeButton("캐리할게요", View.OnClickListener {
             alertDialog.dismiss()
+            showBottomSheet()
         })
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -51,5 +54,27 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     private fun setViewModel() {
         binding.viewModel = viewModel
     }
+
+    private fun showBottomSheet() {
+        val bottomSheetBinding = ItemCustomCancelBottomsheetBinding.inflate(layoutInflater)
+
+        // 바텀시트 다이얼로그 생성
+        val bottomSheetDialog = BottomSheetDialog(this)
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+
+        bottomSheetBinding.btnClose.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetBinding.btnCancelRequest.setOnClickListener {
+            cancelReason = bottomSheetBinding.etCancelReason.text.toString()
+            Log.d("CustomCancelBottomSheetFragment","$cancelReason")
+            Toast.makeText(this, "예약이 취소되었어요", Toast.LENGTH_SHORT).show()
+            bottomSheetDialog.dismiss()
+        }
+        // 바텀시트 표시
+        bottomSheetDialog.show()
+    }
+
 }
 
