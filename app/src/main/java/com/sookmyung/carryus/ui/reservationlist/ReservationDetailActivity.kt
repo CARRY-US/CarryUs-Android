@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
-import com.sookmyung.carryus.databinding.ItemCustomCancelDialogBinding
+import com.sookmyung.carryus.domain.entity.ReservationDetailResponse
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBinding>(R.layout.activity_reservation_detail) {
@@ -21,10 +21,29 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setViewModel()
+        binding.viewModel = viewModel
+
+        setContext()
+        setReservationData()
         setCancelDialog()
     }
 
+    private fun setContext(){
+        viewModel.setContext(this)
+    }
+
+    private fun setReservationData(){
+        val reservationId = intent.getIntExtra("reservation_id",0)
+        Log.d("ReservationDetailActivity","$reservationId")
+
+
+        // 데이터 설정
+        viewModel.setReservationDetail(
+            ReservationDetailResponse(1,1,"URL","가게 이름","대기중"
+                ,"2024.02.10 14:00","24인치 1개, 20인치 3개","장나리","010-0000-0000","살살 다뤄주세요.",20000)
+        )
+
+    }
     private fun setCancelDialog() {
         val customDialog = CustomCancelDialog(this)
         val alertDialog = customDialog.create()
@@ -38,7 +57,6 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
 
         customDialog.setNegativeButton("캐리할게요", View.OnClickListener {
             alertDialog.dismiss()
-            showBottomSheet()
         })
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -49,10 +67,6 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
                 alertDialog.dismiss()
             }
         }
-    }
-
-    private fun setViewModel() {
-        binding.viewModel = viewModel
     }
 
     private fun showBottomSheet() {

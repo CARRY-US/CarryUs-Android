@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ItemShopReservationListBinding
 import com.sookmyung.carryus.domain.entity.ReservationList
 
@@ -14,9 +13,6 @@ class ReservationShopAdapter(private val reservationListClickListener: Reservati
 
     private lateinit var itemBinding: ItemShopReservationListBinding
 
-    init {
-
-    }
     class ReservationShopViewHolder(
         private val itemBinding: ItemShopReservationListBinding,
         private var reservationListClickListener: ReservationListClickListener
@@ -25,22 +21,6 @@ class ReservationShopAdapter(private val reservationListClickListener: Reservati
             with(itemBinding) {
                 item = data
                 clickListener = reservationListClickListener
-//                val truncatedShopName = if (data.shopName.length > 14) {
-//                    "${data.shopName.substring(0, 14)}..."
-//                } else {
-//                    data.shopName
-//                }
-//
-//                val truncatedShopLocation = if (data.shopLocation.length > 14) {
-//                    "${data.shopLocation.substring(0, 14)}..."
-//                } else {
-//                    data.shopLocation
-//                }
-//
-//                tvShopName.text = truncatedShopName
-//                tvShopLocation.text = truncatedShopLocation
-//                tvReservationDate.text = data.reservationDate
-//                ivShopIcon.setImageResource(R.drawable.ic_shop_img)
             }
         }
     }
