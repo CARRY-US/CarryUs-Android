@@ -21,7 +21,6 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
 
     private val reservationShopAdapter by lazy {
         ReservationShopAdapter(ReservationListClickListener { clickedReservation ->
-            // Trigger the navigation event in the ViewModel
             viewModel.onReservationItemClick(clickedReservation)
         })
     }

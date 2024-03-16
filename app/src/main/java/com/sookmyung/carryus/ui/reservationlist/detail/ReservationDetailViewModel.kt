@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sookmyung.carryus.R
 import com.sookmyung.carryus.domain.entity.ReservationDetailResponse
 import com.sookmyung.carryus.domain.entity.ReservationStatus
 
