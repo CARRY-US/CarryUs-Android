@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:text="@{item.shopName}"
+            android:text="@{item.storeName}"
             android:textColor="@color/black000"
             app:layout_constraintStart_toEndOf="@+id/iv_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="27dp"
-            android:text="@{item.shopLocation}"
+            android:text="@{item.storeLocation}"
             android:textColor="@color/gray700"
             app:layout_constraintStart_toEndOf="@+id/iv_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
