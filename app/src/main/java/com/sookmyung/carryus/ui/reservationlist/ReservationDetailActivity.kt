@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
@@ -16,7 +17,7 @@ import com.sookmyung.carryus.util.binding.BindingActivity
 
 class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBinding>(R.layout.activity_reservation_detail) {
     private val viewModel: ReservationDetailViewModel by viewModels()
-
+    private val bottomSheetViewModel: CancelBottomSheetViewModel by viewModels()
     private var cancelReason: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,8 +37,6 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         val reservationId = intent.getIntExtra("reservation_id",0)
         Log.d("ReservationDetailActivity","$reservationId")
 
-
-        // 데이터 설정
         viewModel.setReservationDetail(
             ReservationDetailResponse(1,1,"URL","가게 이름","대기중"
                 ,"2024.02.10 14:00","24인치 1개, 20인치 3개","장나리","010-0000-0000","살살 다뤄주세요.",20000)
@@ -45,7 +44,7 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
 
     }
     private fun setCancelDialog() {
-        val customDialog = CustomCancelDialog(this)
+        val customDialog = CancelDialog(this)
         val alertDialog = customDialog.create()
 
         customDialog.setTitle("정말로 취소하실건가요?")
@@ -72,22 +71,30 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     private fun showBottomSheet() {
         val bottomSheetBinding = ItemCustomCancelBottomsheetBinding.inflate(layoutInflater)
 
-        // 바텀시트 다이얼로그 생성
-        val bottomSheetDialog = BottomSheetDialog(this)
-        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        with(bottomSheetBinding) {
+            viewModel = bottomSheetViewModel
 
-        bottomSheetBinding.btnClose.setOnClickListener {
-            bottomSheetDialog.dismiss()
+            bottomSheetViewModel.textCount.observe(this@ReservationDetailActivity) { count ->
+                tvTextCount.text = count
+            }
+
+            val bottomSheetDialog = BottomSheetDialog(this@ReservationDetailActivity)
+            bottomSheetDialog.setContentView(root)
+
+            btnClose.setOnClickListener {
+                bottomSheetDialog.dismiss()
+            }
+
+            btnCancelRequest.setOnClickListener {
+                cancelReason = etCancelReason.text.toString()
+                Log.d("CustomCancelBottomSheetFragment", cancelReason ?: "")
+                Toast.makeText(this@ReservationDetailActivity, "예약이 취소되었어요", Toast.LENGTH_SHORT).show()
+                bottomSheetDialog.dismiss()
+            }
+
+            bottomSheetDialog.show()
         }
 
-        bottomSheetBinding.btnCancelRequest.setOnClickListener {
-            cancelReason = bottomSheetBinding.etCancelReason.text.toString()
-            Log.d("CustomCancelBottomSheetFragment","$cancelReason")
-            Toast.makeText(this, "예약이 취소되었어요", Toast.LENGTH_SHORT).show()
-            bottomSheetDialog.dismiss()
-        }
-        // 바텀시트 표시
-        bottomSheetDialog.show()
     }
 
 }
