@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".CarryUsApplication"
@@ -19,6 +21,10 @@
         android:theme="@style/Theme.CarryUs"
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="587e1e6dd22e364bf42b2e9be8041033" />
+
         <activity
             android:name=".ui.reservationlist.detail.ReservationDetailActivity"
             android:exported="false" />
@@ -32,6 +38,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.search.result.SearchResultActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.search.list.SearchListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.search.result.map.SearchResultMapActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

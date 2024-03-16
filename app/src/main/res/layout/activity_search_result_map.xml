@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.sookmyung.carryus.ui.search.SearchViewModel" />
+            type="com.sookmyung.carryus.ui.search.result.SearchResultViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,49 +21,13 @@
             android:layout_height="match_parent">
 
             <net.daum.mf.map.api.MapView
-                android:id="@+id/map_search"
+                android:id="@+id/map_search_result_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/tv_search_search"
-                style="@style/head4"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginHorizontal="18dp"
-                android:layout_marginTop="24dp"
-                android:background="@color/white000"
-                android:gravity="center|start"
-                android:paddingStart="48dp"
-                android:text="@string/search_search_hint"
-                android:textColor="@color/black000"
-                tools:ignore="RtlSymmetry" />
-
-            <ImageView
-                android:id="@+id/iv_search_search_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/ic_search" />
         </FrameLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_search"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="18dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="@color/orange400"
-            android:src="@drawable/ic_list_cta"
-            app:fabCustomSize="60dp"
-            app:layout_constraintBottom_toTopOf="@id/cl_search_second_store_info"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:maxImageSize="38dp"
-            app:tint="@null" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_search_first_store_info"
+            android:id="@+id/cl_search_result_map_first_store_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="18dp"
@@ -74,7 +38,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:id="@+id/iv_search_first_store"
+                android:id="@+id/iv_search_result_map_first_store"
                 android:layout_width="94dp"
                 android:layout_height="0dp"
                 android:src="@color/black000"
@@ -84,7 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_search_first_store_title"
+                android:id="@+id/tv_search_result_map_first_store_title"
                 style="@style/body2_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,58 +56,58 @@
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="7.5sp"
                 android:textColor="@color/black000"
-                app:layout_constraintStart_toEndOf="@id/iv_search_first_store"
+                app:layout_constraintStart_toEndOf="@id/iv_search_result_map_first_store"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="가게이름 최대 14자" />
 
             <TextView
-                android:id="@+id/tv_search_first_store_sub_title"
+                android:id="@+id/tv_search_result_map_first_store_sub_title"
                 style="detail3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5.5sp"
                 android:textColor="@color/gray400"
-                app:layout_constraintStart_toStartOf="@id/tv_search_first_store_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_search_first_store_title"
+                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_first_store_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_search_result_map_first_store_title"
                 tools:text="위치 최대 18자 노출되고 나머지는 ..." />
 
             <ImageView
-                android:id="@+id/iv_search_first_store_review_star"
+                android:id="@+id/iv_search_result_map_first_store_review_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:src="@drawable/ic_star_small_full"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="@id/tv_search_first_store_title" />
+                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_first_store_title" />
 
             <TextView
-                android:id="@+id/tv_search_first_store_review"
+                android:id="@+id/tv_search_result_map_first_store_review"
                 style="@style/detail2_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/orange400"
-                app:layout_constraintBottom_toBottomOf="@id/iv_search_first_store_review_star"
-                app:layout_constraintStart_toEndOf="@id/iv_search_first_store_review_star"
-                app:layout_constraintTop_toTopOf="@id/iv_search_first_store_review_star"
+                app:layout_constraintBottom_toBottomOf="@id/iv_search_result_map_first_store_review_star"
+                app:layout_constraintStart_toEndOf="@id/iv_search_result_map_first_store_review_star"
+                app:layout_constraintTop_toTopOf="@id/iv_search_result_map_first_store_review_star"
                 tools:text="4.5 (99+)" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_search_second_store_info"
+            android:id="@+id/cl_search_result_map_second_store_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="16dp"
             android:background="@color/white000"
-            app:layout_constraintBottom_toTopOf="@id/cl_search_first_store_info"
+            app:layout_constraintBottom_toTopOf="@id/cl_search_result_map_first_store_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
-                android:id="@+id/iv_search_second_store"
+                android:id="@+id/iv_search_result_map_second_store"
                 android:layout_width="94dp"
                 android:layout_height="0dp"
                 android:src="@color/black000"
@@ -153,7 +117,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_search_second_store_title"
+                android:id="@+id/tv_search_result_map_second_store_title"
                 style="@style/body2_bold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -161,42 +125,42 @@
                 android:layout_marginTop="12dp"
                 android:lineSpacingExtra="7.5sp"
                 android:textColor="@color/black000"
-                app:layout_constraintStart_toEndOf="@id/iv_search_second_store"
+                app:layout_constraintStart_toEndOf="@id/iv_search_result_map_second_store"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="가게이름 최대 14자" />
 
             <TextView
-                android:id="@+id/tv_search_second_store_sub_title"
+                android:id="@+id/tv_search_result_map_second_store_sub_title"
                 style="detail3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="5.5sp"
                 android:textColor="@color/gray400"
-                app:layout_constraintStart_toStartOf="@id/tv_search_second_store_title"
-                app:layout_constraintTop_toBottomOf="@id/tv_search_second_store_title"
+                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_second_store_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_search_result_map_second_store_title"
                 tools:text="위치 최대 18자 노출되고 나머지는 ..." />
 
             <ImageView
-                android:id="@+id/iv_search_second_store_review_star"
+                android:id="@+id/iv_search_result_map_second_store_review_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:src="@drawable/ic_star_small_full"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
-                app:layout_constraintStart_toStartOf="@id/tv_search_second_store_title" />
+                app:layout_constraintStart_toStartOf="@id/tv_search_result_map_second_store_title" />
 
             <TextView
-                android:id="@+id/tv_search_second_store_review"
+                android:id="@+id/tv_search_result_map_second_store_review"
                 style="@style/detail2_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/orange400"
-                app:layout_constraintBottom_toBottomOf="@id/iv_search_second_store_review_star"
-                app:layout_constraintStart_toEndOf="@id/iv_search_second_store_review_star"
-                app:layout_constraintTop_toTopOf="@id/iv_search_second_store_review_star"
+                app:layout_constraintBottom_toBottomOf="@id/iv_search_result_map_second_store_review_star"
+                app:layout_constraintStart_toEndOf="@id/iv_search_result_map_second_store_review_star"
+                app:layout_constraintTop_toTopOf="@id/iv_search_result_map_second_store_review_star"
                 tools:text="4.5 (99+)" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

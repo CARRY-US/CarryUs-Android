@@ -16,12 +16,21 @@
     <!-- reservation detail -->
     <string name="reservation_detail_toolbar_title">예약 상세</string>
 
-    <string name="reservation_detail_price">원</string>
-
     <!-- cancel bottom sheet -->
     <string name="cancel_bottomsheet_title">취소 사유 입력</string>
     <string name="cancel_bottomsheet_et_hint">예약을 취소하시려는 이유가 무엇인가요?</string>
     <string name="cancel_bottomsheet_btn">예약 취소 요청하기</string>
 
+    <!-- search -->
+    <string name="search_review_score_count">%s (%s)</string>
+    <string name="search_search_hint">어디로 여행가시나요?</string>
+
+    <!-- search result-->
+    <string name="search_result_search_hint">여행지 검색</string>
+    <string name="search_result_empty_title">검색어에 해당되는 지역이 없어요!</string>
+
+    <!-- search list-->
+    <string name="search_list_empty_title">지역에 해당되는 가게가 없어요!</string>
+    <string name="search_list_title">가게 리스트</string>
 
 </resources>
