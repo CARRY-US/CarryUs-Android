@@ -1,4 +1,4 @@
-package com.sookmyung.carryus.ui.reservationlist
+package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding

@@ -1,4 +1,4 @@
-package com.sookmyung.carryus.ui.reservationlist
+package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.app.Dialog
 import android.content.Context

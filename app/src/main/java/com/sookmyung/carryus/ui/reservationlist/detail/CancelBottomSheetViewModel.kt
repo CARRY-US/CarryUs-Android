@@ -1,8 +1,7 @@
-package com.sookmyung.carryus.ui.reservationlist
+package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter

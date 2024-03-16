@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentReservationPagerBinding
 import com.sookmyung.carryus.domain.entity.ReservationList
-import com.sookmyung.carryus.domain.entity.ReservationStatus
+import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity
 import com.sookmyung.carryus.util.binding.BindingFragment
 
 class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding>(R.layout.fragment_reservation_pager) {

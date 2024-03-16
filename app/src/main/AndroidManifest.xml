@@ -20,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="33">
         <activity
-            android:name=".ui.reservationlist.ReservationDetailActivity"
+            android:name=".ui.reservationlist.detail.ReservationDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
