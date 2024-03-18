@@ -33,4 +33,11 @@
     <string name="search_list_empty_title">지역에 해당되는 가게가 없어요!</string>
     <string name="search_list_title">가게 리스트</string>
 
+    <!-- store detail -->
+    <string name="store_detail_fee_title">요금</string>
+    <string name="store_detail_extra_small_title">20인치 미만</string>
+    <string name="store_detail_small_title">20인치</string>
+    <string name="store_detail_large_title">24인치</string>
+    <string name="store_detail_extra_large_title">28인치 이상</string>
+
 </resources>
