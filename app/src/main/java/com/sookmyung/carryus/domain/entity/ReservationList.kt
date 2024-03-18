@@ -1,8 +1,9 @@
 package com.sookmyung.carryus.domain.entity
 
 data class ReservationList(
-    val shopImg: String,
-    val shopName: String,
-    val shopLocation: String,
+    val reservationId: Int,
+    val storeImgUrl: String,
+    val storeName: String,
+    val storeLocation: String,
     val reservationDate: String,
 )

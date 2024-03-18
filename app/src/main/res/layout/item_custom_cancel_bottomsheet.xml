@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.sookmyung.carryus.ui.reservationlist.detail.CancelBottomSheetViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_white000_fill_top_4_rect">
+
+        <TextView
+            android:id="@+id/tv_cancel_bottomsheet_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="8sp"
+            android:text="@string/cancel_bottomsheet_title"
+            android:textColor="#151515"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <EditText
+            android:id="@+id/et_cancel_reason"
+            style="@style/body2_medi"
+            android:layout_width="324dp"
+            android:layout_height="161dp"
+            android:layout_marginTop="32dp"
+            android:hint="@string/cancel_bottomsheet_et_hint"
+            android:textColorHint="@color/gray200"
+            android:textColor="@color/gray700"
+            app:textWatcher="@{viewModel}"
+            android:background="@drawable/shape_gray200_line_4_rect"
+            android:gravity="top"
+            android:padding="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cancel_bottomsheet_title"/>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_btn_close"
+            android:text="Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_text_count"
+            style="@style/detail3_regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:text="0/1000"
+            app:textCount="@{viewModel.textCount}"
+            android:textColor="@color/gray200"
+            app:layout_constraintEnd_toEndOf="@+id/et_cancel_reason"
+            app:layout_constraintTop_toBottomOf="@+id/et_cancel_reason" />
+
+        <Button
+            android:id="@+id/btn_cancel_request"
+            style="@style/body1_bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/shape_orange400_fill_5_rect"
+            android:text="@string/cancel_bottomsheet_btn"
+            android:textColor="@color/white000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_cancel_reason"
+            app:layout_constraintStart_toStartOf="@+id/et_cancel_reason"
+            app:layout_constraintTop_toBottomOf="@+id/tv_text_count" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

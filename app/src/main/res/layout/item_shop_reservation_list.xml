@@ -4,7 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="item"
+            type="com.sookmyung.carryus.domain.entity.ReservationList" />
+        <variable
+            name="clickListener"
+            type="com.sookmyung.carryus.ui.reservationlist.ReservationListClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:onClick="@{() -> clickListener.onClick(item)}">
 
         <ImageView
             android:id="@+id/iv_shop_icon"
@@ -32,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:text="가게이름 최대 14자"
+            android:text="@{item.storeName}"
             android:textColor="@color/black000"
             app:layout_constraintStart_toEndOf="@+id/iv_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
@@ -44,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="27dp"
-            android:text="위치 최대 18자 노출되고 나머지는 ..."
+            android:text="@{item.storeLocation}"
             android:textColor="@color/gray700"
             app:layout_constraintStart_toEndOf="@+id/iv_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
@@ -67,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginBottom="8dp"
-            android:text="2024.01.10 00:00 예약"
+            android:text="@{item.reservationDate}"
             android:textColor="@color/blue400"
             app:layout_constraintBottom_toBottomOf="@+id/iv_shop_icon"
             app:layout_constraintStart_toEndOf="@+id/iv_check_icon" />
