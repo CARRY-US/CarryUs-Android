@@ -13,13 +13,13 @@ class CancelBottomSheetViewModel : ViewModel() {
     private val _textCount = MutableLiveData<String>()
     val textCount: LiveData<String> = _textCount
 
-    init {
-        _textCount.value = "0/1000"
+    companion object{
+        private const val MAXIMUM_LENGTH = 1000
     }
 
     fun onTextChanged(s: CharSequence) {
         val count = s.length
-        _textCount.value = "$count/1000"
+        _textCount.value = "$count/$MAXIMUM_LENGTH"
     }
 }
 
