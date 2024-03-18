@@ -39,5 +39,6 @@
     <string name="store_detail_small_title">20인치</string>
     <string name="store_detail_large_title">24인치</string>
     <string name="store_detail_extra_large_title">28인치 이상</string>
+    <string name="store_detail_request_btn_title">요청서 작성하기</string>
 
 </resources>
