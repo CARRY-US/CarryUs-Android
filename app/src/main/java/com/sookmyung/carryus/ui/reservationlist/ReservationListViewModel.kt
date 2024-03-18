@@ -25,4 +25,8 @@ class ReservationListViewModel : ViewModel(){
     init {
         _tabItems.postValue(TAB_ITEMS)
     }
+
+    fun selectPosition(position: Int) {
+        _position.postValue(position)
+    }
 }

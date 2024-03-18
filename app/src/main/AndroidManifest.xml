@@ -26,9 +26,6 @@
             android:value="587e1e6dd22e364bf42b2e9be8041033" />
 
         <activity
-            android:name=".ui.reservationlist.detail.ReservationDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
