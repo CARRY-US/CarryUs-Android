@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.sookmyung.carryus.ui.search.storedetail.StoreDetailViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -31,6 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:layout_marginTop="18dp"
+                android:text="@{viewModel.storeInfo.name}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_store_detail"
                 tools:text="가게 이름" />
@@ -51,6 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:text="@{viewModel.storeInfo.location}"
                 android:textColor="@color/gray600"
                 app:layout_constraintBottom_toBottomOf="@id/iv_store_detail_location"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_location"
@@ -73,6 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:text="@{viewModel.storeInfo.breakTime}"
                 android:textColor="@color/blue400"
                 app:layout_constraintBottom_toBottomOf="@id/iv_store_detail_time"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_time"
@@ -85,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:text="@{viewModel.storeInfo.time}"
                 android:textColor="@color/gray600"
                 app:layout_constraintStart_toStartOf="@id/tv_store_detail_break_time"
                 app:layout_constraintTop_toBottomOf="@id/tv_store_detail_break_time"
@@ -106,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:text="@{viewModel.storeInfo.call}"
                 android:textColor="@color/gray600"
                 app:layout_constraintBottom_toBottomOf="@id/iv_store_detail_call"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_call"
@@ -160,6 +168,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.extraSmallCount}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_small_suitcase"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title"
@@ -190,6 +199,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.extraSmallFee}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_small_coin"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title"
@@ -231,6 +241,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.smallCount}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_small_suitcase"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title"
@@ -261,6 +272,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.smallFee}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_small_coin"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title"
@@ -302,6 +314,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.largeCount}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_large_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_large_suitcase"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_large_title"
@@ -343,6 +356,7 @@
                 android:layout_height="1dp"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="10dp"
+                android:text="@{viewModel.storeInfo.largeFee}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_store_detail_fee_large_title" />
@@ -373,6 +387,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.extraLargeCount}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_large_suitcase"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title"
@@ -403,6 +418,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
+                android:text="@{viewModel.storeInfo.extraLargeFee}"
                 app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
                 app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_large_coin"
                 app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title"
@@ -501,6 +517,7 @@
                 android:layout_height="0dp"
                 android:layout_marginHorizontal="18dp"
                 android:layout_marginTop="8dp"
+                android:text="@{viewModel.storeInfo.reviewScore}"
                 android:layout_paddingBottom="10dp"
                 app:layout_constraintBottom_toTopOf="bt"
                 app:layout_constraintEnd_toEndOf="parent"

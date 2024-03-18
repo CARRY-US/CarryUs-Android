@@ -1,102 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/tv_item_store_detail_name"
-        style="@style/detail2_bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingVertical="4dp"
-        android:textColor="@color/gray700"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="이름" />
+    <data>
 
-    <View
-        android:id="@+id/view_item_store_detail"
-        android:layout_width="0.5dp"
-        android:layout_height="0dp"
-        android:layout_marginVertical="4dp"
-        android:layout_marginStart="2dp"
-        android:background="@color/gray300"
-        app:layout_constraintBottom_toBottomOf="@id/tv_item_store_detail_name"
-        app:layout_constraintStart_toEndOf="@id/tv_item_store_detail_name"
-        app:layout_constraintTop_toTopOf="@id/tv_item_store_detail_name" />
+        <variable
+            name="data"
+            type="com.sookmyung.carryus.domain.entity.StoreReview" />
+    </data>
 
-    <TextView
-        android:id="@+id/tv_item_store_detail_date"
-        style="@style/detail3_regular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:textColor="@color/gray300"
-        app:layout_constraintBottom_toBottomOf="@id/tv_item_store_detail_name"
-        app:layout_constraintStart_toEndOf="@id/view_item_store_detail"
-        app:layout_constraintTop_toTopOf="@id/tv_item_store_detail_name"
-        tools:text="2024.02.09" />
-
-    <ImageView
-        android:id="@+id/iv_item_store_detail_star_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/ic_star_small_full"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
-
-    <ImageView
-        android:id="@+id/iv_item_store_detail_star_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/ic_star_small_full"
-        app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_star_one"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
-
-    <ImageView
-        android:id="@+id/iv_item_store_detail_start_three"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/ic_star_small_full"
-        app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_star_two"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
-
-    <ImageView
-        android:id="@+id/iv_item_store_detail_star_four"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/ic_star_small_full"
-        app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_start_three"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
-
-    <ImageView
-        android:id="@+id/iv_item_store_detail_star_five"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:src="@drawable/ic_star_small_gray"
-        app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_star_four"
-        app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
-
-    <TextView
-        android:id="@+id/tv_item_store_detail_review"
-        style="@style/detail2_regular"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/shape_gray50_fill_gray100_line_4_rect"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="7dp"
-        android:textColor="@color/gray500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_item_store_detail_star_one"
-        tools:text="사장님이 너무 친절하고 좋아요. 어쩌구 저쩌구 이건 제 마음이에요. 제 리뷰 맘에 드시나요?" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/tv_item_store_detail_name"
+            style="@style/detail2_bold"
+            android:text="@{data.name}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="4dp"
+            android:textColor="@color/gray700"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="이름" />
+
+        <View
+            android:id="@+id/view_item_store_detail"
+            android:layout_width="0.5dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="4dp"
+            android:layout_marginStart="2dp"
+            android:background="@color/gray300"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_store_detail_name"
+            app:layout_constraintStart_toEndOf="@id/tv_item_store_detail_name"
+            app:layout_constraintTop_toTopOf="@id/tv_item_store_detail_name" />
+
+        <TextView
+            android:id="@+id/tv_item_store_detail_date"
+            style="@style/detail3_regular"
+            android:text="@{data.date}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:textColor="@color/gray300"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_store_detail_name"
+            app:layout_constraintStart_toEndOf="@id/view_item_store_detail"
+            app:layout_constraintTop_toTopOf="@id/tv_item_store_detail_name"
+            tools:text="2024.02.09" />
+
+        <ImageView
+            android:id="@+id/iv_item_store_detail_star_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_star_small_full"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
+
+        <ImageView
+            android:id="@+id/iv_item_store_detail_star_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_star_small_full"
+            app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_star_one"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
+
+        <ImageView
+            android:id="@+id/iv_item_store_detail_start_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_star_small_full"
+            app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_star_two"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
+
+        <ImageView
+            android:id="@+id/iv_item_store_detail_star_four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_star_small_full"
+            app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_start_three"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
+
+        <ImageView
+            android:id="@+id/iv_item_store_detail_star_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:src="@drawable/ic_star_small_gray"
+            app:layout_constraintStart_toEndOf="@id/iv_item_store_detail_star_four"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_store_detail_name" />
+
+        <TextView
+            android:id="@+id/tv_item_store_detail_review"
+            style="@style/detail2_regular"
+            android:text="@{data.content}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/shape_gray50_fill_gray100_line_4_rect"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="7dp"
+            android:textColor="@color/gray500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_item_store_detail_star_one"
+            tools:text="사장님이 너무 친절하고 좋아요. 어쩌구 저쩌구 이건 제 마음이에요. 제 리뷰 맘에 드시나요?" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
