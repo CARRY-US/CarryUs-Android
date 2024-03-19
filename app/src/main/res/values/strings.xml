@@ -33,4 +33,9 @@
     <string name="search_list_empty_title">지역에 해당되는 가게가 없어요!</string>
     <string name="search_list_title">가게 리스트</string>
 
+    <!-- my page -->
+    <string name ="mypage_my_review">나의 후기</string>
+    <string name ="mypage_logout">로그아웃</string>
+    <string name ="mypage_unsubscribe">회원탈퇴</string>
+
 </resources>
