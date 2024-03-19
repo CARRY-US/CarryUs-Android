@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentMyPageBinding
 import com.sookmyung.carryus.domain.entity.MyReviews
+import com.sookmyung.carryus.ui.review.ReviewInquiryActivity
 import com.sookmyung.carryus.util.dpToPx
 import com.sookmyung.carryus.util.binding.BindingFragment
 
@@ -34,6 +35,7 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
         binding.viewModel = viewModel
 
         setReviewList()
+        setViewModelNavigate()
     }
 
     private fun setReviewList(){
@@ -44,6 +46,21 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
 
         }
         mypageReviewAdapter.submitList(data)
+    }
+
+    private fun setViewModelNavigate(){
+        viewModel.navigateToDetail.observe(viewLifecycleOwner) { myReview ->
+            myReview?.let {
+                openCreateBuilding(it)
+                viewModel.onNavigationComplete()
+            }
+        }
+    }
+
+    private fun openCreateBuilding(myReviews: MyReviews) {
+        val intent = Intent(context, ReviewInquiryActivity::class.java)
+        intent.putExtra("review_id", myReviews.reviewId)
+        startActivity(intent)
     }
 }
 
