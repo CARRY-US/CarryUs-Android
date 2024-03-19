@@ -4,7 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="item"
+            type="com.sookmyung.carryus.domain.entity.MyReviews" />
+        <variable
+            name="clickListener"
+            type="com.sookmyung.carryus.ui.mypage.MyPageReviewClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginTop="12dp"
-            android:text="가게이름 최대 14자"
+            android:text="@{item.storeName}"
             android:textColor="@color/black000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +81,7 @@
             android:layout_marginStart="18dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="18dp"
-            android:text="정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)"
+            android:text="@{item.reviewContent}"
             android:textColor="@color/gray500"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
