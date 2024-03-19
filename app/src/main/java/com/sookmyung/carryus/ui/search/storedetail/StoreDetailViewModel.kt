@@ -9,6 +9,8 @@ import com.sookmyung.carryus.domain.entity.StoreDetailReview
 import com.sookmyung.carryus.domain.entity.StoreReview
 
 class StoreDetailViewModel : ViewModel() {
+    private val _storeId: MutableLiveData<Int> = MutableLiveData()
+    val storeId: LiveData<Int> get() = _storeId
     private val _storeDetailReview: MutableLiveData<StoreDetailReview> = MutableLiveData()
     val storeDetailReview: LiveData<StoreDetailReview> get() = _storeDetailReview
 
@@ -53,5 +55,9 @@ class StoreDetailViewModel : ViewModel() {
                 StoreReview(7, "그만", "2023.6.26", 5.0, "굿")
             )
         )
+    }
+
+    fun updateStoreId(storeId: Int){
+        _storeId.value = storeId
     }
 }

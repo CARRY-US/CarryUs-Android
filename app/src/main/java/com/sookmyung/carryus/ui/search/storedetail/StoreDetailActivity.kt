@@ -16,9 +16,15 @@ class StoreDetailActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
+        getStoreId()
         setStoreDetailReviewAdapter()
         setReviewObserver()
         setRecyclerviewHeight()
+    }
+
+    private fun getStoreId(){
+        val storeId = intent.getIntExtra("storeId",0)
+        viewModel.updateStoreId(storeId)
     }
 
     private fun setStoreDetailReviewAdapter() {
