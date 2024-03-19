@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchResultBinding
 import com.sookmyung.carryus.ui.search.result.map.SearchResultMapActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class SearchResultActivity :
@@ -23,6 +24,7 @@ class SearchResultActivity :
         setSearchResultObserver()
         pressEnter()
         setFabMapClickListener()
+        moveToStoreDetail()
     }
 
     private fun setSearchResultAdapter() {
@@ -51,6 +53,13 @@ class SearchResultActivity :
         binding.fabSearchResultMap.setOnClickListener {
             val toSearchResultMap = Intent(this, SearchResultMapActivity::class.java)
             startActivity(toSearchResultMap)
+        }
+    }
+
+    private fun moveToStoreDetail(){
+        viewModel.selectedStoreItd.observe(this){
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java)
+            startActivity(toStoreDetail)
         }
     }
 }

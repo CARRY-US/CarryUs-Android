@@ -8,7 +8,7 @@ import com.sookmyung.carryus.databinding.ItemStoreDetailReviewBinding
 import com.sookmyung.carryus.domain.entity.StoreReview
 import com.sookmyung.carryus.util.ItemDiffCallback
 
-class StoreDetailReviewAdapter(private val clickListener: ItemClickListener<StoreReview>) :
+class StoreDetailReviewAdapter :
     ListAdapter<StoreReview, StoreDetailReviewAdapter.StoreDetailReviewViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreDetailReviewViewHolder {
         val itemStoreDetailReviewBinding =
@@ -21,21 +21,16 @@ class StoreDetailReviewAdapter(private val clickListener: ItemClickListener<Stor
     }
 
     override fun onBindViewHolder(holder: StoreDetailReviewViewHolder, position: Int) {
-        holder.onBind(getItem(position), clickListener)
+        holder.onBind(getItem(position))
     }
 
     class StoreDetailReviewViewHolder(
         val binding: ItemStoreDetailReviewBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-
         fun onBind(
-            data: StoreReview,
-            itemClickListener: ItemClickListener<StoreReview>
+            data: StoreReview
         ) {
             binding.data = data
-            binding.root.setOnClickListener {
-                itemClickListener.onClick(absoluteAdapterPosition, data)
-            }
         }
     }
 
@@ -45,8 +40,4 @@ class StoreDetailReviewAdapter(private val clickListener: ItemClickListener<Stor
             onContentsTheSame = { old, new -> old == new }
         )
     }
-}
-
-fun interface ItemClickListener<T> {
-    fun onClick(pos: Int, item: T)
 }

@@ -8,7 +8,7 @@ import com.sookmyung.carryus.databinding.ItemSearchResultStoreBinding
 import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
 import com.sookmyung.carryus.util.ItemDiffCallback
 
-class SearchResultAdapter() :
+class SearchResultAdapter(private val clickListener: ItemClickListener<SimpleStoreReviewInfo>) :
     ListAdapter<SimpleStoreReviewInfo, SearchResultAdapter.SearchResultViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchResultViewHolder {
         val itemSearchResultStoreBinding =
@@ -21,7 +21,7 @@ class SearchResultAdapter() :
     }
 
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
-        holder.onBind(getItem(position))
+        holder.onBind(getItem(position), clickListener)
     }
 
     class SearchResultViewHolder(
@@ -29,9 +29,13 @@ class SearchResultAdapter() :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(
-            data: SimpleStoreReviewInfo
+            data: SimpleStoreReviewInfo,
+            itemClickListener: ItemClickListener<SimpleStoreReviewInfo>
         ) {
             binding.data = data
+            binding.root.setOnClickListener {
+                itemClickListener.onClick(absoluteAdapterPosition, data)
+            }
         }
     }
 

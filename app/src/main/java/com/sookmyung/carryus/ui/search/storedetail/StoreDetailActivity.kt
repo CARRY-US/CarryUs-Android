@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityStoreDetailBinding
-import com.sookmyung.carryus.ui.search.list.SearchResultAdapter
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class StoreDetailActivity :
@@ -17,18 +16,25 @@ class StoreDetailActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
-        viewModel.getStoreInfo()
         setStoreDetailReviewAdapter()
         setReviewObserver()
+        setRecyclerviewHeight()
     }
 
     private fun setStoreDetailReviewAdapter() {
-        binding.rvStoreDetailReview.adapter = SearchResultAdapter()
+        binding.rvStoreDetailReview.adapter = StoreDetailReviewAdapter()
     }
 
     private fun setReviewObserver() {
         viewModel.reviewList.observe(this) { list ->
             storeDetailReviewAdapter?.submitList(list)
         }
+    }
+
+    private fun setRecyclerviewHeight() {
+        val layoutParams = binding.rvStoreDetailReview.layoutParams
+        if (viewModel.reviewList.value?.size!! > 5) layoutParams.height = 1000
+        else layoutParams.height = 0
+        binding.rvStoreDetailReview.layoutParams = layoutParams
     }
 }

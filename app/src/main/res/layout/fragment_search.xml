@@ -20,10 +20,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <net.daum.mf.map.api.MapView
-                android:id="@+id/map_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+<!--            <net.daum.mf.map.api.MapView-->
+<!--                android:id="@+id/map_search"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
 
             <TextView
                 android:id="@+id/tv_search_search"

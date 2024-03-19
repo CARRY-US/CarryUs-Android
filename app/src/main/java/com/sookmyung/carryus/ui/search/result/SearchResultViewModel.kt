@@ -9,51 +9,51 @@ import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
 
 class SearchResultViewModel : ViewModel() {
     private val _searchResultList: MutableLiveData<List<SimpleStoreReviewInfo>> = MutableLiveData(
-        emptyList()
-//        listOf(n m
-//            SimpleStoreReviewInfo(
-//                "test1",
-//                "first store",
-//                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
-//                "4.5",
-//                "99+"
-//            ),
-//            SimpleStoreReviewInfo(
-//                "test4",
-//                "second store",
-//                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
-//                "2.5",
-//                "30"
-//            ),
-//            SimpleStoreReviewInfo(
-//                "test5",
-//                "first store",
-//                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
-//                "4.5",
-//                "99+"
-//            ),
-//            SimpleStoreReviewInfo(
-//                "test6",
-//                "second store",
-//                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
-//                "2.5",
-//                "30"
-//            ),
-//            SimpleStoreReviewInfo(
-//                "test7",
-//                "first store",
-//                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
-//                "4.5",
-//                "99+"
-//            ),
-//            SimpleStoreReviewInfo(
-//                "test8",
-//                "second store",
-//                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
-//                "2.5",
-//                "30"
-//            )
-//        )
+//        emptyList()
+        listOf(
+            SimpleStoreReviewInfo(
+                "test1",
+                "first store",
+                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
+                "4.5",
+                "99+"
+            ),
+            SimpleStoreReviewInfo(
+                "test4",
+                "second store",
+                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
+                "2.5",
+                "30"
+            ),
+            SimpleStoreReviewInfo(
+                "test5",
+                "first store",
+                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
+                "4.5",
+                "99+"
+            ),
+            SimpleStoreReviewInfo(
+                "test6",
+                "second store",
+                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
+                "2.5",
+                "30"
+            ),
+            SimpleStoreReviewInfo(
+                "test7",
+                "first store",
+                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
+                "4.5",
+                "99+"
+            ),
+            SimpleStoreReviewInfo(
+                "test8",
+                "second store",
+                "https://www.jejudreamtower.com/assets/global/jdt/m/images/etc/dine_cafe8_kv3_mo.jpg",
+                "2.5",
+                "30"
+            )
+        )
     )
     val searchResultList: LiveData<List<SimpleStoreReviewInfo>> get() = _searchResultList
 

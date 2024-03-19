@@ -40,5 +40,7 @@
     <string name="store_detail_large_title">24인치</string>
     <string name="store_detail_extra_large_title">28인치 이상</string>
     <string name="store_detail_request_btn_title">요청서 작성하기</string>
+    <string name="store_detail_suitcase_unit">%d개</string>
+    <string name="store_detail_fee_unit">%d원/시간</string>
 
 </resources>

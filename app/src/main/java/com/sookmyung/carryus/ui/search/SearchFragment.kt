@@ -14,6 +14,7 @@ import com.sookmyung.carryus.domain.entity.Position
 import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
 import com.sookmyung.carryus.ui.search.list.SearchListActivity
 import com.sookmyung.carryus.ui.search.result.SearchResultActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
 import net.daum.mf.map.api.CameraUpdate
@@ -28,12 +29,13 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
-        showMarkerOnMap()
-        startTracking()
-        moveMapToUserLocation()
+//        showMarkerOnMap()
+//        startTracking()
+//        moveMapToUserLocation()
         initStoreListView()
         initSearchViewClickListener()
         moveToSearchList()
+        moveToStoreDetail()
     }
 
     private fun initStoreListView() {
@@ -70,23 +72,23 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
     }
 
-    private fun showMarkerOnMap() {
-        viewModel.storeList.value?.forEach { position ->
-            val marker = MapPoint.mapPointWithGeoCoord(position.latitude, position.longitude)
-            val markerIcon = MapPOIItem()
-            markerIcon.apply {
-                itemName = "marker name"
-                customImageResourceId = R.drawable.ic_store_default
-                customSelectedImageResourceId = R.drawable.ic_store_select
-                mapPoint = marker
-                setCustomImageAnchor(0.5f, 0.5f)
-                isCustomImageAutoscale = false
-                markerType = MapPOIItem.MarkerType.CustomImage
-                tag = 0
-            }
-            binding.mapSearch.addPOIItem(markerIcon)
-        }
-    }
+//    private fun showMarkerOnMap() {
+//        viewModel.storeList.value?.forEach { position ->
+//            val marker = MapPoint.mapPointWithGeoCoord(position.latitude, position.longitude)
+//            val markerIcon = MapPOIItem()
+//            markerIcon.apply {
+//                itemName = "marker name"
+//                customImageResourceId = R.drawable.ic_store_default
+//                customSelectedImageResourceId = R.drawable.ic_store_select
+//                mapPoint = marker
+//                setCustomImageAnchor(0.5f, 0.5f)
+//                isCustomImageAutoscale = false
+//                markerType = MapPOIItem.MarkerType.CustomImage
+//                tag = 0
+//            }
+//            binding.mapSearch.addPOIItem(markerIcon)
+//        }
+//    }
 
     private fun checkLocationService(): Boolean {
         val locationManager =
@@ -95,40 +97,40 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     }
 
     // 현재 사용자 위치추적 및 경도, 위도 받아오기
-    @SuppressLint("MissingPermission")
-    private fun startTracking() {
-        binding.mapSearch.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
+//    @SuppressLint("MissingPermission")
+//    private fun startTracking() {
+//        binding.mapSearch.currentLocationTrackingMode =
+//            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
+//
+//        binding.mapSearch.setCustomCurrentLocationMarkerTrackingImage(
+//            R.drawable.ic_store_select,
+//            MapPOIItem.ImageOffset(0, 0)
+//        )
+//
+//        val locationManager: LocationManager =
+//            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+//        val currentLocation: Location? =
+//            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+//        val currentLatitude = currentLocation?.latitude ?: 0
+//        val currentLongitude = currentLocation?.longitude ?: 0
+//        val currentPosition = Position(currentLatitude.toDouble(), currentLongitude.toDouble())
+//        viewModel.updateCurrentLocation(currentPosition)
+//    }
 
-        binding.mapSearch.setCustomCurrentLocationMarkerTrackingImage(
-            R.drawable.ic_store_select,
-            MapPOIItem.ImageOffset(0, 0)
-        )
-
-        val locationManager: LocationManager =
-            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val currentLocation: Location? =
-            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        val currentLatitude = currentLocation?.latitude ?: 0
-        val currentLongitude = currentLocation?.longitude ?: 0
-        val currentPosition = Position(currentLatitude.toDouble(), currentLongitude.toDouble())
-        viewModel.updateCurrentLocation(currentPosition)
-    }
-
-    private fun moveMapToUserLocation() {
-        viewModel.currentLocation.observe(viewLifecycleOwner) {
-            val cameraUpdate: CameraUpdate =
-                CameraUpdateFactory.newMapPoint(
-                    viewModel.currentLocation.value?.let {
-                        MapPoint.mapPointWithGeoCoord(
-                            it.latitude,
-                            it.longitude
-                        )
-                    }
-                )
-            binding.mapSearch.moveCamera(cameraUpdate)
-        }
-    }
+//    private fun moveMapToUserLocation() {
+//        viewModel.currentLocation.observe(viewLifecycleOwner) {
+//            val cameraUpdate: CameraUpdate =
+//                CameraUpdateFactory.newMapPoint(
+//                    viewModel.currentLocation.value?.let {
+//                        MapPoint.mapPointWithGeoCoord(
+//                            it.latitude,
+//                            it.longitude
+//                        )
+//                    }
+//                )
+//            binding.mapSearch.moveCamera(cameraUpdate)
+//        }
+//    }
 
     private fun setViewVisibility(firstVisibility: Int, secondVisibility: Int) {
         binding.clSearchFirstStoreInfo.visibility = firstVisibility
@@ -175,13 +177,24 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
     }
 
+    private fun moveToStoreDetail(){
+        binding.clSearchFirstStoreInfo.setOnClickListener {
+            val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java)
+            startActivity(toStoreDetail)
+        }
+        binding.clSearchSecondStoreInfo.setOnClickListener {
+            val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java)
+            startActivity(toStoreDetail)
+        }
+    }
+
     override fun onDestroyView() {
-        stopTracking()
+//        stopTracking()
         super.onDestroyView()
     }
 
-    private fun stopTracking() {
-        binding.mapSearch.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOff
-    }
+//    private fun stopTracking() {
+//        binding.mapSearch.currentLocationTrackingMode =
+//            MapView.CurrentLocationTrackingMode.TrackingModeOff
+//    }
 }
