@@ -5,14 +5,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sookmyung.carryus.domain.entity.ReservationDetailResponse
+import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationStatus
 
 class ReservationDetailViewModel : ViewModel(){
     val showDialog = MutableLiveData<Boolean>()
-    private val _reservationDetailLiveData = MutableLiveData<ReservationDetailResponse>()
+    private val _reservationDetailLiveData = MutableLiveData<ReservationDetail>()
 
-    val reservationDetailLiveData: LiveData<ReservationDetailResponse> = _reservationDetailLiveData
+    val reservationDetailLiveData: LiveData<ReservationDetail> = _reservationDetailLiveData
 
     private lateinit var context: Context
 
@@ -20,7 +20,7 @@ class ReservationDetailViewModel : ViewModel(){
         showDialog.value = !(showDialog.value ?: false)
     }
 
-    fun setReservationDetail(reservationDetail: ReservationDetailResponse) {
+    fun setReservationDetail(reservationDetail: ReservationDetail) {
         _reservationDetailLiveData.value = reservationDetail
     }
 

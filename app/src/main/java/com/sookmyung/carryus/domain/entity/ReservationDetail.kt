@@ -1,6 +1,6 @@
 package com.sookmyung.carryus.domain.entity
 
-data class ReservationDetailResponse(
+data class ReservationDetail(
     val reservationId: Int,
     val storeId: Int,
     val storeImgUrl: String,
