@@ -13,7 +13,7 @@ class SearchViewModel : ViewModel() {
     val currentLocation: LiveData<Position> get() = _currentLocation
 
     private val _selectedStoreId: MutableLiveData<Int> = MutableLiveData()
-    val selectedStoreItd: LiveData<Int> get() = _selectedStoreId
+    val selectedStoreId: LiveData<Int> get() = _selectedStoreId
 
     private val _searchStoreList: MutableLiveData<List<StoreSearchResult>> = MutableLiveData(
         listOf(

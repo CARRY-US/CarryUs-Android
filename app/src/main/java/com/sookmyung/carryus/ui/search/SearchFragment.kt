@@ -30,6 +30,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         moveToStoreDetail()
     }
 
+    //TODO marker 클릭 시, 보이게 하기
     private fun initStoreListView() {
         viewModel.searchStoreList.observe(viewLifecycleOwner) { searchStoreList ->
             if (searchStoreList == null) {
@@ -171,7 +172,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
     private fun moveToStoreDetail(){
         binding.clSearchFirstStoreInfo.setOnClickListener {
-            val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java)
+            val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java).putExtra("storeId", viewModel.selectedStoreId.value)
             startActivity(toStoreDetail)
         }
         binding.clSearchSecondStoreInfo.setOnClickListener {

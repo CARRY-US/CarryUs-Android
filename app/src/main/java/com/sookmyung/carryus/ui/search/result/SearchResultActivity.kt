@@ -57,8 +57,8 @@ class SearchResultActivity :
     }
 
     private fun moveToStoreDetail(){
-        viewModel.selectedStoreItd.observe(this){
-            val toStoreDetail = Intent(this, StoreDetailActivity::class.java)
+        viewModel.selectedStoreId.observe(this){
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra("storeId", viewModel.selectedStoreId.value)
             startActivity(toStoreDetail)
         }
     }

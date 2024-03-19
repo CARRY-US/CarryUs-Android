@@ -75,7 +75,7 @@ class SearchResultViewModel : ViewModel() {
     val searchResultList: LiveData<List<StoreSearchResult>> get() = _searchResultList
 
     private val _selectedStoreId: MutableLiveData<Int> = MutableLiveData()
-    val selectedStoreItd: LiveData<Int> get() = _selectedStoreId
+    val selectedStoreId: LiveData<Int> get() = _selectedStoreId
 
     private val _startSearch: MutableLiveData<Boolean> = MutableLiveData(false)
     val startSearch: LiveData<Boolean> get() = _startSearch
