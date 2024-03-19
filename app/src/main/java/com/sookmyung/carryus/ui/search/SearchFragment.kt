@@ -1,27 +1,19 @@
 package com.sookmyung.carryus.ui.search
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
-import com.sookmyung.carryus.domain.entity.Position
-import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
+import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.search.list.SearchListActivity
 import com.sookmyung.carryus.ui.search.result.SearchResultActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
-import net.daum.mf.map.api.CameraUpdate
-import net.daum.mf.map.api.CameraUpdateFactory
-import net.daum.mf.map.api.MapPOIItem
-import net.daum.mf.map.api.MapPoint
-import net.daum.mf.map.api.MapView
 
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
     private val viewModel by viewModels<SearchViewModel>()
@@ -39,21 +31,21 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     }
 
     private fun initStoreListView() {
-        viewModel.simpleStoreReviewInfoList.observe(viewLifecycleOwner) { simpleStoreReviewInfoList ->
-            if (simpleStoreReviewInfoList == null) {
+        viewModel.searchStoreList.observe(viewLifecycleOwner) { searchStoreList ->
+            if (searchStoreList == null) {
                 setViewVisibility(View.GONE, View.GONE)
             } else {
-                when (simpleStoreReviewInfoList.size) {
+                when (searchStoreList.size) {
                     1 -> {
-                        updateStoreInfo(View.VISIBLE, View.GONE, simpleStoreReviewInfoList[0])
+                        updateStoreInfo(View.VISIBLE, View.GONE, searchStoreList[0])
                     }
 
                     2 -> {
                         updateStoreInfo(
                             View.VISIBLE,
                             View.VISIBLE,
-                            simpleStoreReviewInfoList[0],
-                            simpleStoreReviewInfoList[1]
+                            searchStoreList[0],
+                            searchStoreList[1]
                         )
                     }
 
@@ -140,30 +132,30 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     private fun updateStoreInfo(
         firstVisibility: Int,
         secondVisibility: Int,
-        firstStoreInfo: SimpleStoreReviewInfo,
-        secondStoreInfo: SimpleStoreReviewInfo? = null
+        firstStoreInfo: StoreSearchResult,
+        secondStoreInfo: StoreSearchResult? = null
     ) {
         setViewVisibility(firstVisibility, secondVisibility)
 
         with(binding) {
-            tvSearchFirstStoreTitle.text = firstStoreInfo.storeTitle
-            tvSearchFirstStoreSubTitle.text = firstStoreInfo.storeSubTitle
-            ivSearchFirstStore.setImage(firstStoreInfo.storeImg)
+            tvSearchFirstStoreTitle.text = firstStoreInfo.storeName
+            tvSearchFirstStoreSubTitle.text = firstStoreInfo.storeLocation
+            ivSearchFirstStore.setImage(firstStoreInfo.storeImgUrl)
             tvSearchFirstStoreReview.text = getString(
                 R.string.search_review_score_count,
-                firstStoreInfo.storeReviewScore,
+                firstStoreInfo.storeRatingAverage,
                 firstStoreInfo.storeReviewCount
             )
         }
 
         with(binding) {
             secondStoreInfo?.let {
-                tvSearchSecondStoreTitle.text = secondStoreInfo.storeTitle
-                tvSearchSecondStoreSubTitle.text = secondStoreInfo.storeSubTitle
-                ivSearchSecondStore.setImage(secondStoreInfo.storeImg)
+                tvSearchSecondStoreTitle.text = secondStoreInfo.storeName
+                tvSearchSecondStoreSubTitle.text = secondStoreInfo.storeLocation
+                ivSearchSecondStore.setImage(secondStoreInfo.storeImgUrl)
                 tvSearchSecondStoreReview.text = getString(
                     R.string.search_review_score_count,
-                    secondStoreInfo.storeReviewScore,
+                    secondStoreInfo.storeRatingAverage,
                     secondStoreInfo.storeReviewCount
                 )
             }

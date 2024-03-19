@@ -7,7 +7,7 @@
 
         <variable
             name="data"
-            type="com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo" />
+            type="com.sookmyung.carryus.domain.entity.StoreSearchResult" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
 
         <ImageView
             android:id="@+id/iv_search_result_item_store"
-            setImage="@{data.storeImg}"
+            setImage="@{data.storeImgUrl}"
             android:layout_width="94dp"
             android:layout_height="0dp"
             android:layout_marginVertical="8dp"
@@ -37,7 +37,7 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="7.5sp"
-            android:text="@{data.storeTitle}"
+            android:text="@{data.storeName}"
             android:textColor="@color/black000"
             app:layout_constraintStart_toEndOf="@id/iv_search_result_item_store"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,8 +49,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="5.5sp"
-            android:text="@{data.storeSubTitle}"
+            android:text="@{data.storeLocation}"
             android:textColor="@color/gray400"
+            android:maxLength="20"
+            android:ellipsize="end"
             app:layout_constraintStart_toStartOf="@id/tv_search_result_item_store_title"
             app:layout_constraintTop_toBottomOf="@id/tv_search_result_item_store_title"
             tools:text="위치 최대 18자 노출되고 나머지는 ..." />
@@ -72,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:lineSpacingExtra="6sp"
-            android:text="@{@string/search_review_score_count(data.storeReviewScore, data.storeReviewCount)}"
+            android:text="@{@string/search_review_score_count(data.storeRatingAverage, data.storeReviewCount)}"
             android:textColor="@color/orange400"
             app:layout_constraintBottom_toBottomOf="@id/iv_search_result_item_store_review_star"
             app:layout_constraintStart_toEndOf="@id/iv_search_result_item_store_review_star"

@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchResultMapBinding
 import com.sookmyung.carryus.domain.entity.Position
-import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
+import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.search.result.SearchResultViewModel
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
@@ -32,8 +32,8 @@ class SearchResultMapActivity :
     }
 
     private fun showMarkerOnMap() {
-        viewModel.storePositionList.value?.forEach { position ->
-            val marker = MapPoint.mapPointWithGeoCoord(position.latitude, position.longitude)
+        viewModel.searchResultList.value?.forEach { list ->
+            val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
             val markerIcon = MapPOIItem()
             markerIcon.apply {
                 itemName = "marker name"
@@ -77,30 +77,30 @@ class SearchResultMapActivity :
     private fun updateStoreInfo(
         firstVisibility: Int,
         secondVisibility: Int,
-        firstStoreInfo: SimpleStoreReviewInfo,
-        secondStoreInfo: SimpleStoreReviewInfo? = null
+        firstStoreInfo: StoreSearchResult,
+        secondStoreInfo: StoreSearchResult? = null
     ) {
         setViewVisibility(firstVisibility, secondVisibility)
 
         with(binding) {
-            tvSearchResultMapFirstStoreTitle.text = firstStoreInfo.storeTitle
-            tvSearchResultMapFirstStoreSubTitle.text = firstStoreInfo.storeSubTitle
-            ivSearchResultMapFirstStore.setImage(firstStoreInfo.storeImg)
+            tvSearchResultMapFirstStoreTitle.text = firstStoreInfo.storeName
+            tvSearchResultMapFirstStoreSubTitle.text = firstStoreInfo.storeLocation
+            ivSearchResultMapFirstStore.setImage(firstStoreInfo.storeImgUrl)
             tvSearchResultMapFirstStoreReview.text = getString(
                 R.string.search_review_score_count,
-                firstStoreInfo.storeReviewScore,
+                firstStoreInfo.storeRatingAverage,
                 firstStoreInfo.storeReviewCount
             )
         }
 
         with(binding) {
             secondStoreInfo?.let {
-                tvSearchResultMapSecondStoreTitle.text = secondStoreInfo.storeTitle
-                tvSearchResultMapSecondStoreSubTitle.text = secondStoreInfo.storeSubTitle
-                ivSearchResultMapSecondStore.setImage(secondStoreInfo.storeImg)
+                tvSearchResultMapSecondStoreTitle.text = secondStoreInfo.storeName
+                tvSearchResultMapSecondStoreSubTitle.text = secondStoreInfo.storeLocation
+                ivSearchResultMapSecondStore.setImage(secondStoreInfo.storeImgUrl)
                 tvSearchResultMapSecondStoreReview.text = getString(
                     R.string.search_review_score_count,
-                    secondStoreInfo.storeReviewScore,
+                    secondStoreInfo.storeRatingAverage,
                     secondStoreInfo.storeReviewCount
                 )
             }
@@ -108,21 +108,21 @@ class SearchResultMapActivity :
     }
 
     private fun initStoreListView() {
-        viewModel.simpleStoreReviewInfoList.observe(this) { simpleStoreReviewInfoList ->
-            if (simpleStoreReviewInfoList == null) {
+        viewModel.searchResultList.observe(this) { searchResultList ->
+            if (searchResultList == null) {
                 setViewVisibility(View.GONE, View.GONE)
             } else {
-                when (simpleStoreReviewInfoList.size) {
+                when (searchResultList.size) {
                     1 -> {
-                        updateStoreInfo(View.VISIBLE, View.GONE, simpleStoreReviewInfoList[0])
+                        updateStoreInfo(View.VISIBLE, View.GONE, searchResultList[0])
                     }
 
                     2 -> {
                         updateStoreInfo(
                             View.VISIBLE,
                             View.VISIBLE,
-                            simpleStoreReviewInfoList[0],
-                            simpleStoreReviewInfoList[1]
+                            searchResultList[0],
+                            searchResultList[1]
                         )
                     }
 

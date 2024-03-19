@@ -26,12 +26,12 @@ class SearchListActivity :
 
     private fun setSearchResultAdapter() {
         binding.rvSearchListStoreList.adapter = SearchResultAdapter { _, item ->
-            viewModel.updateSelectedStoreId(item.storeTitle)
+            viewModel.updateSelectedStoreId(item.storeId)
         }
     }
 
     private fun setSearchResultObserver() {
-        viewModel.searchResultList.observe(this) { list ->
+        viewModel.searchStoreList.observe(this) { list ->
             searchResultAdapter?.submitList(list)
         }
     }

@@ -29,7 +29,7 @@ class SearchResultActivity :
 
     private fun setSearchResultAdapter() {
         binding.rvSearchResultStoreList.adapter = SearchResultAdapter { _, item ->
-            viewModel.updateSelectedStoreId(item.storeTitle)
+            viewModel.updateSelectedStoreId(item.storeId)
         }
     }
 
