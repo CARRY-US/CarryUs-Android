@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="data"
+            type="com.sookmyung.carryus.domain.entity.Time" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingEnd="4dp">
+
+        <TextView
+            android:id="@+id/tv_item_reservation_request_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@{data.available ? @drawable/shape_gray200_line_4_rect : @drawable/shape_orange400_fill_5_rect}"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="00:00"
+            android:clickable="@{data.available ? true:false}"
+            android:text="@{@string/reservation_request_item_time(data.hour, data.minute)}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

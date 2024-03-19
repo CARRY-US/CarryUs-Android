@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Carry Us</string>
 
+    <!-- common -->
+    <string name="common_extra_small_title">20인치 미만</string>
+    <string name="common_small_title">20인치</string>
+    <string name="common_large_title">24인치</string>
+    <string name="common_extra_large_title">28인치 이상</string>
+    <string name="common_zero">0</string>
+
     <!-- util -->
     <string name="finish_app_toast_msg">뒤로가기를 한 번 더 누르면 종료됩니다</string>
 
@@ -35,12 +42,26 @@
 
     <!-- store detail -->
     <string name="store_detail_fee_title">요금</string>
-    <string name="store_detail_extra_small_title">20인치 미만</string>
-    <string name="store_detail_small_title">20인치</string>
-    <string name="store_detail_large_title">24인치</string>
-    <string name="store_detail_extra_large_title">28인치 이상</string>
     <string name="store_detail_request_btn_title">요청서 작성하기</string>
     <string name="store_detail_suitcase_unit">%d개</string>
     <string name="store_detail_fee_unit">%d원/시간</string>
+
+    <!-- reservation request -->
+    <string name="reservation_request_title">요청서 작성</string>
+    <string name="reservation_request_send">전송</string>
+    <string name="reservation_request_empty_date_alert">날짜를 먼저 선택해 주세요.</string>
+    <string name="reservation_request_reservation_person_title">예약자 정보</string>
+    <string name="reservation_request_payment_title">결제 정보</string>
+    <string name="reservation_request_reservation_person_name_count">%d/6</string>
+    <string name="reservation_request_reservation_phone_number_count">%d/11</string>
+    <string name="reservation_request_reservation_others_count">%d/100</string>
+    <string name="reservation_request_reservation_others_hint">요청 사항을 입력해 주세요</string>
+    <string name="reservation_request_reservation_others_title">기타 요청 사항</string>
+    <string name="reservation_request_reservation_phone_number_hint">전화번호를 입력해 주세요</string>
+    <string name="reservation_request_reservation_phone_number_title">전화번호</string>
+    <string name="reservation_request_reservation_person_name_hint">이름을 입력해 주세요</string>
+    <string name="reservation_request_reservation_person_name_title">이름</string>
+    <string name="reservation_request_reservation_fee">예약 금액</string>
+    <string name="reservation_request_item_time">%s:%s</string>
 
 </resources>
