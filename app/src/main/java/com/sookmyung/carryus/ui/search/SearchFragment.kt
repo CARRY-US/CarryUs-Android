@@ -55,8 +55,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                     ACCESS_FINE_LOCATION
                 )
             ) {
-                // 권한이 없을 경우 권한 요청
-                requireContext().toast("앱 실행을 위해서는 권한을 설정해야 합니다.")
+                requireContext().toast(getString(R.string.search_location_permission_request))
                 ActivityCompat.requestPermissions(
                     requireActivity(),
                     arrayOf(
@@ -66,7 +65,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                     LOCATION_PERMISSION_REQUEST_CODE
                 )
             } else {
-                // 권한이 이미 있는 경우에 대한 처리
                 ActivityCompat.requestPermissions(
                     requireActivity(),
                     arrayOf(
@@ -87,11 +85,9 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         when (requestCode) {
             LOCATION_PERMISSION_REQUEST_CODE -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // 위치 권한이 허용된 경우에 대한 처리
-                    requireContext().toast("앱 실행을 위한 권한이 설정 되었습니다")
+                    requireContext().toast(getString(R.string.search_location_permission_granted))
                 } else {
-                    // 위치 권한이 거부된 경우에 대한 처리
-                    requireContext().toast("앱 실행을 위한 권한이 취소 되었습니다")
+                    requireContext().toast(getString(R.string.search_location_permission_denied))
                 }
                 return
             }
@@ -117,7 +113,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                             searchStoreList[1]
                         )
                     }
-
                     else -> {
                         setViewVisibility(View.GONE, View.GONE)
                     }
@@ -151,13 +146,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
     }
 
-    private fun checkLocationService(): Boolean {
-        val locationManager =
-            activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-    }
-
-    // 현재 사용자 위치추적 및 경도, 위도 받아오기
     @SuppressLint("MissingPermission")
     private fun startTracking() {
         binding.mapSearch.currentLocationTrackingMode =
