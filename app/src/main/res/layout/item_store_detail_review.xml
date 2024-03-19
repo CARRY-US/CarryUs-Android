@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/tv_item_store_detail_name"
             style="@style/detail2_bold"
-            android:text="@{data.name}"
+            android:text="@{data.memberName}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/tv_item_store_detail_date"
             style="@style/detail3_regular"
-            android:text="@{data.date}"
+            android:text="@{data.reviewCreatedAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
@@ -99,7 +99,7 @@
         <TextView
             android:id="@+id/tv_item_store_detail_review"
             style="@style/detail2_regular"
-            android:text="@{data.content}"
+            android:text="@{data.reviewText}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

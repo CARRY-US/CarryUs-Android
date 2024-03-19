@@ -36,7 +36,7 @@ class StoreDetailReviewAdapter :
 
     companion object {
         private val DIFF_CALLBACK = ItemDiffCallback<StoreReview>(
-            onItemsTheSame = { old, new -> old.name == new.name },
+            onItemsTheSame = { old, new -> old.reviewId == new.reviewId },
             onContentsTheSame = { old, new -> old == new }
         )
     }

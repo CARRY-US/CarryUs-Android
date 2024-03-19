@@ -1,8 +1,9 @@
 package com.sookmyung.carryus.domain.entity
 
 data class StoreReview(
-    val name: String,
-    val date: String,
-    val content: String,
-    val score: String
+    val reviewId: Int,
+    val memberName: String,
+    val reviewCreatedAt: String,
+    val reviewRating: Double,
+    val reviewText: String
 )

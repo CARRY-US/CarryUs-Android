@@ -26,14 +26,14 @@ class StoreDetailActivity :
     }
 
     private fun setReviewObserver() {
-        viewModel.reviewList.observe(this) { list ->
-            storeDetailReviewAdapter?.submitList(list)
+        viewModel.storeDetailReview.observe(this) { review ->
+            storeDetailReviewAdapter?.submitList(review.reviewList)
         }
     }
 
     private fun setRecyclerviewHeight() {
         val layoutParams = binding.rvStoreDetailReview.layoutParams
-        if (viewModel.reviewList.value?.size!! > 5) layoutParams.height = 1000
+        if (viewModel.storeDetailReview.value?.reviewList?.size!! > 5) layoutParams.height = 1000
         else layoutParams.height = 0
         binding.rvStoreDetailReview.layoutParams = layoutParams
     }
