@@ -43,4 +43,8 @@
     <string name="my_review_inquiry_chose_star">내가 선택한 별점</string>
     <string name="my_review_inquiry_edit_review">수정하기</string>
 
+    <!-- my review edit -->
+    <string name="my_review_edit_toolbar_title">후기 수정</string>
+    <string name="my_review_edit_star_hint">가게의 별점을 선택해주세요</string>
+
 </resources>
