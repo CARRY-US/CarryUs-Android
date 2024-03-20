@@ -21,6 +21,7 @@ class ReservationRequestActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding.viewModel = viewModel
         setTimeRecyclerAdapter()
         sendRequest()
         setClickListener()
@@ -56,15 +57,35 @@ class ReservationRequestActivity :
     }
 
     private fun setClickListener() {
-        binding.btnReservationRequestInitialize.setOnClickListener {
-            binding.clReservationRequestReservation.visibility = View.GONE
-            binding.clReservationRequestPayment.visibility = View.GONE
-        }
-        binding.btnReservationRequestCheck.setOnClickListener {
-            binding.clReservationRequestReservation.visibility = View.VISIBLE
-            binding.clReservationRequestPayment.visibility = View.VISIBLE
+        setReservationCheckBtnClickListener()
+//        setSuitcaseCountClickListener()
+    }
+
+    private fun setReservationCheckBtnClickListener() {
+        with(binding) {
+            btnReservationRequestInitialize.setOnClickListener {
+                clReservationRequestReservation.visibility = View.GONE
+                clReservationRequestPayment.visibility = View.GONE
+            }
+            btnReservationRequestCheck.setOnClickListener {
+                clReservationRequestReservation.visibility = View.VISIBLE
+                clReservationRequestPayment.visibility = View.VISIBLE
+            }
         }
     }
+
+//    private fun setSuitcaseCountClickListener() {
+//        with(binding) {
+//            btnReservationRequestExtraSmallMinus.setOnClickListener { viewModel?.clickSuitCase(1, -1) }
+//            btnReservationRequestExtraSmallPlus.setOnClickListener { viewModel?.clickSuitCase(1, 1) }
+//            btnReservationRequestSmallMinus.setOnClickListener { viewModel?.clickSuitCase(2, -1) }
+//            btnReservationRequestSmallPlus.setOnClickListener { viewModel?.clickSuitCase(2, 1) }
+//            btnReservationRequestLargeMinus.setOnClickListener { viewModel?.clickSuitCase(3, -1) }
+//            btnReservationRequestLargePlus.setOnClickListener { viewModel?.clickSuitCase(3, 1) }
+//            btnReservationRequestExtraLargeMinus.setOnClickListener { viewModel?.clickSuitCase(4, -1) }
+//            btnReservationRequestExtraLargePlus.setOnClickListener { viewModel?.clickSuitCase(4, 1) }
+//        }
+//    }
 
     companion object {
         const val TAG = "TAG"
