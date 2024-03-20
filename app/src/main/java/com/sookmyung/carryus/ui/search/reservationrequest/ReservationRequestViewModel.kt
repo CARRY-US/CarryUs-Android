@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sookmyung.carryus.domain.entity.Suitcase
 import com.sookmyung.carryus.domain.entity.Time
+import java.util.Date
 import java.util.Random
 
 class ReservationRequestViewModel : ViewModel() {
@@ -15,6 +16,7 @@ class ReservationRequestViewModel : ViewModel() {
 
     private val _suitCase: MutableLiveData<Suitcase> = MutableLiveData(Suitcase(0, 0, 0, 0))
     val suitCase: LiveData<Suitcase> get() = _suitCase
+    val todayDate: Long = getFormattedDateLong()
 
     init {
         initReservationRequestTimeList()
@@ -71,6 +73,16 @@ class ReservationRequestViewModel : ViewModel() {
             }
         }
     }
+
+    fun clearSuitcase() {
+        _suitCase.value = Suitcase(0, 0, 0, 0)
+    }
+
+    private fun getFormattedDateLong(): Long {
+        val currentDate = Date(System.currentTimeMillis())
+        return currentDate.time
+    }
+
 
     companion object {
         const val EXTRA_SMALL = 1

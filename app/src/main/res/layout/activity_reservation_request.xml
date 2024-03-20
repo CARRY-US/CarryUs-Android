@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.sookmyung.carryus.ui.search.reservationrequest.ReservationRequestViewModel" />
@@ -66,6 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
+                    android:minDate="@{viewModel.todayDate}"
                     android:background="@color/white000"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -136,8 +138,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
-                        android:onClick="@{() -> viewModel.clickSuitCase(1,1)}"
                         android:layout_marginEnd="26dp"
+                        android:onClick="@{() -> viewModel.clickSuitCase(1,1)}"
                         android:src="@drawable/ic_btn_circle_plus"
                         app:layout_constraintBottom_toBottomOf="@id/btn_reservation_request_extra_small_minus"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -170,8 +172,8 @@
                         android:id="@+id/btn_reservation_request_small_minus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.clickSuitCase(2,-1)}"
                         android:layout_marginEnd="3dp"
+                        android:onClick="@{() -> viewModel.clickSuitCase(2,-1)}"
                         android:src="@drawable/ic_btn_circle_minus"
                         app:layout_constraintBottom_toBottomOf="@id/tv_reservation_request_small_title"
                         app:layout_constraintEnd_toStartOf="@id/tv_reservation_request_extra_small_count"
@@ -226,8 +228,8 @@
                         android:id="@+id/btn_reservation_request_large_minus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:onClick="@{() -> viewModel.clickSuitCase(3,-1)}"
                         android:layout_marginEnd="3dp"
+                        android:onClick="@{() -> viewModel.clickSuitCase(3,-1)}"
                         android:src="@drawable/ic_btn_circle_minus"
                         app:layout_constraintBottom_toBottomOf="@id/tv_reservation_request_large_title"
                         app:layout_constraintEnd_toStartOf="@id/tv_reservation_request_extra_small_count"
@@ -248,8 +250,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="3dp"
-                        android:onClick="@{() -> viewModel.clickSuitCase(3,1)}"
                         android:layout_marginEnd="26dp"
+                        android:onClick="@{() -> viewModel.clickSuitCase(3,1)}"
                         android:src="@drawable/ic_btn_circle_plus"
                         app:layout_constraintBottom_toBottomOf="@id/tv_reservation_request_large_title"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -283,8 +285,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="3dp"
-                        android:src="@drawable/ic_btn_circle_minus"
                         android:onClick="@{() -> viewModel.clickSuitCase(4,-1)}"
+                        android:src="@drawable/ic_btn_circle_minus"
                         app:layout_constraintBottom_toBottomOf="@id/tv_reservation_request_extra_large_title"
                         app:layout_constraintEnd_toStartOf="@id/tv_reservation_request_extra_small_count"
                         app:layout_constraintTop_toTopOf="@id/tv_reservation_request_extra_large_title" />
