@@ -67,8 +67,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:minDate="@{viewModel.todayDate}"
                     android:background="@color/white000"
+                    android:minDate="@{viewModel.todayDate}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -429,8 +429,10 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/shape_gray200_line_4_rect"
                         android:hint="@string/reservation_request_reservation_person_name_hint"
+                        android:maxLength="6"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="14dp"
+                        android:text="@={viewModel.name}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_reservation_request_reservation_persone_name" />
@@ -441,7 +443,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/reservation_request_reservation_person_name_count"
+                        android:text="@{@string/reservation_request_reservation_person_name_count(viewModel.name.length())}"
                         android:textColor="@color/gray200"
                         app:layout_constraintEnd_toEndOf="@id/et_reservation_request_reservation_persone_name"
                         app:layout_constraintTop_toBottomOf="@id/et_reservation_request_reservation_persone_name" />
@@ -466,8 +468,11 @@
                         android:layout_marginTop="8dp"
                         android:background="@drawable/shape_gray200_line_4_rect"
                         android:hint="@string/reservation_request_reservation_phone_number_hint"
+                        android:inputType="number|phone"
+                        android:maxLength="11"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="14dp"
+                        android:text="@={viewModel.phoneNumber}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_reservation_request_reservation_phone_number" />
@@ -478,7 +483,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/reservation_request_reservation_phone_number_count"
+                        android:text="@{@string/reservation_request_reservation_phone_number_count(viewModel.phoneNumber.length())}"
                         android:textColor="@color/gray200"
                         app:layout_constraintEnd_toEndOf="@id/et_reservation_request_reservation_phone_number"
                         app:layout_constraintTop_toBottomOf="@id/et_reservation_request_reservation_phone_number" />
@@ -504,9 +509,11 @@
                         android:background="@drawable/shape_gray200_line_4_rect"
                         android:gravity="top"
                         android:hint="@string/reservation_request_reservation_others_hint"
+                        android:maxLength="100"
                         android:minLines="6"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="14dp"
+                        android:text="@={viewModel.others}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_reservation_request_reservation_others" />
@@ -517,7 +524,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/reservation_request_reservation_others_count"
+                        android:text="@{@string/reservation_request_reservation_others_count(viewModel.others.length())}"
                         android:textColor="@color/gray200"
                         app:layout_constraintEnd_toEndOf="@id/et_reservation_request_reservation_others"
                         app:layout_constraintTop_toBottomOf="@id/et_reservation_request_reservation_others" />

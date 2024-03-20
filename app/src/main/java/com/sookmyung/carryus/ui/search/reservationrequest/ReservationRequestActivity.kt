@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
@@ -25,6 +26,10 @@ class ReservationRequestActivity :
         setTimeRecyclerAdapter()
         sendRequest()
         setClickListener()
+
+        viewModel.name.observe(this){
+            Log.e("kang","name observe $it")
+        }
     }
 
     private fun setTimeRecyclerAdapter() {

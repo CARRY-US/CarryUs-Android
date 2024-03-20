@@ -37,7 +37,6 @@ class ReservationRequestTimeAdapter(private val clickListener: ItemClickListener
     fun itemClick(pos: Int) {
         selectedPosition = pos
         notifyItemChanged(selectedPosition)
-        Log.e("kang","itemClick position: $selectedPosition")
     }
 
     class ReservationRequestTimeViewHolder(

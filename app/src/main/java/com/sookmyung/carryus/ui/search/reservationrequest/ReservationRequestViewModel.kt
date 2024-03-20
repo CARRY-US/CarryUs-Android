@@ -18,6 +18,10 @@ class ReservationRequestViewModel : ViewModel() {
     val suitCase: LiveData<Suitcase> get() = _suitCase
     val todayDate: Long = getFormattedDateLong()
 
+    val name = MutableLiveData("")
+    val phoneNumber = MutableLiveData("")
+    val others = MutableLiveData("")
+
     init {
         initReservationRequestTimeList()
         getReservationRequest()
