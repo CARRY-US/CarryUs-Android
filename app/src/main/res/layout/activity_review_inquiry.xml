@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.sookmyung.carryus.ui.review.ReviewInquiryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:text="가게이름 최대 14자"
+            android:text="@{viewModel.reservationListLiveData.storeName}"
             android:textColor="@color/black000"
             app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_review_inquiry_shop_icon" />
@@ -74,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="27dp"
-            android:text="위치 최대 18자 노출되고 나머지는 ..."
+            android:text="@{viewModel.reservationListLiveData.storeLocation}"
             android:textColor="@color/gray700"
             app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_review_inquiry_shop_icon" />
@@ -97,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginBottom="8dp"
-            android:text="2024.02.10 14:00 예약"
+            android:text="@{viewModel.reservationListLiveData.reservationDate}"
             android:textColor="@color/blue400"
             app:layout_constraintBottom_toBottomOf="@+id/iv_review_inquiry_shop_icon"
             app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_check_icon" />
@@ -124,60 +126,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <RatingBar
+            android:id="@+id/rb_star_point"
+            style="@style/CustomRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="@{viewModel.reviewDetailLiveData.reviewRating}"
+            android:stepSize="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView">
-
-            <ImageView
-                android:id="@+id/iv_review_inquiry_star_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_star_large_full"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_review_inquiry_star_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_star_large_full"
-                app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_star_one"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_review_inquiry_star_three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_star_large_full"
-                app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_star_two"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_review_inquiry_star_four"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_star_large_full"
-                app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_star_three"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/iv_review_inquiry_star_five"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:src="@drawable/ic_star_large_full"
-                app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_star_four"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <TextView
             android:id="@+id/tv_review_inquiry_content"
@@ -191,7 +152,7 @@
             android:padding="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/rb_star_point" />
 
         <TextView
             android:id="@+id/tv_review_inquiry_edit"

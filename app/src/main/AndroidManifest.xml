@@ -57,7 +57,7 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ReviewEditActivity"
+            android:name=".ui.review.ReviewEditActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>
