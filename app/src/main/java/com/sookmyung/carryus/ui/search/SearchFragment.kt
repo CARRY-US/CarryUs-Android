@@ -10,6 +10,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.viewModels
 import com.sookmyung.carryus.R
@@ -81,17 +82,16 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            LOCATION_PERMISSION_REQUEST_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    requireContext().toast(getString(R.string.search_location_permission_granted))
-                } else {
-                    requireContext().toast(getString(R.string.search_location_permission_denied))
-                }
-                return
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                requireContext().toast(getString(R.string.search_location_permission_granted))
+            } else {
+                requireContext().toast(getString(R.string.search_location_permission_denied))
             }
         }
+        requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
     }
 
     //TODO marker 클릭 시, 보이게 하기
@@ -113,6 +113,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                             searchStoreList[1]
                         )
                     }
+
                     else -> {
                         setViewVisibility(View.GONE, View.GONE)
                     }
@@ -133,7 +134,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
             val markerIcon = MapPOIItem()
             markerIcon.apply {
-                itemName = list.storeName
+                itemName = "marker name"
                 customImageResourceId = R.drawable.ic_store_default
                 customSelectedImageResourceId = R.drawable.ic_store_select
                 mapPoint = marker
@@ -145,6 +146,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             binding.mapSearch.addPOIItem(markerIcon)
         }
     }
+
     @SuppressLint("MissingPermission")
     private fun startTracking() {
         binding.mapSearch.currentLocationTrackingMode =
@@ -247,6 +249,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     private fun stopTracking() {
         binding.mapSearch.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff
+        binding.mapSearch.removeAllCircles()
     }
 
     companion object {

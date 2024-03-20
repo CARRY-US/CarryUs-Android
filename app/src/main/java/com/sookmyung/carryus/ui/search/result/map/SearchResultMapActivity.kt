@@ -142,5 +142,6 @@ class SearchResultMapActivity :
     private fun stopTracking() {
         binding.mapSearchResultMap.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff
+        binding.mapSearchResultMap.removeAllCircles()
     }
 }
