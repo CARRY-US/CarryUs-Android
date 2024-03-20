@@ -10,8 +10,10 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.view.contains
 import androidx.fragment.app.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
@@ -28,21 +30,42 @@ import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import timber.log.Timber
 
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
     private val viewModel by viewModels<SearchViewModel>()
+    private lateinit var mapView: MapView
+    private lateinit var mapViewContainer: ViewGroup
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
         checkLocationPermission()
-        showMarkerOnMap()
-        startTracking()
-        moveMapToUserLocation()
+        initMapView()
         initStoreListView()
         initSearchViewClickListener()
         moveToSearchList()
         moveToStoreDetail()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (mapViewContainer.contains(mapView)) {
+            try {
+                initMapView()
+            } catch (re: RuntimeException) {
+                Timber.e(re.toString())
+            }
+        }
+    }
+
+    private fun initMapView() {
+        mapView = MapView(activity)
+        showMarkerOnMap()
+        startTracking()
+        moveMapToUserLocation()
+        mapViewContainer = binding.mapSearch
+        mapViewContainer.addView(mapView)
     }
 
     private fun checkLocationPermission() {
@@ -143,16 +166,16 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                 markerType = MapPOIItem.MarkerType.CustomImage
                 tag = 0
             }
-            binding.mapSearch.addPOIItem(markerIcon)
+            mapView.addPOIItem(markerIcon)
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun startTracking() {
-        binding.mapSearch.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
 
-        binding.mapSearch.setCustomCurrentLocationMarkerTrackingImage(
+        mapView.setCustomCurrentLocationMarkerTrackingImage(
             R.drawable.ic_store_select,
             MapPOIItem.ImageOffset(0, 0)
         )
@@ -178,7 +201,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                         )
                     }
                 )
-            binding.mapSearch.moveCamera(cameraUpdate)
+            mapView.moveCamera(cameraUpdate)
         }
     }
 
@@ -241,15 +264,25 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         }
     }
 
+    override fun onPause() {
+        stopTracking()
+        finishMap()
+        super.onPause()
+    }
+
     override fun onDestroyView() {
         stopTracking()
+        finishMap()
         super.onDestroyView()
     }
 
     private fun stopTracking() {
-        binding.mapSearch.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff
-        binding.mapSearch.removeAllCircles()
+    }
+
+    private fun finishMap() {
+        mapViewContainer.removeView(mapView)
     }
 
     companion object {

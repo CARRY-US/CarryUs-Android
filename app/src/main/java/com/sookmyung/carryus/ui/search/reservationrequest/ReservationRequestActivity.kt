@@ -52,7 +52,6 @@ class ReservationRequestActivity :
     private fun sendRequest() {
         binding.btnReservationRequestSend.setOnClickListener {
             val intentToReservationDetail = Intent(this, MainActivity::class.java)
-            intentToReservationDetail.putExtra(TAG, RESERVATION_TAG)
             intentToReservationDetail.flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intentToReservationDetail)
         }
@@ -85,10 +84,5 @@ class ReservationRequestActivity :
         viewModel.phoneNumber.observe(this) {
             viewModel.checkIsSendBtnClickable()
         }
-    }
-
-    companion object {
-        const val TAG = "TAG"
-        const val RESERVATION_TAG = "RESERVATION"
     }
 }

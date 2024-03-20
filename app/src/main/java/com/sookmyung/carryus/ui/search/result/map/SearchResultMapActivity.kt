@@ -6,6 +6,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchResultMapBinding
@@ -21,16 +22,23 @@ import net.daum.mf.map.api.MapView
 class SearchResultMapActivity :
     BindingActivity<ActivitySearchResultMapBinding>(R.layout.activity_search_result_map) {
     private val viewModel by viewModels<SearchResultViewModel>()
+    private lateinit var mapView: MapView
+    private lateinit var mapViewContainer: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
-        showMarkerOnMap()
-        startTracking()
+        initMapView()
         initStoreListView()
     }
-
+    private fun initMapView() {
+        mapView = MapView(this)
+        showMarkerOnMap()
+        startTracking()
+        mapViewContainer = binding.mapSearchResultMap
+        mapViewContainer.addView(mapView)
+    }
     private fun showMarkerOnMap() {
         viewModel.searchResultList.value?.forEach { list ->
             val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
@@ -45,16 +53,16 @@ class SearchResultMapActivity :
                 markerType = MapPOIItem.MarkerType.CustomImage
                 tag = 0
             }
-            binding.mapSearchResultMap.addPOIItem(markerIcon)
+            mapView.addPOIItem(markerIcon)
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun startTracking() {
-        binding.mapSearchResultMap.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
 
-        binding.mapSearchResultMap.setCustomCurrentLocationMarkerTrackingImage(
+        mapView.setCustomCurrentLocationMarkerTrackingImage(
             R.drawable.ic_store_select,
             MapPOIItem.ImageOffset(0, 0)
         )
@@ -134,14 +142,24 @@ class SearchResultMapActivity :
         }
     }
 
+    override fun onPause() {
+        stopTracking()
+        finishMap()
+        super.onPause()
+    }
+
     override fun onDestroy() {
         stopTracking()
+        finishMap()
         super.onDestroy()
     }
 
     private fun stopTracking() {
-        binding.mapSearchResultMap.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff
-        binding.mapSearchResultMap.removeAllCircles()
+    }
+
+    private fun finishMap() {
+        mapViewContainer.removeView(mapView)
     }
 }

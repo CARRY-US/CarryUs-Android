@@ -7,8 +7,6 @@ import com.sookmyung.carryus.databinding.ActivityMainBinding
 import com.sookmyung.carryus.ui.mypage.MyPageFragment
 import com.sookmyung.carryus.ui.reservationlist.ReservationListFragment
 import com.sookmyung.carryus.ui.search.SearchFragment
-import com.sookmyung.carryus.ui.search.reservationrequest.ReservationRequestActivity.Companion.RESERVATION_TAG
-import com.sookmyung.carryus.ui.search.reservationrequest.ReservationRequestActivity.Companion.TAG
 import com.sookmyung.carryus.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +18,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
 
         initFragment()
         setBottomNavigationClickListener()
-        moveToTagFragment()
+//        moveToTagFragment()
     }
 
     private fun initFragment() {
@@ -51,17 +49,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         }
     }
 
-    private fun moveToTagFragment() {
-        tag = intent.getStringExtra(TAG) ?: MAIN_TAG
-
-        if (tag == MAIN_TAG) {
-            binding.bnvMain.selectedItemId = R.id.bottom_navigation_search
-            changeFragment(SearchFragment())
-        } else if (tag == RESERVATION_TAG) {
-            binding.bnvMain.selectedItemId = R.id.bottom_navigation_list
-            changeFragment(ReservationListFragment())
-        }
-    }
+//    private fun moveToTagFragment() {
+//        tag = intent.getStringExtra(TAG) ?: MAIN_TAG
+//
+//        if (tag == MAIN_TAG) {
+//            binding.bnvMain.selectedItemId = R.id.bottom_navigation_search
+//            changeFragment(SearchFragment())
+//        } else if (tag == RESERVATION_TAG) {
+//            binding.bnvMain.selectedItemId = R.id.bottom_navigation_list
+//            changeFragment(ReservationListFragment())
+//        }
+//    }
 
     companion object {
         const val MAIN_TAG = "MAIN"
