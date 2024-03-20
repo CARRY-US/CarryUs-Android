@@ -145,7 +145,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             binding.mapSearch.addPOIItem(markerIcon)
         }
     }
-
     @SuppressLint("MissingPermission")
     private fun startTracking() {
         binding.mapSearch.currentLocationTrackingMode =

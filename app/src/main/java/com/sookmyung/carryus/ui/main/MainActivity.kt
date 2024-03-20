@@ -14,28 +14,22 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
+    private var tag = MAIN_TAG
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initFragment()
-//        initBottomNavigation()
         setBottomNavigationClickListener()
+        moveToTagFragment()
     }
 
     private fun initFragment() {
-        val tag = intent.getStringExtra(TAG) ?: MAIN_TAG
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fcv_main)
+
         if (currentFragment == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fcv_main, SearchFragment())
                 .commit()
-        }
-        if(tag == MAIN_TAG){
-            binding.bnvMain.selectedItemId = R.id.bottom_navigation_search
-        }
-        if (tag == RESERVATION_TAG) {
-            binding.bnvMain.selectedItemId = R.id.bottom_navigation_list
-            changeFragment(ReservationListFragment())
         }
     }
 
@@ -54,6 +48,18 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 R.id.bottom_navigation_my -> changeFragment(MyPageFragment())
                 else -> true
             }
+        }
+    }
+
+    private fun moveToTagFragment() {
+        tag = intent.getStringExtra(TAG) ?: MAIN_TAG
+
+        if (tag == MAIN_TAG) {
+            binding.bnvMain.selectedItemId = R.id.bottom_navigation_search
+            changeFragment(SearchFragment())
+        } else if (tag == RESERVATION_TAG) {
+            binding.bnvMain.selectedItemId = R.id.bottom_navigation_list
+            changeFragment(ReservationListFragment())
         }
     }
 
