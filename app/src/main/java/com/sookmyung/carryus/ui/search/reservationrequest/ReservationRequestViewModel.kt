@@ -19,7 +19,7 @@ class ReservationRequestViewModel : ViewModel() {
 
     private fun initReservationRequestTimeList(){
         for (hour in 0..24) {
-            reservationRequestTimeList.add(Time(hour, "%02d".format(hour), "00", false))
+            reservationRequestTimeList.add(Time(hour, "%02d".format(hour), "00", false, false))
         }
 
     }
@@ -36,4 +36,9 @@ class ReservationRequestViewModel : ViewModel() {
         return List(size) { Random().nextBoolean() }
     }
 
+    fun itemClick(pos: Int){
+        val currentTime = reservationRequestTimeList[pos]
+        val updatedTime = currentTime.copy(select = !currentTime.select)
+        reservationRequestTimeList[pos] = updatedTime
+    }
 }
