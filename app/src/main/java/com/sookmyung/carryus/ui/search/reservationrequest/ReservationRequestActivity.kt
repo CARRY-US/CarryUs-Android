@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
@@ -24,18 +23,16 @@ class ReservationRequestActivity :
         binding.viewModel = viewModel
 
         setTimeRecyclerAdapter()
-        sendRequest()
         setClickListener()
-
-        viewModel.name.observe(this){
-            Log.e("kang","name observe $it")
-        }
+        checkSendBtnClickable()
+        sendRequest()
     }
 
     private fun setTimeRecyclerAdapter() {
         binding.rvReservationRequestTime.adapter = ReservationRequestTimeAdapter { pos, _ ->
             viewModel.itemClick(pos)
             reservationRequestTimeAdapter?.itemClick(pos)
+            viewModel.checkIsSendBtnClickable()
         }
         submitListTimeRecyclerAdapter()
         setTimeRecyclerItemDeco()
@@ -66,19 +63,27 @@ class ReservationRequestActivity :
     }
 
     private fun setReservationCheckBtnClickListener() {
-
         binding.btnReservationRequestInitialize.setOnClickListener {
             viewModel.clearSuitcase()
             with(binding) {
                 clReservationRequestReservation.visibility = View.GONE
                 clReservationRequestPayment.visibility = View.GONE
             }
-            with(binding) {
-                btnReservationRequestCheck.setOnClickListener {
-                    clReservationRequestReservation.visibility = View.VISIBLE
-                    clReservationRequestPayment.visibility = View.VISIBLE
-                }
+        }
+        with(binding) {
+            btnReservationRequestCheck.setOnClickListener {
+                clReservationRequestReservation.visibility = View.VISIBLE
+                clReservationRequestPayment.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun checkSendBtnClickable() {
+        viewModel.name.observe(this) {
+            viewModel.checkIsSendBtnClickable()
+        }
+        viewModel.phoneNumber.observe(this) {
+            viewModel.checkIsSendBtnClickable()
         }
     }
 

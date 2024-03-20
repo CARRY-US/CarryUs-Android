@@ -16,11 +16,16 @@ class ReservationRequestViewModel : ViewModel() {
 
     private val _suitCase: MutableLiveData<Suitcase> = MutableLiveData(Suitcase(0, 0, 0, 0))
     val suitCase: LiveData<Suitcase> get() = _suitCase
-    val todayDate: Long = getFormattedDateLong()
 
+    val todayDate: Long = getFormattedDateLong()
     val name = MutableLiveData("")
     val phoneNumber = MutableLiveData("")
     val others = MutableLiveData("")
+    val reservationTime: MutableList<Int> = mutableListOf()
+
+    private val _isSendBtnClickable = MutableLiveData(false)
+    val isSendBtnClickable: LiveData<Boolean> get() = _isSendBtnClickable
+
 
     init {
         initReservationRequestTimeList()
@@ -29,7 +34,15 @@ class ReservationRequestViewModel : ViewModel() {
 
     private fun initReservationRequestTimeList() {
         for (hour in 0..24) {
-            reservationRequestTimeList.add(Time(hour, "%02d".format(hour), "00", false, false))
+            reservationRequestTimeList.add(
+                Time(
+                    hour,
+                    "%02d".format(hour),
+                    "00",
+                    available = false,
+                    select = false
+                )
+            )
         }
 
     }
@@ -50,6 +63,10 @@ class ReservationRequestViewModel : ViewModel() {
     fun itemClick(pos: Int) {
         val currentTime = reservationRequestTimeList[pos]
         val updatedTime = currentTime.copy(select = !currentTime.select)
+
+        if(updatedTime.select) reservationTime.add(pos)
+        else reservationTime.remove(pos)
+
         reservationRequestTimeList[pos] = updatedTime
     }
 
@@ -80,6 +97,11 @@ class ReservationRequestViewModel : ViewModel() {
 
     fun clearSuitcase() {
         _suitCase.value = Suitcase(0, 0, 0, 0)
+    }
+
+    fun checkIsSendBtnClickable() {
+        _isSendBtnClickable.value =
+            !(name.value.isNullOrEmpty() || phoneNumber.value.isNullOrEmpty() || reservationTime.isEmpty())
     }
 
     private fun getFormattedDateLong(): Long {

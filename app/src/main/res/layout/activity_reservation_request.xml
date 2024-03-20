@@ -43,10 +43,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:layout_marginEnd="7dp"
+                android:clickable="@{viewModel.isSendBtnClickable}"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="13dp"
                 android:text="@string/reservation_request_send"
-                android:textColor="@color/gray200"
+                android:textColor="@{viewModel.isSendBtnClickable ? @color/orange400 : @color/gray200}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
