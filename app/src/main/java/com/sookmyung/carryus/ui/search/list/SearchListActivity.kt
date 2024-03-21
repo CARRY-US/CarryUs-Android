@@ -7,6 +7,7 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchListBinding
 import com.sookmyung.carryus.ui.search.SearchViewModel
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.STORE_ID
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class SearchListActivity :
@@ -38,7 +39,7 @@ class SearchListActivity :
 
     private fun moveToStoreDetail(){
         viewModel.selectedStoreId.observe(this){
-            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra("storeId", viewModel.selectedStoreId.value)
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra(STORE_ID, viewModel.selectedStoreId.value)
             startActivity(toStoreDetail)
         }
     }

@@ -16,12 +16,12 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
         super.onCreate(savedInstanceState)
 
         initFragment()
-        initBottomNavigation()
         setBottomNavigationClickListener()
     }
 
     private fun initFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fcv_main)
+
         if (currentFragment == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fcv_main, SearchFragment())
@@ -34,10 +34,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
             .replace(R.id.fcv_main, fragment)
             .commit()
         return true
-    }
-
-    private fun initBottomNavigation() {
-        binding.bnvMain.selectedItemId = R.id.bottom_navigation_search
     }
 
     private fun setBottomNavigationClickListener() {
