@@ -122,6 +122,7 @@
             android:textColor="@color/gray700"
             android:paddingStart="18dp"
             android:gravity="center_vertical|start"
+            android:onClick="@{() -> viewModel.onButtonClick()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view10" />

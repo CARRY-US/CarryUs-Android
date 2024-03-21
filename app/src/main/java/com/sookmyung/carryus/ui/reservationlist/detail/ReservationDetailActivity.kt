@@ -37,13 +37,13 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         Log.d("ReservationDetailActivity","$reservationId")
 
         viewModel.setReservationDetail(
-            ReservationDetail(1,1,"URL","가게 이름","보관완료"
+            ReservationDetail(1,1,"URL","가게 이름","대기중"
                 ,"2024.02.10 14:00","24인치 1개, 20인치 3개","장나리","010-0000-0000","살살 다뤄주세요.",20000)
         )
 
     }
     private fun setCancelDialog() {
-        val customDialog = CancelDialog(this)
+        val customDialog = CustomDialog(this)
         val alertDialog = customDialog.create()
 
         customDialog.setTitle("정말로 취소하실건가요?")
