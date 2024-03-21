@@ -53,8 +53,8 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         if (mapViewContainer.contains(mapView)) {
             try {
                 initMapView()
-            } catch (re: RuntimeException) {
-                Timber.e(re.toString())
+            } catch (e: RuntimeException) {
+                Timber.e(e.toString())
             }
         }
     }
@@ -262,27 +262,6 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
             val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java)
             startActivity(toStoreDetail)
         }
-    }
-
-    override fun onPause() {
-        stopTracking()
-        finishMap()
-        super.onPause()
-    }
-
-    override fun onDestroyView() {
-        stopTracking()
-        finishMap()
-        super.onDestroyView()
-    }
-
-    private fun stopTracking() {
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOff
-    }
-
-    private fun finishMap() {
-        mapViewContainer.removeView(mapView)
     }
 
     companion object {

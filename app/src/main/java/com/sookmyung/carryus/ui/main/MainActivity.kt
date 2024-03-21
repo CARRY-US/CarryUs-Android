@@ -12,13 +12,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main) {
-    private var tag = MAIN_TAG
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initFragment()
         setBottomNavigationClickListener()
-//        moveToTagFragment()
     }
 
     private fun initFragment() {
@@ -47,21 +45,5 @@ class MainActivity : BindingActivity<ActivityMainBinding>(R.layout.activity_main
                 else -> true
             }
         }
-    }
-
-//    private fun moveToTagFragment() {
-//        tag = intent.getStringExtra(TAG) ?: MAIN_TAG
-//
-//        if (tag == MAIN_TAG) {
-//            binding.bnvMain.selectedItemId = R.id.bottom_navigation_search
-//            changeFragment(SearchFragment())
-//        } else if (tag == RESERVATION_TAG) {
-//            binding.bnvMain.selectedItemId = R.id.bottom_navigation_list
-//            changeFragment(ReservationListFragment())
-//        }
-//    }
-
-    companion object {
-        const val MAIN_TAG = "MAIN"
     }
 }
