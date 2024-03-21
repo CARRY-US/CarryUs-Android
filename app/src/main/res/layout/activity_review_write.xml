@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.sookmyung.carryus.ui.review.ReviewEditViewModel" />
+            type="com.sookmyung.carryus.ui.review.ReviewWriteViewModel" />
 
     </data>
 
@@ -39,7 +39,7 @@
                 android:textColor="@color/black000" />
 
             <TextView
-                android:id="@+id/tv_review_edit_save_button"
+                android:id="@+id/tv_review_write_save_button"
                 style="@style/body1_bold"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -49,7 +49,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="7dp"
                 android:text="저장"
-                android:textColor="@color/orange400"/>
+                android:textColor="@{viewModel.isSaveEnabled ? @color/orange400 : @color/gray200}"
+                android:enabled="@{viewModel.isSaveEnabled}"/>
         </androidx.appcompat.widget.Toolbar>
 
         <View
@@ -62,7 +63,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <ImageView
-            android:id="@+id/iv_review_edit_shop_icon"
+            android:id="@+id/iv_review_write_shop_icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
@@ -72,41 +73,41 @@
 
         <TextView
             style="@style/body2_bold"
-            android:id="@+id/tv_review_edit_shop_name"
+            android:id="@+id/tv_review_write_shop_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
             android:text="@{viewModel.reservationListLiveData.storeName}"
             android:textColor="@color/black000"
-            app:layout_constraintStart_toEndOf="@+id/iv_review_edit_shop_icon"
-            app:layout_constraintTop_toTopOf="@+id/iv_review_edit_shop_icon" />
+            app:layout_constraintStart_toEndOf="@+id/iv_review_write_shop_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_review_write_shop_icon" />
 
         <TextView
             style="@style/detail3_regular"
-            android:id="@+id/tv_review_edit_shop_location"
+            android:id="@+id/tv_review_write_shop_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="27dp"
             android:text="@{viewModel.reservationListLiveData.storeLocation}"
             android:textColor="@color/gray700"
-            app:layout_constraintStart_toEndOf="@+id/iv_review_edit_shop_icon"
-            app:layout_constraintTop_toTopOf="@+id/iv_review_edit_shop_icon" />
+            app:layout_constraintStart_toEndOf="@+id/iv_review_write_shop_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_review_write_shop_icon" />
 
 
         <ImageView
-            android:id="@+id/iv_review_edit_check_icon"
+            android:id="@+id/iv_review_write_check_icon"
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:layout_marginStart="14dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_check"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_review_edit_shop_icon"
-            app:layout_constraintStart_toEndOf="@+id/iv_review_edit_shop_icon" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_review_write_shop_icon"
+            app:layout_constraintStart_toEndOf="@+id/iv_review_write_shop_icon" />
 
         <TextView
-            android:id="@+id/tv_review_edit_reservation_date"
+            android:id="@+id/tv_review_write_reservation_date"
             style="@style/detail2_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,8 +115,8 @@
             android:layout_marginBottom="8dp"
             android:text="@{viewModel.reservationListLiveData.reservationDate}"
             android:textColor="@color/blue400"
-            app:layout_constraintBottom_toBottomOf="@+id/iv_review_edit_shop_icon"
-            app:layout_constraintStart_toEndOf="@+id/iv_review_edit_check_icon" />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_review_write_shop_icon"
+            app:layout_constraintStart_toEndOf="@+id/iv_review_write_check_icon" />
 
         <View
             android:id="@+id/view"
@@ -123,9 +124,9 @@
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
             android:background="@color/gray100"
-            app:layout_constraintEnd_toEndOf="@+id/et_review_edit_content"
-            app:layout_constraintStart_toStartOf="@+id/et_review_edit_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_review_edit_shop_icon" />
+            app:layout_constraintEnd_toEndOf="@+id/et_review_write_content"
+            app:layout_constraintStart_toStartOf="@+id/et_review_write_content"
+            app:layout_constraintTop_toBottomOf="@+id/iv_review_write_shop_icon" />
 
         <TextView
             android:id="@+id/textView"
@@ -140,14 +141,14 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <RatingBar
-            android:id="@+id/rb_review_edit_star_point"
+            android:id="@+id/rb_star_point"
             style="@style/CustomRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:isIndicator="false"
             android:numStars="5"
-            android:rating="@{viewModel.reviewDetailLiveData.reviewRating}"
+            android:rating="0"
             android:stepSize="0.5"
             app:ratingChangeListener="@{viewModel}"
             app:layout_constraintEnd_toEndOf="parent"
@@ -155,13 +156,13 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <EditText
-            android:id="@+id/et_review_edit_content"
+            android:id="@+id/et_review_write_content"
             style="@style/body2_medi"
             android:layout_width="324dp"
             android:layout_height="161dp"
             android:layout_marginTop="10dp"
             android:textColorHint="@color/gray200"
-            android:text="@{viewModel.reviewDetailLiveData.reviewContent}"
+            android:hint="@string/my_review_write_content_hint"
             android:textColor="@color/gray500"
             app:textWatcher="@{viewModel}"
             android:background="@drawable/shape_gray500_line_4_rect"
@@ -169,10 +170,10 @@
             android:padding="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb_review_edit_star_point"/>
+            app:layout_constraintTop_toBottomOf="@+id/rb_star_point"/>
 
         <TextView
-            android:id="@+id/tv_review_edit_text_count"
+            android:id="@+id/tv_review_write_text_count"
             style="@style/detail3_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -181,10 +182,8 @@
             android:text="0/1000"
             android:textColor="@color/gray400"
             app:textCount="@{viewModel.textCount}"
-            app:layout_constraintEnd_toEndOf="@+id/et_review_edit_content"
-            app:layout_constraintTop_toBottomOf="@+id/et_review_edit_content" />
-
-
+            app:layout_constraintEnd_toEndOf="@+id/et_review_write_content"
+            app:layout_constraintTop_toBottomOf="@+id/et_review_write_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

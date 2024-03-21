@@ -1,19 +1,19 @@
 package com.sookmyung.carryus.ui.review
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
-import com.sookmyung.carryus.databinding.ActivityReviewEditBinding
-import com.sookmyung.carryus.domain.entity.ReservationDetail
+import com.sookmyung.carryus.databinding.ActivityReviewWriteBinding
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.util.binding.BindingActivity
 
-
-class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.activity_review_edit) {
-    private val viewModel: ReviewEditViewModel by viewModels()
+class ReviewWriteActivity : BindingActivity<ActivityReviewWriteBinding>(R.layout.activity_review_write) {
+    private val viewModel: ReviewWriteViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding.viewModel = viewModel
 
         setTextCount()
@@ -21,9 +21,10 @@ class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.a
         setReservationDetailData()
         setSaveBtnAction()
     }
+
     private fun setTextCount(){
         viewModel.textCount.observe(this) { count ->
-            binding.tvReviewEditTextCount.text = count
+            binding.tvReviewWriteTextCount.text = count
         }
     }
     private fun setReviewDetailData(){
@@ -37,9 +38,8 @@ class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.a
             ReservationList(1,"shopimg","가게이름 최대 14자","위치 최대 18자 노출되고 나머지는 ...","2024.02.10 14:00 예약")
         )
     }
-
     private fun setSaveBtnAction(){
-        binding.tvReviewEditSaveButton.setOnClickListener {
+        binding.tvReviewWriteSaveButton.setOnClickListener {
             viewModel.requestCloseActivity()
         }
 

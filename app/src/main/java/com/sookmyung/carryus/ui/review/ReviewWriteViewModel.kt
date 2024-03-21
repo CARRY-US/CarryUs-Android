@@ -10,10 +10,11 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
 
-class ReviewEditViewModel : ViewModel(){
+class ReviewWriteViewModel: ViewModel(){
     private val _textCount = MutableLiveData<String>()
     val textCount: LiveData<String> = _textCount
 
@@ -31,8 +32,14 @@ class ReviewEditViewModel : ViewModel(){
 
     val closeActivityEvent = MutableLiveData<Unit>()
 
+    val isSaveEnabled: LiveData<Boolean> = rating.map { rating ->
+        rating > 0
+    }
+
     init {
         _textCount.value = "0/1000"
+        _rating.value = 0f
+        _reviewContent.value = ""
     }
 
     companion object{
@@ -53,8 +60,6 @@ class ReviewEditViewModel : ViewModel(){
     fun initializeDataSet(reviewDetail: ReviewDetail) {
         val count = reviewDetail.reviewContent.length
         _textCount.value = "$count/$MAXIMUM_LENGTH"
-        _rating.value = reviewDetail.reviewRating
-        _reviewContent.value = reviewDetail.reviewContent
     }
 
     fun setReviewDetail(reviewDetail: ReviewDetail) {
@@ -67,20 +72,20 @@ class ReviewEditViewModel : ViewModel(){
     }
 
     fun requestCloseActivity() {
-        Log.d("ReviewEditViewModel", "onSaveButtonClick")
-        Log.d("ReviewEditViewModel", "rating: ${_rating.value}")
-        Log.d("ReviewEditViewModel", "reviewContent: ${_reviewContent.value}")
+        Log.d("ReviewWriteViewModel", "onSaveButtonClick")
+        Log.d("ReviewWriteViewModel", "rating: ${_rating.value}")
+        Log.d("ReviewWriteViewModel", "reviewContent: ${_reviewContent.value}")
         closeActivityEvent.value = Unit
     }
 }
 
 @BindingAdapter("app:textCount")
-fun setTextCount(textView: TextView, count: String) {
+fun setReviewTextCount(textView: TextView, count: String) {
     textView.text = count
 }
 
 @BindingAdapter("app:textWatcher")
-fun bindTextWatcher(editText: EditText, viewModel: ReviewEditViewModel?) {
+fun bindTextWatcher(editText: EditText, viewModel: ReviewWriteViewModel?) {
     viewModel?.let {
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -92,8 +97,9 @@ fun bindTextWatcher(editText: EditText, viewModel: ReviewEditViewModel?) {
     }
 }
 
+
 @BindingAdapter("app:ratingChangeListener")
-fun setRatingChangeListener(ratingBar: RatingBar, viewModel: ReviewEditViewModel?) {
+fun setRatingChangeListener(ratingBar: RatingBar, viewModel: ReviewWriteViewModel?) {
     viewModel?.let {
         ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             viewModel.onRatingChanged(rating)

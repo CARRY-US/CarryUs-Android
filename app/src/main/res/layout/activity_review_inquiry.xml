@@ -127,7 +127,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <RatingBar
-            android:id="@+id/rb_star_point"
+            android:id="@+id/rb_review_inquiry_star_point"
             style="@style/CustomRatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
             android:padding="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rb_star_point" />
+            app:layout_constraintTop_toBottomOf="@+id/rb_review_inquiry_star_point" />
 
         <TextView
             android:id="@+id/tv_review_inquiry_edit"

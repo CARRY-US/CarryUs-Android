@@ -47,4 +47,8 @@
     <string name="my_review_edit_toolbar_title">후기 수정</string>
     <string name="my_review_edit_star_hint">가게의 별점을 선택해주세요</string>
 
+    <!-- my review write -->
+    <string name="my_review_write_toolbar_title">후기 작성</string>
+    <string name="my_review_write_star_hint">가게의 별점을 선택해주세요</string>
+    <string name="my_review_write_content_hint">추가로 좋았던 점이 있다면 말씀해 주세요!</string>
 </resources>
