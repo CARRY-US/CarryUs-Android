@@ -25,6 +25,8 @@ import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
 import com.sookmyung.carryus.util.toast
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 import net.daum.mf.map.api.CameraUpdate
 import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
@@ -32,6 +34,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
     private val viewModel by viewModels<SearchViewModel>()
     private lateinit var mapView: MapView
@@ -46,6 +49,8 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         initSearchViewClickListener()
         moveToSearchList()
         moveToStoreDetail()
+        clickReloadBtn()
+        observeSearchStoreList()
     }
 
     override fun onResume() {
@@ -153,11 +158,12 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     }
 
     private fun showMarkerOnMap() {
+        mapView.removeAllPOIItems()
         viewModel.searchStoreList.value?.forEach { list ->
             val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
             val markerIcon = MapPOIItem()
             markerIcon.apply {
-                itemName = "marker name"
+                itemName = list.storeName
                 customImageResourceId = R.drawable.ic_store_default
                 customSelectedImageResourceId = R.drawable.ic_store_select
                 mapPoint = marker
@@ -261,6 +267,24 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         binding.clSearchSecondStoreInfo.setOnClickListener {
             val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java)
             startActivity(toStoreDetail)
+        }
+    }
+
+    //TODO 지도 움직일 때마다, 재검색 버튼이 뜨게 하기
+    private fun clickReloadBtn() {
+        binding.btnSearchReload.setOnClickListener {
+            viewModel.updateCurrentPosition(
+                mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+                mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+                mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude,
+                mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude
+            )
+        }
+    }
+
+    private fun observeSearchStoreList() {
+        viewModel.searchStoreList.observe(viewLifecycleOwner) {
+            showMarkerOnMap()
         }
     }
 

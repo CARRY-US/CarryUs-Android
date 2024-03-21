@@ -10,7 +10,9 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationRequestBinding
 import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReservationRequestActivity :
     BindingActivity<ActivityReservationRequestBinding>(R.layout.activity_reservation_request) {
     private val viewModel by viewModels<ReservationRequestViewModel>()

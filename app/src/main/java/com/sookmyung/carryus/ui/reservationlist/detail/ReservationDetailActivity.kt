@@ -13,7 +13,9 @@ import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
 import com.sookmyung.carryus.domain.entity.ReservationDetailResponse
 import com.sookmyung.carryus.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBinding>(R.layout.activity_reservation_detail) {
     private val viewModel: ReservationDetailViewModel by viewModels()
     private val bottomSheetViewModel: CancelBottomSheetViewModel by viewModels()
