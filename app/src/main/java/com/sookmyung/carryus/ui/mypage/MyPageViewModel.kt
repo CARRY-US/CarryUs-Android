@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sookmyung.carryus.domain.entity.MyReviews
-import com.sookmyung.carryus.domain.entity.ReservationStatus
 
 class MyPageViewModel : ViewModel(){
     private val _navigateToDetail = MutableLiveData<MyReviews>()
@@ -28,6 +27,5 @@ class MyPageViewModel : ViewModel(){
 
     fun onButtonClick() {
         toggleDialog()
-
     }
 }

@@ -99,16 +99,13 @@ class RecyclerViewSpaceItemDecoration(private val startSpaceDp: Int, private val
         val position = parent.getChildAdapterPosition(view)
         val context = view.context
 
-        // dp를 픽셀로 변환
         val startSpacePx = context.dpToPx(startSpaceDp)
         val itemSpacePx = context.dpToPx(itemSpaceDp)
 
-        // 첫 번째 아이템일 때 왼쪽 간격 설정
         if (position == 0) {
             outRect.left = startSpacePx
         }
 
-        // 나머지 아이템 간격 설정
         outRect.right = itemSpacePx
     }
 }

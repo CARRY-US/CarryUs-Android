@@ -1,6 +1,5 @@
 package com.sookmyung.carryus.ui.review
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
@@ -43,7 +42,6 @@ class ReviewWriteActivity : BindingActivity<ActivityReviewWriteBinding>(R.layout
             viewModel.requestCloseActivity()
         }
 
-        // ViewModel에서 종료 이벤트를 구독하여 액티비티 종료
         viewModel.closeActivityEvent.observe(this) {
             finish()
         }

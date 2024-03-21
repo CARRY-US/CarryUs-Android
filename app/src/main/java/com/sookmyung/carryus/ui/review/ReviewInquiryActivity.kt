@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReviewInquiryBinding
-import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.util.binding.BindingActivity

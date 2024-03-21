@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReviewEditBinding
-import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.util.binding.BindingActivity
@@ -43,7 +42,6 @@ class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.a
             viewModel.requestCloseActivity()
         }
 
-        // ViewModel에서 종료 이벤트를 구독하여 액티비티 종료
         viewModel.closeActivityEvent.observe(this) {
             finish()
         }
