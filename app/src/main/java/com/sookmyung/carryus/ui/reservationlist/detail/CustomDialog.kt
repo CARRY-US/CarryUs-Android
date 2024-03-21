@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ItemCustomCancelDialogBinding
 
-class CancelDialog(private val context: Context) {
+class CustomDialog(private val context: Context) {
 
     private val binding: ItemCustomCancelDialogBinding = DataBindingUtil.inflate(
         LayoutInflater.from(context),

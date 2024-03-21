@@ -1,18 +1,20 @@
 package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sookmyung.carryus.domain.entity.ReservationDetailResponse
+import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationStatus
+import com.sookmyung.carryus.ui.review.ReviewWriteActivity
 
 class ReservationDetailViewModel : ViewModel(){
     val showDialog = MutableLiveData<Boolean>()
-    private val _reservationDetailLiveData = MutableLiveData<ReservationDetailResponse>()
+    private val _reservationDetailLiveData = MutableLiveData<ReservationDetail>()
 
-    val reservationDetailLiveData: LiveData<ReservationDetailResponse> = _reservationDetailLiveData
+    val reservationDetailLiveData: LiveData<ReservationDetail> = _reservationDetailLiveData
 
     private lateinit var context: Context
 
@@ -20,7 +22,7 @@ class ReservationDetailViewModel : ViewModel(){
         showDialog.value = !(showDialog.value ?: false)
     }
 
-    fun setReservationDetail(reservationDetail: ReservationDetailResponse) {
+    fun setReservationDetail(reservationDetail: ReservationDetail) {
         _reservationDetailLiveData.value = reservationDetail
     }
 
@@ -31,10 +33,7 @@ class ReservationDetailViewModel : ViewModel(){
     fun onButtonClick() {
         val reservationStatus = reservationDetailLiveData.value?.reservationType ?: ""
         when (reservationStatus) {
-            ReservationStatus.ACCEPTED_STRING -> {
-                toggleDialog()
-            }
-            ReservationStatus.WAITING_STRING -> {
+            ReservationStatus.ACCEPTED_STRING,ReservationStatus.WAITING_STRING -> {
                 toggleDialog()
             }
             ReservationStatus.COMPLETED_STRING -> {
@@ -47,8 +46,8 @@ class ReservationDetailViewModel : ViewModel(){
 
     fun navigateToWriteReview() {
         Log.d("ReservationDetailViewModel", "navigateToWriteReview")
-//        val intent = Intent(context, ::class.java)
-//        context.startActivity(intent)
+        val intent = Intent(context, ReviewWriteActivity::class.java)
+        context.startActivity(intent)
     }
 
 }
