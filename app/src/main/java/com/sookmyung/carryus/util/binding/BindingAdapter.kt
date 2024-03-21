@@ -1,10 +1,12 @@
 package com.sookmyung.carryus.util.binding
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.decode.SvgDecoder
 import coil.load
 import com.bumptech.glide.Glide
+import com.sookmyung.carryus.util.PriceFormatter
 
 object BindingAdapter {
     @BindingAdapter("setImage")
@@ -25,6 +27,14 @@ object BindingAdapter {
                 }
                 crossfade(true)
             }
+        }
+    }
+
+    @BindingAdapter("setFormattedPrice")
+    @JvmStatic
+    fun TextView.setFormattedPrice(amount: Int) {
+        this.let {
+            it.text = "${PriceFormatter.formatPrice(amount)}원"
         }
     }
 }

@@ -6,11 +6,12 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchResultMapBinding
 import com.sookmyung.carryus.domain.entity.Position
-import com.sookmyung.carryus.domain.entity.SimpleStoreReviewInfo
+import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.search.result.SearchResultViewModel
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
@@ -21,19 +22,26 @@ import net.daum.mf.map.api.MapView
 class SearchResultMapActivity :
     BindingActivity<ActivitySearchResultMapBinding>(R.layout.activity_search_result_map) {
     private val viewModel by viewModels<SearchResultViewModel>()
+    private lateinit var mapView: MapView
+    private lateinit var mapViewContainer: ViewGroup
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
-        showMarkerOnMap()
-        startTracking()
+        initMapView()
         initStoreListView()
     }
-
+    private fun initMapView() {
+        mapView = MapView(this)
+        showMarkerOnMap()
+        startTracking()
+        mapViewContainer = binding.mapSearchResultMap
+        mapViewContainer.addView(mapView)
+    }
     private fun showMarkerOnMap() {
-        viewModel.storePositionList.value?.forEach { position ->
-            val marker = MapPoint.mapPointWithGeoCoord(position.latitude, position.longitude)
+        viewModel.searchResultList.value?.forEach { list ->
+            val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
             val markerIcon = MapPOIItem()
             markerIcon.apply {
                 itemName = "marker name"
@@ -45,16 +53,16 @@ class SearchResultMapActivity :
                 markerType = MapPOIItem.MarkerType.CustomImage
                 tag = 0
             }
-            binding.mapSearchResultMap.addPOIItem(markerIcon)
+            mapView.addPOIItem(markerIcon)
         }
     }
 
     @SuppressLint("MissingPermission")
     private fun startTracking() {
-        binding.mapSearchResultMap.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
 
-        binding.mapSearchResultMap.setCustomCurrentLocationMarkerTrackingImage(
+        mapView.setCustomCurrentLocationMarkerTrackingImage(
             R.drawable.ic_store_select,
             MapPOIItem.ImageOffset(0, 0)
         )
@@ -77,30 +85,30 @@ class SearchResultMapActivity :
     private fun updateStoreInfo(
         firstVisibility: Int,
         secondVisibility: Int,
-        firstStoreInfo: SimpleStoreReviewInfo,
-        secondStoreInfo: SimpleStoreReviewInfo? = null
+        firstStoreInfo: StoreSearchResult,
+        secondStoreInfo: StoreSearchResult? = null
     ) {
         setViewVisibility(firstVisibility, secondVisibility)
 
         with(binding) {
-            tvSearchResultMapFirstStoreTitle.text = firstStoreInfo.storeTitle
-            tvSearchResultMapFirstStoreSubTitle.text = firstStoreInfo.storeSubTitle
-            ivSearchResultMapFirstStore.setImage(firstStoreInfo.storeImg)
+            tvSearchResultMapFirstStoreTitle.text = firstStoreInfo.storeName
+            tvSearchResultMapFirstStoreSubTitle.text = firstStoreInfo.storeLocation
+            ivSearchResultMapFirstStore.setImage(firstStoreInfo.storeImgUrl)
             tvSearchResultMapFirstStoreReview.text = getString(
                 R.string.search_review_score_count,
-                firstStoreInfo.storeReviewScore,
+                firstStoreInfo.storeRatingAverage,
                 firstStoreInfo.storeReviewCount
             )
         }
 
         with(binding) {
             secondStoreInfo?.let {
-                tvSearchResultMapSecondStoreTitle.text = secondStoreInfo.storeTitle
-                tvSearchResultMapSecondStoreSubTitle.text = secondStoreInfo.storeSubTitle
-                ivSearchResultMapSecondStore.setImage(secondStoreInfo.storeImg)
+                tvSearchResultMapSecondStoreTitle.text = secondStoreInfo.storeName
+                tvSearchResultMapSecondStoreSubTitle.text = secondStoreInfo.storeLocation
+                ivSearchResultMapSecondStore.setImage(secondStoreInfo.storeImgUrl)
                 tvSearchResultMapSecondStoreReview.text = getString(
                     R.string.search_review_score_count,
-                    secondStoreInfo.storeReviewScore,
+                    secondStoreInfo.storeRatingAverage,
                     secondStoreInfo.storeReviewCount
                 )
             }
@@ -108,21 +116,21 @@ class SearchResultMapActivity :
     }
 
     private fun initStoreListView() {
-        viewModel.simpleStoreReviewInfoList.observe(this) { simpleStoreReviewInfoList ->
-            if (simpleStoreReviewInfoList == null) {
+        viewModel.searchResultList.observe(this) { searchResultList ->
+            if (searchResultList == null) {
                 setViewVisibility(View.GONE, View.GONE)
             } else {
-                when (simpleStoreReviewInfoList.size) {
+                when (searchResultList.size) {
                     1 -> {
-                        updateStoreInfo(View.VISIBLE, View.GONE, simpleStoreReviewInfoList[0])
+                        updateStoreInfo(View.VISIBLE, View.GONE, searchResultList[0])
                     }
 
                     2 -> {
                         updateStoreInfo(
                             View.VISIBLE,
                             View.VISIBLE,
-                            simpleStoreReviewInfoList[0],
-                            simpleStoreReviewInfoList[1]
+                            searchResultList[0],
+                            searchResultList[1]
                         )
                     }
 
@@ -134,13 +142,24 @@ class SearchResultMapActivity :
         }
     }
 
+    override fun onPause() {
+        stopTracking()
+        finishMap()
+        super.onPause()
+    }
+
     override fun onDestroy() {
         stopTracking()
+        finishMap()
         super.onDestroy()
     }
 
     private fun stopTracking() {
-        binding.mapSearchResultMap.currentLocationTrackingMode =
+        mapView.currentLocationTrackingMode =
             MapView.CurrentLocationTrackingMode.TrackingModeOff
+    }
+
+    private fun finishMap() {
+        mapViewContainer.removeView(mapView)
     }
 }

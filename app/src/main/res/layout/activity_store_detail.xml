@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.sookmyung.carryus.ui.search.storedetail.StoreDetailViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_store_detail"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                setImage="@{viewModel.storeInfo.storeImgUrl}"
+                app:layout_constraintDimensionRatio="1.8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_store_name"
+                style="@style/head1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="18dp"
+                android:text="@{viewModel.storeInfo.storeName}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_store_detail"
+                tools:text="가게 이름" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_location"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_store_name" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_location"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.storeInfo.storeLocation}"
+                android:textColor="@color/gray600"
+                app:layout_constraintBottom_toBottomOf="@id/iv_store_detail_location"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_location"
+                app:layout_constraintTop_toTopOf="@id/iv_store_detail_location"
+                tools:text="서울특별시 용산구 어쩌구동" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_store_detail_location" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_break_time"
+                style="@style/detail1_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.storeInfo.closedDay}"
+                android:textColor="@color/blue400"
+                app:layout_constraintBottom_toBottomOf="@id/iv_store_detail_time"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_time"
+                app:layout_constraintTop_toTopOf="@id/iv_store_detail_time"
+                tools:text="월,화 휴무" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_running_time"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@{viewModel.storeInfo.openingHours}"
+                android:textColor="@color/gray600"
+                app:layout_constraintStart_toStartOf="@id/tv_store_detail_break_time"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_break_time"
+                tools:text="수 - 금 12:00 - 22:00" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_call"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_running_time" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_call"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.storeInfo.storePhoneNumber}"
+                android:textColor="@color/gray600"
+                app:layout_constraintBottom_toBottomOf="@id/iv_store_detail_call"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_call"
+                app:layout_constraintTop_toTopOf="@id/iv_store_detail_call"
+                tools:text="02-123-2345" />
+
+            <View
+                android:id="@+id/view_store_detail_store_info"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/gray100"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_call" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_title"
+                style="@style/body1_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/store_detail_fee_title"
+                android:textColor="@color/gray700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_store_info"
+                tools:text="요금" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_extra_small_title"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/common_extra_small_title"
+                android:textColor="@color/gray600"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_fee_title" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_extra_small_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="88dp"
+                android:src="@drawable/ic_suitcase"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
+                app:layout_constraintStart_toEndOf="@id/tv_store_detail_fee_extra_small_title"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_extra_small_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_suitcase_unit(viewModel.storeInfo.baggageTypeInfoList.get(0).baggageCount)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title"
+                tools:text="3개" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_extra_small_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_dot"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
+                app:layout_constraintStart_toEndOf="@id/tv_store_detail_fee_extra_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_extra_small_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_coin"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_small_dot"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_extra_small_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_fee_unit(viewModel.storeInfo.baggageTypeInfoList.get(0).baggagePrice)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_small_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_small_coin"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_small_title"
+                tools:text="000원/시간" />
+
+            <View
+                android:id="@+id/view_store_detail_fee_extra_small"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_fee_extra_small_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_small_title"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/common_small_title"
+                android:textColor="@color/gray600"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_fee_extra_small" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_small_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_suitcase"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
+                app:layout_constraintStart_toStartOf="@id/iv_store_detail_fee_extra_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_small_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_suitcase_unit(viewModel.storeInfo.baggageTypeInfoList.get(1).baggageCount)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title"
+                tools:text="2개" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_small_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_dot"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
+                app:layout_constraintStart_toEndOf="@id/tv_store_detail_fee_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_small_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_coin"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_small_dot"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_small_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_fee_unit(viewModel.storeInfo.baggageTypeInfoList.get(1).baggagePrice)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_small_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_small_coin"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_small_title"
+                tools:text="000원/시간" />
+
+            <View
+                android:id="@+id/view_store_detail_fee_small"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_fee_small_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_large_title"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/common_large_title"
+                android:textColor="@color/gray600"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_fee_small" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_large_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_suitcase"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_large_title"
+                app:layout_constraintStart_toStartOf="@id/iv_store_detail_fee_extra_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_large_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_large_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_suitcase_unit(viewModel.storeInfo.baggageTypeInfoList.get(2).baggageCount)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_large_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_large_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_large_title"
+                tools:text="1개" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_large_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_dot"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_large_title"
+                app:layout_constraintStart_toEndOf="@id/tv_store_detail_fee_large_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_large_title" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_large_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_coin"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_large_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_large_dot"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_large_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_large_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_fee_unit(viewModel.storeInfo.baggageTypeInfoList.get(2).baggagePrice)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_large_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_large_coin"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_large_title"
+                tools:text="000원/시간" />
+
+            <View
+                android:id="@+id/view_store_detail_fee_large"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_fee_large_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_extra_large_title"
+                style="@style/detail1_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/common_extra_large_title"
+                android:textColor="@color/gray600"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_fee_large" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_extra_large_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_suitcase"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
+                app:layout_constraintStart_toStartOf="@id/iv_store_detail_fee_extra_small_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_extra_large_suitcase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_suitcase_unit(viewModel.storeInfo.baggageTypeInfoList.get(3).baggageCount)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_large_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title"
+                tools:text="0개" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_extra_large_dot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_dot"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
+                app:layout_constraintStart_toEndOf="@id/tv_store_detail_fee_extra_large_suitcase"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_fee_extra_large_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_coin"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_large_dot"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_fee_extra_large_coin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="@{@string/store_detail_fee_unit(viewModel.storeInfo.baggageTypeInfoList.get(3).baggagePrice)}"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_fee_extra_large_title"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_fee_extra_large_coin"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_fee_extra_large_title"
+                tools:text="000원/시간" />
+
+            <View
+                android:id="@+id/view_store_detail_fee_extra_large"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_fee_extra_large_title" />
+
+            <View
+                android:id="@+id/view_store_detail_store_fee"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/gray100"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_fee_extra_large" />
+
+            <TextView
+                android:id="@+id/tv_store_detail_review_score"
+                style="@style/head3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="20dp"
+                android:text="@{Double.toString(viewModel.storeDetailReview.reviewRatingAverage)}"
+                android:textColor="@color/gray700"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_store_fee"
+                tools:text="4.5" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_star_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_star_medium_full"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_review_score"
+                app:layout_constraintStart_toEndOf="@id/tv_store_detail_review_score"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_review_score" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_star_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_medium_full"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_review_score"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_star_one"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_review_score" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_star_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_medium_full"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_review_score"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_star_two"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_review_score" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_star_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_medium_full"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_review_score"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_star_three"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_review_score" />
+
+            <ImageView
+                android:id="@+id/iv_store_detail_star_five"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_star_medium_full"
+                app:layout_constraintBottom_toBottomOf="@id/tv_store_detail_review_score"
+                app:layout_constraintStart_toEndOf="@id/iv_store_detail_star_four"
+                app:layout_constraintTop_toTopOf="@id/tv_store_detail_review_score" />
+
+            <View
+                android:id="@+id/view_store_detail_review"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_store_detail_review_score"
+                app:layout_goneMarginTop="8dp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_store_detail_review"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_store_detail_review"
+                tools:listitem="@layout/item_store_detail_review" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/gray100"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_store_detail_review">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_store_detail_request"
+                    style="@style/body1_bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="18dp"
+                    android:background="@drawable/shape_orange400_fill_5_rect"
+                    android:stateListAnimator="@null"
+                    android:text="@string/store_detail_request_btn_title"
+                    android:textColor="@color/white000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>
