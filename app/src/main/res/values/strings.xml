@@ -43,6 +43,25 @@
     <string name="search_list_empty_title">지역에 해당되는 가게가 없어요!</string>
     <string name="search_list_title">가게 리스트</string>
 
+    <!-- my page -->
+    <string name="mypage_my_review">나의 후기</string>
+    <string name="mypage_logout">로그아웃</string>
+    <string name="mypage_unsubscribe">회원탈퇴</string>
+
+    <!-- my review -->
+    <string name="my_review_inquiry_toolbar_title">후기 조회</string>
+    <string name="my_review_inquiry_chose_star">내가 선택한 별점</string>
+    <string name="my_review_inquiry_edit_review">수정하기</string>
+
+    <!-- my review edit -->
+    <string name="my_review_edit_toolbar_title">후기 수정</string>
+    <string name="my_review_edit_star_hint">가게의 별점을 선택해주세요</string>
+
+    <!-- my review write -->
+    <string name="my_review_write_toolbar_title">후기 작성</string>
+    <string name="my_review_write_star_hint">가게의 별점을 선택해주세요</string>
+    <string name="my_review_write_content_hint">추가로 좋았던 점이 있다면 말씀해 주세요!</string>
+
     <!-- store detail -->
     <string name="store_detail_fee_title">요금</string>
     <string name="store_detail_request_btn_title">요청서 작성하기</string>
@@ -66,5 +85,4 @@
     <string name="reservation_request_reservation_person_name_title">이름</string>
     <string name="reservation_request_reservation_fee">예약 금액</string>
     <string name="reservation_request_item_time">%s:%s</string>
-
 </resources>

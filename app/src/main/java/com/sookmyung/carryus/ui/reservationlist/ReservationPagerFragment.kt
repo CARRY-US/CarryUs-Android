@@ -31,7 +31,13 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
 
+        setContent()
+        setViewModelNavigate()
+    }
+
+    private fun setContent(){
         val content = arguments?.getString("content")
         if(content != null){
             when(content){
@@ -41,15 +47,17 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
             }
 
         }
+    }
 
+    private fun setViewModelNavigate(){
         viewModel.navigateToDetail.observe(viewLifecycleOwner) { reservationList ->
             reservationList?.let {
                 openCreateBuilding(it)
-
                 viewModel.onNavigationComplete()
             }
         }
     }
+
 
     private fun setReservationList(){
         binding.tvEmptyText.visibility = View.GONE

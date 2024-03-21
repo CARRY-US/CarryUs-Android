@@ -15,4 +15,8 @@
         <item name="android:itemBackground">@android:color/transparent</item>
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
+
+    <style name="CustomRatingBar" parent="@android:style/Widget.Material.Light.RatingBar">
+        <item name="android:progressDrawable">@drawable/bg_ratingbar</item>
+    </style>
 </resources>

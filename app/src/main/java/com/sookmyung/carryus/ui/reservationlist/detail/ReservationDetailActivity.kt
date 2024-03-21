@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
-import com.sookmyung.carryus.domain.entity.ReservationDetailResponse
+import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBinding>(R.layout.activity_reservation_detail) {
@@ -37,13 +37,13 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         Log.d("ReservationDetailActivity","$reservationId")
 
         viewModel.setReservationDetail(
-            ReservationDetailResponse(1,1,"URL","가게 이름","대기중"
+            ReservationDetail(1,1,"URL","가게 이름","보관완료"
                 ,"2024.02.10 14:00","24인치 1개, 20인치 3개","장나리","010-0000-0000","살살 다뤄주세요.",20000)
         )
 
     }
     private fun setCancelDialog() {
-        val customDialog = CancelDialog(this)
+        val customDialog = CustomDialog(this)
         val alertDialog = customDialog.create()
 
         customDialog.setTitle("정말로 취소하실건가요?")
