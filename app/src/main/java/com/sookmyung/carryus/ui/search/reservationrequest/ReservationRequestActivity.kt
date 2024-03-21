@@ -25,6 +25,7 @@ class ReservationRequestActivity :
         setTimeRecyclerAdapter()
         setClickListener()
         checkSendBtnClickable()
+        checkCheckBtnClickable()
         sendRequest()
     }
 
@@ -83,6 +84,12 @@ class ReservationRequestActivity :
         }
         viewModel.phoneNumber.observe(this) {
             viewModel.checkIsSendBtnClickable()
+        }
+    }
+
+    private fun checkCheckBtnClickable(){
+        viewModel.suitCase.observe(this){
+            viewModel.checkIsCheckBtnClickable()
         }
     }
 }

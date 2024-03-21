@@ -21,10 +21,13 @@ class ReservationRequestViewModel : ViewModel() {
     val name = MutableLiveData("")
     val phoneNumber = MutableLiveData("")
     val others = MutableLiveData("")
-    val reservationTime: MutableList<Int> = mutableListOf()
+    private val reservationTime: MutableList<Int> = mutableListOf()
 
     private val _isSendBtnClickable = MutableLiveData(false)
     val isSendBtnClickable: LiveData<Boolean> get() = _isSendBtnClickable
+
+    private val _isCheckBtnClickable = MutableLiveData(false)
+    val isCheckBtnClickable: LiveData<Boolean> get() = _isCheckBtnClickable
 
 
     init {
@@ -64,7 +67,7 @@ class ReservationRequestViewModel : ViewModel() {
         val currentTime = reservationRequestTimeList[pos]
         val updatedTime = currentTime.copy(select = !currentTime.select)
 
-        if(updatedTime.select) reservationTime.add(pos)
+        if (updatedTime.select) reservationTime.add(pos)
         else reservationTime.remove(pos)
 
         reservationRequestTimeList[pos] = updatedTime
@@ -102,6 +105,12 @@ class ReservationRequestViewModel : ViewModel() {
     fun checkIsSendBtnClickable() {
         _isSendBtnClickable.value =
             !(name.value.isNullOrEmpty() || phoneNumber.value.isNullOrEmpty() || reservationTime.isEmpty())
+    }
+
+    fun checkIsCheckBtnClickable() {
+        val suit = _suitCase.value ?: Suitcase(0, 0, 0, 0)
+        val sum = suit.run { extraSmall + small + large + extraLarge }
+        _isCheckBtnClickable.value = sum > 0
     }
 
     private fun getFormattedDateLong(): Long {
