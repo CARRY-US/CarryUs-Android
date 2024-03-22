@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -256,6 +257,10 @@ class SearchFragment :
     private fun moveToSearchList() {
         binding.fabSearch.setOnClickListener {
             val toSearchList = Intent(requireActivity(), SearchListActivity::class.java)
+            val bundle = Bundle()
+            val searchStoreArrayList = ArrayList<Parcelable>(viewModel.searchStoreList.value.orEmpty())
+            bundle.putParcelableArrayList("searchStoreList", searchStoreArrayList)
+            toSearchList.putExtra("searchStoreList", bundle)
             startActivity(toSearchList)
         }
     }
