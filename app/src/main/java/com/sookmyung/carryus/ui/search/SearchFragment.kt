@@ -286,6 +286,7 @@ class SearchFragment :
     // TODO 지도 움직일 때마다, 재검색 버튼이 뜨게 하기
     private fun clickReloadBtn() {
         binding.btnSearchReload.setOnClickListener {
+            viewModel.clickReloadBtn()
             viewModel.updateCurrentPosition(
                 mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
                 mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,

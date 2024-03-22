@@ -82,6 +82,10 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun clickReloadBtn() {
+        _locationStoreList.value = emptyList()
+    }
+
     fun updateIsSearchSuccess(success: Boolean) {
         _isSearchSuccess.value = success
     }
