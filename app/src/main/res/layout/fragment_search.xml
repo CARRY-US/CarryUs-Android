@@ -61,7 +61,7 @@
             android:paddingVertical="7dp"
             android:text="@string/search_reload"
             android:textColor="@color/white000"
-            android:visibility="visible"
+            android:visibility="@{viewModel.isSearchSuccess == false ? View.VISIBLE : View.GONE}"
             app:drawableEndCompat="@drawable/ic_reload"
             app:drawableTint="@color/white000"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,6 +90,7 @@
             android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="16dp"
             android:background="@color/white000"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -159,6 +160,7 @@
             android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="16dp"
             android:background="@color/white000"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/cl_search_first_store_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
