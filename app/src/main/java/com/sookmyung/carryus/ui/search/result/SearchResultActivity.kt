@@ -10,7 +10,9 @@ import com.sookmyung.carryus.ui.search.result.map.SearchResultMapActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.STORE_ID
 import com.sookmyung.carryus.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchResultActivity :
     BindingActivity<ActivitySearchResultBinding>(R.layout.activity_search_result) {
     private val viewModel by viewModels<SearchResultViewModel>()

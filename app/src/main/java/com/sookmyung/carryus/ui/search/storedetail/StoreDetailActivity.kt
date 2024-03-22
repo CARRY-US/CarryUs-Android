@@ -7,7 +7,9 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityStoreDetailBinding
 import com.sookmyung.carryus.ui.search.reservationrequest.ReservationRequestActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StoreDetailActivity :
     BindingActivity<ActivityStoreDetailBinding>(R.layout.activity_store_detail) {
     private val viewModel by viewModels<StoreDetailViewModel>()

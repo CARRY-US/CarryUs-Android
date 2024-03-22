@@ -15,10 +15,11 @@ import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.search.result.SearchResultViewModel
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
+import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
-
+@AndroidEntryPoint
 class SearchResultMapActivity :
     BindingActivity<ActivitySearchResultMapBinding>(R.layout.activity_search_result_map) {
     private val viewModel by viewModels<SearchResultViewModel>()

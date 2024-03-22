@@ -9,7 +9,9 @@ import com.sookmyung.carryus.ui.search.SearchViewModel
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.STORE_ID
 import com.sookmyung.carryus.util.binding.BindingActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchListActivity :
     BindingActivity<ActivitySearchListBinding>(R.layout.activity_search_list) {
     private val viewModel by viewModels<SearchViewModel>()
