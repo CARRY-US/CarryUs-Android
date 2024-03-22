@@ -1,6 +1,7 @@
 package com.sookmyung.carryus.data.source
 
 import com.sookmyung.carryus.data.entitiy.BaseResponse
+import com.sookmyung.carryus.data.entitiy.response.LocationStoreResponse
 import com.sookmyung.carryus.data.entitiy.response.UserLocationStoreResponse
 import com.sookmyung.carryus.data.service.MainService
 import javax.inject.Inject
@@ -15,4 +16,10 @@ class MainDataSource @Inject constructor(
         yMax: Double
     ): BaseResponse<List<UserLocationStoreResponse>> =
         mainService.getUserLocationStoreList(xMin, xMax, yMin, yMax)
+
+    suspend fun getLocationStoreList(
+        latitude: Double,
+        longitude: Double
+    ): BaseResponse<List<LocationStoreResponse>> =
+        mainService.getLocationStoreList(latitude, longitude)
 }
