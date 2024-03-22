@@ -1,6 +1,5 @@
 package com.sookmyung.carryus.ui.search
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -26,7 +25,7 @@ class SearchViewModel @Inject constructor(
     private val _searchStoreList: MutableLiveData<List<StoreSearchResult>> = MutableLiveData()
     val searchStoreList: LiveData<List<StoreSearchResult>> get() = _searchStoreList
 
-    //TODO 검색 반환 결과로 재검색 할게요 버튼 visible 처리
+    // TODO 검색 반환 결과로 재검색 할게요 버튼 visible 처리
     private val _isSearchSuccess: MutableLiveData<Boolean> = MutableLiveData(true)
     val isSearchSuccess: LiveData<Boolean> get() = _isSearchSuccess
     private val minX: MutableLiveData<Double> = MutableLiveData()
@@ -44,7 +43,10 @@ class SearchViewModel @Inject constructor(
     private fun updateUserLocationStoreList() {
         viewModelScope.launch {
             getUserLocationStoreList(
-                minX.value ?: 0.0, maxX.value ?: 0.0, minY.value ?: 0.0, maxY.value
+                minX.value ?: 0.0,
+                maxX.value ?: 0.0,
+                minY.value ?: 0.0,
+                maxY.value
                     ?: 0.0
             )
                 .onSuccess { response ->

@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface SearchService {
-    @GET("/main/search/stores")
+    @GET("/search")
     suspend fun getCityBaseStoreList(
         @Query("word") word: String
     ): BaseResponse<List<UserLocationStoreResponse>>

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.sookmyung.carryus.ui.search.result.SearchResultViewModel" />
+            type="com.sookmyung.carryus.ui.search.result.map.SearchResultMapViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

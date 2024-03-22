@@ -45,7 +45,7 @@ class SearchResultActivity :
     private fun pressEnter() {
         binding.tvSearchResultSearch.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                viewModel.getResult()
+                viewModel.searchCityBase()
                 return@setOnKeyListener true
             }
             false
@@ -59,9 +59,12 @@ class SearchResultActivity :
         }
     }
 
-    private fun moveToStoreDetail(){
-        viewModel.selectedStoreId.observe(this){
-            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra(STORE_ID, viewModel.selectedStoreId.value)
+    private fun moveToStoreDetail() {
+        viewModel.selectedStoreId.observe(this) {
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra(
+                STORE_ID,
+                viewModel.selectedStoreId.value
+            )
             startActivity(toStoreDetail)
         }
     }
