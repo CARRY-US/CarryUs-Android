@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.domain.repository
 
+import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationList
 
 interface ReservationsRepository {
@@ -7,4 +8,7 @@ interface ReservationsRepository {
         status: String
     ): Result<List<ReservationList>>
 
+    suspend fun getReservationDetail(
+        reservationId: Int
+    ): Result<ReservationDetail>
 }

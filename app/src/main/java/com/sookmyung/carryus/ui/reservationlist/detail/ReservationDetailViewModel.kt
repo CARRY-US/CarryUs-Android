@@ -6,11 +6,19 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationStatus
+import com.sookmyung.carryus.domain.usecase.GetReservationDetail
 import com.sookmyung.carryus.ui.review.ReviewWriteActivity
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ReservationDetailViewModel : ViewModel(){
+@HiltViewModel
+class ReservationDetailViewModel @Inject constructor(
+    private val getReservationDetail: GetReservationDetail
+) : ViewModel(){
     val showDialog = MutableLiveData<Boolean>()
     private val _reservationDetailLiveData = MutableLiveData<ReservationDetail>()
 
@@ -48,6 +56,27 @@ class ReservationDetailViewModel : ViewModel(){
         Log.d("ReservationDetailViewModel", "navigateToWriteReview")
         val intent = Intent(context, ReviewWriteActivity::class.java)
         context.startActivity(intent)
+    }
+
+    fun setReservationDetail(reservationId: Int) {
+        viewModelScope.launch {
+            getReservationDetail(reservationId)
+                .onSuccess { response ->
+                    val modifiedReservationDetail = response.copy(
+                        reservationType =
+                        when (response.reservationType) {
+                            ReservationStatus.ACCEPTED.status -> ReservationStatus.ACCEPTED_STRING
+                            ReservationStatus.CANCELED.status -> ReservationStatus.CANCELED_STRING
+                            ReservationStatus.WAITING.status -> ReservationStatus.WAITING_STRING
+                            ReservationStatus.COMPLETED.status -> ReservationStatus.COMPLETED_STRING
+                            else -> ""
+                        }
+                    )
+                    _reservationDetailLiveData.value = modifiedReservationDetail
+                }.onFailure { throwable ->
+                    Log.e("ReservationDetailViewModel", "서버 통신 실패 -> ${throwable.message}")
+                }
+        }
     }
 
 }
