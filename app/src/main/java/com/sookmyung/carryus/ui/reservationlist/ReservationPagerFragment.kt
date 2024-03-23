@@ -10,7 +10,9 @@ import com.sookmyung.carryus.databinding.FragmentReservationPagerBinding
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity
 import com.sookmyung.carryus.util.binding.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding>(R.layout.fragment_reservation_pager) {
 
     private val viewModel: ReservationPagerViewModel by viewModels()
@@ -35,17 +37,37 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
 
         setContent()
         setViewModelNavigate()
+        setReservationListData()
     }
 
     private fun setContent(){
         val content = arguments?.getString("content")
         if(content != null){
-            when(content){
-//                ReservationStatus.ACCEPTED.name -> setEmptyView()
-//                ReservationStatus.WAITING.name -> setEmptyView()
-                else -> setReservationList()
-            }
+            viewModel.setReservationList(content)
+        }
+    }
 
+    private fun setReservationListData(){
+        viewModel.locationStoreList.observe(viewLifecycleOwner) { reservationList ->
+            reservationList?.let {
+                if(it.isEmpty()){
+                    binding.tvEmptyText.visibility = View.VISIBLE
+                    binding.ivEmptyIcon.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
+                    return@observe
+                }
+                else{
+                    binding.tvEmptyText.visibility = View.GONE
+                    binding.ivEmptyIcon.visibility = View.GONE
+                    binding.recyclerView.visibility = View.VISIBLE
+
+                    binding.recyclerView.apply{
+                        adapter = reservationShopAdapter
+                        layoutManager = LinearLayoutManager(context)
+                    }
+                    reservationShopAdapter.submitList(it)
+                }
+            }
         }
     }
 
@@ -56,22 +78,6 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
                 viewModel.onNavigationComplete()
             }
         }
-    }
-
-
-    private fun setReservationList(){
-        binding.tvEmptyText.visibility = View.GONE
-        binding.ivEmptyIcon.visibility = View.GONE
-
-        binding.recyclerView.apply{
-            adapter = reservationShopAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
-        reservationShopAdapter.submitList(data)
-    }
-
-    private fun setEmptyView(){
-        binding.recyclerView.visibility = View.GONE
     }
 
     private fun openCreateBuilding(reservationList: ReservationList) {
