@@ -1,11 +1,14 @@
 package com.sookmyung.carryus.ui.search
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.domain.entity.LocationStore
 import com.sookmyung.carryus.domain.entity.Position
 import com.sookmyung.carryus.domain.entity.StoreSearchResult
+import com.sookmyung.carryus.domain.usecase.GetLocationStoreList
 import com.sookmyung.carryus.domain.usecase.GetUserLocationStoreList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getUserLocationStoreList: GetUserLocationStoreList
+    private val getUserLocationStoreList: GetUserLocationStoreList,
+    private val getLocationStoreList: GetLocationStoreList
 ) : ViewModel() {
     private val _currentLocation: MutableLiveData<Position> = MutableLiveData(Position(0.0, 0.0))
     val currentLocation: LiveData<Position> get() = _currentLocation
@@ -25,8 +29,11 @@ class SearchViewModel @Inject constructor(
     private val _searchStoreList: MutableLiveData<List<StoreSearchResult>> = MutableLiveData()
     val searchStoreList: LiveData<List<StoreSearchResult>> get() = _searchStoreList
 
+    private val _locationStoreList: MutableLiveData<List<LocationStore>> = MutableLiveData()
+    val locationStoreList: LiveData<List<LocationStore>> get() = _locationStoreList
+
     // TODO 검색 반환 결과로 재검색 할게요 버튼 visible 처리
-    private val _isSearchSuccess: MutableLiveData<Boolean> = MutableLiveData(true)
+    private val _isSearchSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSearchSuccess: LiveData<Boolean> get() = _isSearchSuccess
     private val minX: MutableLiveData<Double> = MutableLiveData()
     private val maxX: MutableLiveData<Double> = MutableLiveData()
@@ -40,6 +47,23 @@ class SearchViewModel @Inject constructor(
         updateUserLocationStoreList()
     }
 
+    private fun getLocationStore(latitude: Double, longitude: Double) {
+        viewModelScope.launch {
+            getLocationStoreList(latitude, longitude)
+                .onSuccess { response ->
+                    _locationStoreList.value = response
+                }.onFailure { throwable ->
+                    Timber.e("서버 통신 실패 -> ${throwable.message}")
+                }
+        }
+    }
+
+    fun findCoordinatesByStoreId(storeId: Int) {
+        _searchStoreList.value?.find { it.storeId == storeId }?.let { storeSearchResult ->
+            getLocationStore(storeSearchResult.latitude, storeSearchResult.longitude)
+        }
+    }
+
     private fun updateUserLocationStoreList() {
         viewModelScope.launch {
             getUserLocationStoreList(
@@ -50,13 +74,21 @@ class SearchViewModel @Inject constructor(
                     ?: 0.0
             )
                 .onSuccess { response ->
-                    _isSearchSuccess.value = true
+//                    _isSearchSuccess.value = true
                     _searchStoreList.value = response
                 }.onFailure { throwable ->
                     _isSearchSuccess.value = false
                     Timber.e("서버 통신 실패 -> ${throwable.message}")
                 }
         }
+    }
+
+    fun clickReloadBtn() {
+        _locationStoreList.value = emptyList()
+    }
+
+    fun updateIsSearchSuccess(success: Boolean) {
+        _isSearchSuccess.value = success
     }
 
     fun updateCurrentLocation(position: Position) {

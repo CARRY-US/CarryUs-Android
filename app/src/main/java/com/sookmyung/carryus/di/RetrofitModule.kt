@@ -32,7 +32,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     @CarryUsType
-    fun providesSoftieInterceptor(): Interceptor = Interceptor { chain ->
+    fun providesCarryUsInterceptor(): Interceptor = Interceptor { chain ->
         val request = chain.request()
         var response = chain.proceed(
             request
@@ -47,7 +47,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     @CarryUsType
-    fun providesSoftieOkHttpClient(@CarryUsType interceptor: Interceptor): OkHttpClient =
+    fun providesCarryUsOkHttpClient(@CarryUsType interceptor: Interceptor): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(10, TimeUnit.SECONDS)
@@ -63,7 +63,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     @CarryUsType
-    fun providesSoftieRetrofit(@CarryUsType okHttpClient: OkHttpClient): Retrofit =
+    fun providesCarryUsRetrofit(@CarryUsType okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
             .client(okHttpClient)
