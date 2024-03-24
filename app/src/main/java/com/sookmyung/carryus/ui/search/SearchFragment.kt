@@ -58,7 +58,7 @@ class SearchFragment :
 
     override fun onResume() {
         super.onResume()
-        if (mapViewContainer.contains(mapView)) {
+        if (!mapViewContainer.contains(mapView)) {
             try {
                 initMapView()
             } catch (e: RuntimeException) {
@@ -157,6 +157,7 @@ class SearchFragment :
 
     private fun initSearchViewClickListener() {
         binding.tvSearchSearch.setOnClickListener {
+            mapViewContainer.removeAllViews()
             val toSearch = Intent(requireActivity(), SearchResultActivity::class.java)
             startActivity(toSearch)
         }
@@ -258,7 +259,8 @@ class SearchFragment :
         binding.fabSearch.setOnClickListener {
             val toSearchList = Intent(requireActivity(), SearchListActivity::class.java)
             val bundle = Bundle()
-            val searchStoreArrayList = ArrayList<Parcelable>(viewModel.searchStoreList.value.orEmpty())
+            val searchStoreArrayList =
+                ArrayList<Parcelable>(viewModel.searchStoreList.value.orEmpty())
             bundle.putParcelableArrayList("searchStoreList", searchStoreArrayList)
             toSearchList.putExtra("searchStoreList", bundle)
             startActivity(toSearchList)
