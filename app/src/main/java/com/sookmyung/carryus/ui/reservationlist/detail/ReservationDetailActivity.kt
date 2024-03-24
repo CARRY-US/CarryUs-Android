@@ -9,10 +9,12 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
+import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
 import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.util.binding.BindingActivity
+import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +22,10 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     private val viewModel: ReservationDetailViewModel by viewModels()
     private val bottomSheetViewModel: CancelBottomSheetViewModel by viewModels()
     private var cancelReason: String? = null
+    private var reservationId: Int = 0
 
+    private lateinit var bottomSheetBinding: ItemCustomCancelBottomsheetBinding
+    private lateinit var  bottomSheetDialog: BottomSheetDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
@@ -35,7 +40,7 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun setReservationData(){
-        val reservationId = intent.getIntExtra("reservation_id",0)
+        reservationId = intent.getIntExtra("reservation_id",0)
         Log.d("ReservationDetailActivity","$reservationId")
 
         viewModel.setReservationDetail(reservationId)
@@ -67,32 +72,47 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun showBottomSheet() {
-        val bottomSheetBinding = ItemCustomCancelBottomsheetBinding.inflate(layoutInflater)
+        bottomSheetBinding = ItemCustomCancelBottomsheetBinding.inflate(layoutInflater)
+        bottomSheetBinding.viewModel = bottomSheetViewModel
+        bottomSheetDialog = BottomSheetDialog(this@ReservationDetailActivity)
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
-        with(bottomSheetBinding) {
-            viewModel = bottomSheetViewModel
+        setBottomSheetViewModel()
+        setBottomSheetBtnClickListener()
 
-            bottomSheetViewModel.textCount.observe(this@ReservationDetailActivity) { count ->
-                tvTextCount.text = count
+        bottomSheetDialog.show()
+    }
+
+    private fun setBottomSheetViewModel(){
+        bottomSheetViewModel.isTextEmpty.observe(this) { isEmpty ->
+            bottomSheetBinding.btnCancelRequest.isEnabled = !isEmpty
+        }
+
+        bottomSheetViewModel.textCount.observe(this) { count ->
+            bottomSheetBinding.tvTextCount.text = count
+        }
+
+        bottomSheetViewModel.cancelResultLiveData.observe(this) { isSuccess ->
+            if (isSuccess) {
+                bottomSheetDialog.dismiss()
+                viewModel.setReservationDetail(reservationId)
+            } else {
+                applicationContext.toast("취소 실패")
             }
+        }
+    }
 
-            val bottomSheetDialog = BottomSheetDialog(this@ReservationDetailActivity)
-            bottomSheetDialog.setContentView(root)
-
+    private fun setBottomSheetBtnClickListener(){
+        with(bottomSheetBinding){
             btnClose.setOnClickListener {
                 bottomSheetDialog.dismiss()
             }
 
             btnCancelRequest.setOnClickListener {
                 cancelReason = etCancelReason.text.toString()
-                Log.d("CustomCancelBottomSheetFragment", cancelReason ?: "")
-                Toast.makeText(this@ReservationDetailActivity, "예약이 취소되었어요", Toast.LENGTH_SHORT).show()
-                bottomSheetDialog.dismiss()
+                bottomSheetViewModel.postCancelReservation(CancelReservationRequest(reservationId = reservationId, cancelReason = cancelReason ?: ""))
             }
-
-            bottomSheetDialog.show()
         }
-
     }
 
 }

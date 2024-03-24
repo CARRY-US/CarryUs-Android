@@ -2,36 +2,41 @@ package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.content.Context
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.widget.EditText
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationStatus
-import com.sookmyung.carryus.domain.usecase.GetReservationDetail
+import com.sookmyung.carryus.domain.usecase.reservation.GetReservationDetailUseCase
+import com.sookmyung.carryus.domain.usecase.reservation.postCancelReservationUseCase
 import com.sookmyung.carryus.ui.review.ReviewWriteActivity
+import com.sookmyung.carryus.ui.review.ReviewWriteViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ReservationDetailViewModel @Inject constructor(
-    private val getReservationDetail: GetReservationDetail
+    private val getReservationDetailUseCase: GetReservationDetailUseCase
 ) : ViewModel(){
     val showDialog = MutableLiveData<Boolean>()
-    private val _reservationDetailLiveData = MutableLiveData<ReservationDetail>()
 
-    val reservationDetailLiveData: LiveData<ReservationDetail> = _reservationDetailLiveData
+    private val _reservationDetailLiveData = MutableLiveData<ReservationDetail>()
+    val reservationDetailLiveData: LiveData<ReservationDetail>
+        get() = _reservationDetailLiveData
 
     private lateinit var context: Context
 
     fun toggleDialog() {
         showDialog.value = !(showDialog.value ?: false)
-    }
-
-    fun setReservationDetail(reservationDetail: ReservationDetail) {
-        _reservationDetailLiveData.value = reservationDetail
     }
 
     fun setContext(context: Context) {
@@ -60,7 +65,7 @@ class ReservationDetailViewModel @Inject constructor(
 
     fun setReservationDetail(reservationId: Int) {
         viewModelScope.launch {
-            getReservationDetail(reservationId)
+            getReservationDetailUseCase(reservationId)
                 .onSuccess { response ->
                     val modifiedReservationDetail = response.copy(
                         reservationType =

@@ -1,6 +1,8 @@
 package com.sookmyung.carryus.data.source
 
 import com.sookmyung.carryus.data.entitiy.BaseResponse
+import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
+import com.sookmyung.carryus.data.entitiy.response.CancelReservationResponse
 import com.sookmyung.carryus.data.entitiy.response.ReservationDetailResponse
 import com.sookmyung.carryus.data.entitiy.response.ReservationListResponse
 import com.sookmyung.carryus.data.service.ReservationsService
@@ -12,4 +14,7 @@ class ReservationsDataSource @Inject constructor(private val reservationsService
 
     suspend fun getReservationDetail(reservationId: Int) : BaseResponse<ReservationDetailResponse> =
         reservationsService.getReservationDetail(reservationId)
+
+    suspend fun postCancelReservation(cancelReservationRequest: CancelReservationRequest) : BaseResponse<CancelReservationResponse> =
+        reservationsService.postCancelReservation(cancelReservationRequest)
 }

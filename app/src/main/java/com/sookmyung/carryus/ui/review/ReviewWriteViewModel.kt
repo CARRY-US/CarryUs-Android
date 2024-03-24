@@ -79,13 +79,13 @@ class ReviewWriteViewModel: ViewModel(){
     }
 }
 
-@BindingAdapter("app:textCount")
-fun setReviewTextCount(textView: TextView, count: String) {
+@BindingAdapter("app:reviewWriteTextCount")
+fun setReviewWriteTextCount(textView: TextView, count: String) {
     textView.text = count
 }
 
-@BindingAdapter("app:textWatcher")
-fun bindTextWatcher(editText: EditText, viewModel: ReviewWriteViewModel?) {
+@BindingAdapter("app:reviewWriteTextWatcher")
+fun bindReviewWriteTextWatcher(editText: EditText, viewModel: ReviewWriteViewModel?) {
     viewModel?.let {
         editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
