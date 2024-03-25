@@ -14,9 +14,12 @@ import com.sookmyung.carryus.databinding.FragmentMyPageBinding
 import com.sookmyung.carryus.domain.entity.MyReviews
 import com.sookmyung.carryus.ui.reservationlist.detail.CustomDialog
 import com.sookmyung.carryus.ui.review.ReviewInquiryActivity
+import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.dpToPx
 import com.sookmyung.carryus.util.binding.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private val viewModel: MyPageViewModel by viewModels()
@@ -37,9 +40,18 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
+        setMyProfile()
         setReviewList()
         setViewModelNavigate()
         setCancelDialog()
+    }
+
+    private fun setMyProfile(){
+        viewModel.getMyProfile()
+        viewModel.myProfile.observe(viewLifecycleOwner) { myProfile ->
+            binding.ivMypageProfileImg.setImage(myProfile.memberProfileImg)
+            binding.tvMypageMemberName.text = myProfile.memberName
+        }
     }
 
     private fun setReviewList(){
@@ -47,7 +59,6 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
             adapter = mypageReviewAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(RecyclerViewSpaceItemDecoration(18, 8))
-
         }
         mypageReviewAdapter.submitList(data)
     }

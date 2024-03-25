@@ -1,8 +1,10 @@
 package com.sookmyung.carryus.di
 
 import com.sookmyung.carryus.data.repositoryImpl.MainRepositoryImpl
+import com.sookmyung.carryus.data.repositoryImpl.MyRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
 import com.sookmyung.carryus.domain.repository.MainRepository
+import com.sookmyung.carryus.domain.repository.MyRepository
 import com.sookmyung.carryus.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
@@ -24,4 +26,10 @@ abstract class RepositoryModule {
     abstract fun bindToSearchRepository(
         searchRepositoryImpl: SearchRepositoryImpl
     ): SearchRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToMyRepository(
+        myRepositoryImpl: MyRepositoryImpl
+    ): MyRepository
 }
