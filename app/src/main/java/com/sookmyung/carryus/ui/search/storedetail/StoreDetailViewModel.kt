@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.ui.search.storedetail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,6 +32,7 @@ class StoreDetailViewModel @Inject constructor(
             getStoreDetailInfoUseCase(storeId.value ?: 0)
                 .onSuccess { response ->
                     _storeInfo.value = response
+                    Log.e("kang","${storeInfo.value}")
                 }
                 .onFailure { throwable ->
                     Timber.e("서버 통신 실패 -> ${throwable.message}")

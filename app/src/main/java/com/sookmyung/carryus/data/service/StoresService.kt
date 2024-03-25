@@ -9,7 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface StoresService {
-    @GET("/stores/{storeId}")
+    @GET("/stores/{storeId}/detail")
     suspend fun getStoreDetailInfo(
         @Path("storeId") storeId: Int
     ): BaseResponse<StoreDetailInfoResponse>

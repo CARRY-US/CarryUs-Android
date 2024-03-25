@@ -12,7 +12,7 @@ data class StoreDetailInfoResponse(
     @SerialName("storeName") val storeName: String,
     @SerialName("storeLocation") val storeLocation: String,
     @SerialName("closedDay") val closedDay: String,
-    @SerialName("openingHours") val openingHours: String,
+    @SerialName("openingHour") val openingHour: String,
     @SerialName("storePhoneNumber") val storePhoneNumber: String,
     @SerialName("baggageTypeInfoList") val baggageTypeInfoList: List<Baggage>
 ) {
@@ -35,7 +35,7 @@ data class StoreDetailInfoResponse(
         storeName = this.storeName,
         storeLocation = this.storeLocation,
         closedDay = this.closedDay,
-        openingHours = this.openingHours,
+        openingHour = this.openingHour,
         storePhoneNumber = this.storePhoneNumber,
         baggageTypeInfoList = baggageTypeInfoList.map { it.toBaggageType() }
     )

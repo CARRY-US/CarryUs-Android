@@ -6,7 +6,7 @@ data class StoreDetail(
     val storeName: String = "",
     val storeLocation: String = "",
     val closedDay: String = "",
-    val openingHours: String = "",
+    val openingHour: String = "",
     val storePhoneNumber: String = "",
     val baggageTypeInfoList: List<BaggageTypeInfo> = emptyList()
 )
