@@ -34,12 +34,12 @@ class StoreDetailActivity :
     private fun setStoreDetailReviewAdapter() {
         binding.rvStoreDetailReview.adapter = StoreDetailReviewAdapter()
         setReviewObserver()
-        setRecyclerviewHeight()
     }
 
     private fun setReviewObserver() {
         viewModel.storeDetailReview.observe(this) { review ->
             storeDetailReviewAdapter?.submitList(review.reviewList)
+            setRecyclerviewHeight()
         }
     }
 
