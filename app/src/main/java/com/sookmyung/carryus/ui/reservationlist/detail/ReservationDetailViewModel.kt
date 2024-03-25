@@ -16,7 +16,6 @@ import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationStatus
 import com.sookmyung.carryus.domain.usecase.reservation.GetReservationDetailUseCase
-import com.sookmyung.carryus.domain.usecase.reservation.postCancelReservationUseCase
 import com.sookmyung.carryus.ui.review.ReviewWriteActivity
 import com.sookmyung.carryus.ui.review.ReviewWriteViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,6 +59,7 @@ class ReservationDetailViewModel @Inject constructor(
     fun navigateToWriteReview() {
         Log.d("ReservationDetailViewModel", "navigateToWriteReview")
         val intent = Intent(context, ReviewWriteActivity::class.java)
+        intent.putExtra("reservation_id", reservationDetailLiveData.value?.reservationId ?: 0)
         context.startActivity(intent)
     }
 

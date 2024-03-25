@@ -13,14 +13,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
-import com.sookmyung.carryus.domain.usecase.reservation.postCancelReservationUseCase
+import com.sookmyung.carryus.domain.usecase.reservation.PostCancelReservationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CancelBottomSheetViewModel @Inject constructor(
-    private val postCancelReservationUseCase: postCancelReservationUseCase
+    private val postCancelReservationUseCase: PostCancelReservationUseCase
 ) : ViewModel() {
     private val _textCount = MutableLiveData<String>()
     val textCount: LiveData<String> = _textCount

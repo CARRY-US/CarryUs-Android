@@ -4,7 +4,7 @@ import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.domain.repository.ReservationsRepository
 import javax.inject.Inject
 
-class postCancelReservationUseCase @Inject constructor(
+class PostCancelReservationUseCase @Inject constructor(
     private val reservationsRepository: ReservationsRepository
 ){
     suspend operator fun invoke(cancelReservationRequest: CancelReservationRequest) =

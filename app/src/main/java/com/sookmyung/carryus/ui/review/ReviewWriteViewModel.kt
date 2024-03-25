@@ -11,10 +11,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
+import com.sookmyung.carryus.domain.usecase.reservation.PostReviewUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ReviewWriteViewModel: ViewModel(){
+@HiltViewModel
+class ReviewWriteViewModel @Inject constructor(
+    private val postReviewUseCase: PostReviewUseCase
+): ViewModel(){
     private val _textCount = MutableLiveData<String>()
     val textCount: LiveData<String> = _textCount
 
@@ -57,25 +66,26 @@ class ReviewWriteViewModel: ViewModel(){
         Log.d("ReviewEditViewModel", "rating: $rating")
     }
 
-    fun initializeDataSet(reviewDetail: ReviewDetail) {
-        val count = reviewDetail.reviewContent.length
+    fun initializeDataSet() {
+        val count = 0
         _textCount.value = "$count/$MAXIMUM_LENGTH"
-    }
-
-    fun setReviewDetail(reviewDetail: ReviewDetail) {
-        _reviewDetailLiveData.value = reviewDetail
-        initializeDataSet(reviewDetail)
     }
 
     fun setReservationList(reservationList: ReservationList) {
         _reservationListLiveData.value = reservationList
     }
 
-    fun requestCloseActivity() {
-        Log.d("ReviewWriteViewModel", "onSaveButtonClick")
-        Log.d("ReviewWriteViewModel", "rating: ${_rating.value}")
-        Log.d("ReviewWriteViewModel", "reviewContent: ${_reviewContent.value}")
-        closeActivityEvent.value = Unit
+    fun postReview(reservationId: Int, reviewRequest: ReviewRequest) {
+        viewModelScope.launch {
+            postReviewUseCase(reservationId, reviewRequest )
+                .onSuccess { response ->
+                    Log.d("ReviewWriteViewModel", "리뷰 작성 성공 -> ${response}")
+                    closeActivityEvent.postValue(Unit)
+                }.onFailure { throwable ->
+                    Log.e("ReviewWriteViewModel", "리뷰 작성 실패 -> ${throwable.message}")
+                }
+        }
+
     }
 }
 

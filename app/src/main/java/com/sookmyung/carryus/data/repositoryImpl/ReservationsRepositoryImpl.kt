@@ -1,6 +1,7 @@
 package com.sookmyung.carryus.data.repositoryImpl
 
 import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
+import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.data.source.ReservationsDataSource
 import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationList
@@ -28,5 +29,11 @@ class ReservationsRepositoryImpl @Inject constructor(
         cancelReservationRequest: CancelReservationRequest
     ) : Result<Unit> = runCatching {
         reservationsDataSource.postCancelReservation(cancelReservationRequest)
+    }.mapCatching { Unit }
+
+    override suspend fun postReview(
+        reservationId: Int, reviewRequest: ReviewRequest
+    ) : Result<Unit> = runCatching {
+        reservationsDataSource.postReview(reservationId, reviewRequest)
     }.mapCatching { Unit }
 }
