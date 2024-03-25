@@ -1,7 +1,9 @@
 package com.sookmyung.carryus.di
 
 import com.sookmyung.carryus.data.repositoryImpl.MainRepositoryImpl
+import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
 import com.sookmyung.carryus.domain.repository.MainRepository
+import com.sookmyung.carryus.domain.repository.SearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,4 +18,10 @@ abstract class RepositoryModule {
     abstract fun bindToMainRepository(
         mainRepositoryImpl: MainRepositoryImpl
     ): MainRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToSearchRepository(
+        searchRepositoryImpl: SearchRepositoryImpl
+    ): SearchRepository
 }
