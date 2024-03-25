@@ -3,7 +3,7 @@ package com.sookmyung.carryus.domain.usecase
 import com.sookmyung.carryus.domain.repository.MainRepository
 import javax.inject.Inject
 
-class GetLocationStoreList @Inject constructor(
+class GetLocationStoreListUseCase @Inject constructor(
     private val mainRepository: MainRepository
 ) {
     suspend operator fun invoke(latitude: Double, longitude: Double) =

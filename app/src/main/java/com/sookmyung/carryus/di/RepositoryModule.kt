@@ -3,9 +3,11 @@ package com.sookmyung.carryus.di
 import com.sookmyung.carryus.data.repositoryImpl.MainRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.MyRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
+import com.sookmyung.carryus.data.repositoryImpl.StoresRepositoryImpl
 import com.sookmyung.carryus.domain.repository.MainRepository
 import com.sookmyung.carryus.domain.repository.MyRepository
 import com.sookmyung.carryus.domain.repository.SearchRepository
+import com.sookmyung.carryus.domain.repository.StoresRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,4 +34,11 @@ abstract class RepositoryModule {
     abstract fun bindToMyRepository(
         myRepositoryImpl: MyRepositoryImpl
     ): MyRepository
+
+    @Binds
+    @Singletonabstract 
+    fun bindToStoresRepository(
+        storesRepositoryImpl: StoresRepositoryImpl
+    ): StoresRepository
+  
 }
