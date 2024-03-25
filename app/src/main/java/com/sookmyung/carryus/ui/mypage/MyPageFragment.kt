@@ -24,12 +24,6 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
 
     private val viewModel: MyPageViewModel by viewModels()
 
-    var data = listOf(
-        MyReviews(1,"가게이름",4.5,"정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)"),
-        MyReviews(2,"가게이름",4.5,"정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)"),
-        MyReviews(3,"가게이름",4.5,"정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)")
-    )
-
     private val mypageReviewAdapter by lazy {
         MyPageReviewAdapter(MyPageReviewClickListener { clickedReview ->
             viewModel.onReservationItemClick(clickedReview)
@@ -41,6 +35,7 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
         binding.viewModel = viewModel
 
         setMyProfile()
+        setReviewRecyclerView()
         setReviewList()
         setViewModelNavigate()
         setCancelDialog()
@@ -53,14 +48,19 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
             binding.tvMypageMemberName.text = myProfile.memberName
         }
     }
-
-    private fun setReviewList(){
+    private fun setReviewRecyclerView(){
         binding.rvMypageReview.apply{
             adapter = mypageReviewAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(RecyclerViewSpaceItemDecoration(18, 8))
         }
-        mypageReviewAdapter.submitList(data)
+    }
+
+    private fun setReviewList(){
+        viewModel.getMyReviews()
+        viewModel.myReviews.observe(viewLifecycleOwner) { myReviews ->
+            mypageReviewAdapter.submitList(myReviews)
+        }
     }
 
     private fun setViewModelNavigate(){
