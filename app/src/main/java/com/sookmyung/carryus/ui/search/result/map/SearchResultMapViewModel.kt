@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.domain.entity.LocationStore
 import com.sookmyung.carryus.domain.entity.Position
 import com.sookmyung.carryus.domain.entity.StoreSearchResult
-import com.sookmyung.carryus.domain.usecase.GetLocationStoreList
+import com.sookmyung.carryus.domain.usecase.GetLocationStoreListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchResultMapViewModel @Inject constructor(
-    private val getLocationStoreList: GetLocationStoreList
+    private val getLocationStoreList: GetLocationStoreListUseCase
 ) : ViewModel() {
     private val _searchResultList: MutableLiveData<List<StoreSearchResult>> =
         MutableLiveData()
