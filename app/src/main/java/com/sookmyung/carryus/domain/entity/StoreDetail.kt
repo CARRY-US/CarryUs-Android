@@ -8,5 +8,6 @@ data class StoreDetail(
     val closedDay: String = "",
     val openingHour: String = "",
     val storePhoneNumber: String = "",
-    val baggageTypeInfoList: List<BaggageTypeInfo> = emptyList()
+    val baggageTypeInfoList: List<BaggageTypeInfo> = listOf(BaggageTypeInfo("20인치 미만",0,0),BaggageTypeInfo("20인치",0,0)
+    ,BaggageTypeInfo("24인치",0,0),BaggageTypeInfo("28인치 이상",0,0))
 )
