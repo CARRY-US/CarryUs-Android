@@ -3,12 +3,21 @@ package com.sookmyung.carryus.ui.search.storedetail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
 import com.sookmyung.carryus.domain.entity.StoreDetail
 import com.sookmyung.carryus.domain.entity.StoreDetailReview
 import com.sookmyung.carryus.domain.entity.StoreReview
+import com.sookmyung.carryus.domain.usecase.GetStoreDetailInfoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
-class StoreDetailViewModel : ViewModel() {
+@HiltViewModel
+class StoreDetailViewModel @Inject constructor(
+    val getStoreDetailInfoUseCase: GetStoreDetailInfoUseCase
+) : ViewModel() {
     private val _storeId: MutableLiveData<Int> = MutableLiveData()
     val storeId: LiveData<Int> get() = _storeId
     private val _storeDetailReview: MutableLiveData<StoreDetailReview> = MutableLiveData()
@@ -17,26 +26,16 @@ class StoreDetailViewModel : ViewModel() {
     private val _storeInfo: MutableLiveData<StoreDetail> = MutableLiveData(null)
     val storeInfo: LiveData<StoreDetail> get() = _storeInfo
 
-    init {
-        getStoreInfo()
-    }
-
     private fun getStoreInfo() {
-        _storeInfo.value = StoreDetail(
-            1,
-            "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.tripadvisor.co.kr%2FLocationPhotoDirectLink-g294197-d6115140-i89651503-Sarangchae-Seoul.html&psig=AOvVaw1seb0YPuW-R_cQhQYAIcKG&ust=1710902940307000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCKDtnqKo_4QDFQAAAAAdAAAAABAH",
-            "건빵가게",
-            "서울특별시 강남구 어쩌구",
-            "월,화 휴무",
-            "수 - 금 12:00 ~ 19:00",
-            "02-234-2343",
-            listOf(
-                BaggageTypeInfo("20인치 미만", 3, 50000),
-                BaggageTypeInfo("20인치", 2, 60000),
-                BaggageTypeInfo("24인치", 1, 70000),
-                BaggageTypeInfo("28인치 이상", 0, 80000)
-            )
-        )
+        viewModelScope.launch {
+            getStoreDetailInfoUseCase(storeId.value ?: 0)
+                .onSuccess { response ->
+                    _storeInfo.value = response
+                }
+                .onFailure { throwable ->
+                    Timber.e("서버 통신 실패 -> ${throwable.message}")
+                }
+        }
 
         _storeDetailReview.value = StoreDetailReview(
             4.5, listOf(
@@ -57,7 +56,8 @@ class StoreDetailViewModel : ViewModel() {
         )
     }
 
-    fun updateStoreId(storeId: Int){
+    fun updateStoreId(storeId: Int) {
         _storeId.value = storeId
+        getStoreInfo()
     }
 }
