@@ -5,14 +5,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
-import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint

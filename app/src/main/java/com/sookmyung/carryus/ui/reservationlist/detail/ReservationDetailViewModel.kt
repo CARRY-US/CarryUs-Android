@@ -2,22 +2,15 @@ package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.content.Context
 import android.content.Intent
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
-import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationStatus
 import com.sookmyung.carryus.domain.usecase.reservation.GetReservationDetailUseCase
 import com.sookmyung.carryus.ui.review.ReviewWriteActivity
-import com.sookmyung.carryus.ui.review.ReviewWriteViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
