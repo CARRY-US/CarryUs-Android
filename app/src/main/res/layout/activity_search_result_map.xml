@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.sookmyung.carryus.ui.search.result.SearchResultViewModel" />
+            type="com.sookmyung.carryus.ui.search.result.map.SearchResultMapViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,10 +19,11 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/map_search_result_map"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </FrameLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,6 +33,7 @@
             android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="16dp"
             android:background="@color/white000"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -101,6 +103,7 @@
             android:layout_marginHorizontal="18dp"
             android:layout_marginBottom="16dp"
             android:background="@color/white000"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/cl_search_result_map_first_store_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

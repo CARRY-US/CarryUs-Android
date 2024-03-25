@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,16 +18,16 @@ import androidx.core.view.contains
 import androidx.fragment.app.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentSearchBinding
+import com.sookmyung.carryus.domain.entity.LocationStore
 import com.sookmyung.carryus.domain.entity.Position
-import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.search.list.SearchListActivity
 import com.sookmyung.carryus.ui.search.result.SearchResultActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.STORE_ID
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.binding.BindingFragment
 import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.HiltViewModel
 import net.daum.mf.map.api.CameraUpdate
 import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
@@ -35,7 +36,9 @@ import net.daum.mf.map.api.MapView
 import timber.log.Timber
 
 @AndroidEntryPoint
-class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_search) {
+class SearchFragment :
+    BindingFragment<FragmentSearchBinding>(R.layout.fragment_search),
+    MapView.POIItemEventListener {
     private val viewModel by viewModels<SearchViewModel>()
     private lateinit var mapView: MapView
     private lateinit var mapViewContainer: ViewGroup
@@ -55,7 +58,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
     override fun onResume() {
         super.onResume()
-        if (mapViewContainer.contains(mapView)) {
+        if (!mapViewContainer.contains(mapView)) {
             try {
                 initMapView()
             } catch (e: RuntimeException) {
@@ -66,18 +69,20 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
     private fun initMapView() {
         mapView = MapView(activity)
+        mapView.setPOIItemEventListener(this)
+        mapViewContainer = binding.mapSearch
+        mapViewContainer.addView(mapView)
         showMarkerOnMap()
         startTracking()
         moveMapToUserLocation()
-        mapViewContainer = binding.mapSearch
-        mapViewContainer.addView(mapView)
     }
 
     private fun checkLocationPermission() {
         if (ActivityCompat.checkSelfPermission(requireContext(), ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
-                requireContext(), ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+                    requireContext(),
+                    ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
@@ -99,7 +104,8 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
                     arrayOf(
                         ACCESS_FINE_LOCATION,
                         ACCESS_COARSE_LOCATION
-                    ), LOCATION_PERMISSION_REQUEST_CODE
+                    ),
+                    LOCATION_PERMISSION_REQUEST_CODE
                 )
             }
         }
@@ -122,23 +128,22 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
         requestPermissionLauncher.launch(ACCESS_FINE_LOCATION)
     }
 
-    //TODO marker 클릭 시, 보이게 하기
     private fun initStoreListView() {
-        viewModel.searchStoreList.observe(viewLifecycleOwner) { searchStoreList ->
-            if (searchStoreList == null) {
+        viewModel.locationStoreList.observe(viewLifecycleOwner) { list ->
+            if (list == null) {
                 setViewVisibility(View.GONE, View.GONE)
             } else {
-                when (searchStoreList.size) {
+                when (list.size) {
                     1 -> {
-                        updateStoreInfo(View.VISIBLE, View.GONE, searchStoreList[0])
+                        updateStoreInfo(View.VISIBLE, View.GONE, list[0])
                     }
 
                     2 -> {
                         updateStoreInfo(
                             View.VISIBLE,
                             View.VISIBLE,
-                            searchStoreList[0],
-                            searchStoreList[1]
+                            list[0],
+                            list[1]
                         )
                     }
 
@@ -152,6 +157,7 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
     private fun initSearchViewClickListener() {
         binding.tvSearchSearch.setOnClickListener {
+            mapViewContainer.removeAllViews()
             val toSearch = Intent(requireActivity(), SearchResultActivity::class.java)
             startActivity(toSearch)
         }
@@ -160,17 +166,17 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     private fun showMarkerOnMap() {
         mapView.removeAllPOIItems()
         viewModel.searchStoreList.value?.forEach { list ->
-            val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
             val markerIcon = MapPOIItem()
             markerIcon.apply {
                 itemName = list.storeName
+                isShowCalloutBalloonOnTouch = false
                 customImageResourceId = R.drawable.ic_store_default
                 customSelectedImageResourceId = R.drawable.ic_store_select
-                mapPoint = marker
+                mapPoint = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
                 setCustomImageAnchor(0.5f, 0.5f)
                 isCustomImageAutoscale = false
                 markerType = MapPOIItem.MarkerType.CustomImage
-                tag = 0
+                tag = list.storeId
             }
             mapView.addPOIItem(markerIcon)
         }
@@ -219,8 +225,8 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     private fun updateStoreInfo(
         firstVisibility: Int,
         secondVisibility: Int,
-        firstStoreInfo: StoreSearchResult,
-        secondStoreInfo: StoreSearchResult? = null
+        firstStoreInfo: LocationStore,
+        secondStoreInfo: LocationStore? = null
     ) {
         setViewVisibility(firstVisibility, secondVisibility)
 
@@ -252,27 +258,37 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
     private fun moveToSearchList() {
         binding.fabSearch.setOnClickListener {
             val toSearchList = Intent(requireActivity(), SearchListActivity::class.java)
+            val bundle = Bundle()
+            val searchStoreArrayList =
+                ArrayList<Parcelable>(viewModel.searchStoreList.value.orEmpty())
+            bundle.putParcelableArrayList("searchStoreList", searchStoreArrayList)
+            toSearchList.putExtra("searchStoreList", bundle)
             startActivity(toSearchList)
         }
     }
 
     private fun moveToStoreDetail() {
         binding.clSearchFirstStoreInfo.setOnClickListener {
+            viewModel.locationStoreList.value?.get(0)
+                ?.let { store -> viewModel.updateSelectedStoreId(store.storeId) }
             val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java).putExtra(
-                "storeId",
+                STORE_ID,
                 viewModel.selectedStoreId.value
             )
             startActivity(toStoreDetail)
         }
         binding.clSearchSecondStoreInfo.setOnClickListener {
+            viewModel.locationStoreList.value?.get(1)
+                ?.let { store -> viewModel.updateSelectedStoreId(store.storeId) }
             val toStoreDetail = Intent(requireActivity(), StoreDetailActivity::class.java)
             startActivity(toStoreDetail)
         }
     }
 
-    //TODO 지도 움직일 때마다, 재검색 버튼이 뜨게 하기
+    // TODO 지도 움직일 때마다, 재검색 버튼이 뜨게 하기
     private fun clickReloadBtn() {
         binding.btnSearchReload.setOnClickListener {
+            viewModel.clickReloadBtn()
             viewModel.updateCurrentPosition(
                 mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
                 mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
@@ -290,5 +306,23 @@ class SearchFragment : BindingFragment<FragmentSearchBinding>(R.layout.fragment_
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+    }
+
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+        val storeId = p1?.tag ?: 0
+        viewModel.findCoordinatesByStoreId(storeId)
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(
+        p0: MapView?,
+        p1: MapPOIItem?,
+        p2: MapPOIItem.CalloutBalloonButtonType?
+    ) {
+    }
+
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
     }
 }

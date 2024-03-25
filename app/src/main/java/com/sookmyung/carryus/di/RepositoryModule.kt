@@ -2,8 +2,12 @@ package com.sookmyung.carryus.di
 
 import com.sookmyung.carryus.data.repositoryImpl.MainRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.ReservationsRepositoryImpl
-import com.sookmyung.carryus.domain.repository.MainRepository
 import com.sookmyung.carryus.domain.repository.ReservationsRepository
+import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
+import com.sookmyung.carryus.data.repositoryImpl.StoresRepositoryImpl
+import com.sookmyung.carryus.domain.repository.MainRepository
+import com.sookmyung.carryus.domain.repository.SearchRepository
+import com.sookmyung.carryus.domain.repository.StoresRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -24,4 +28,16 @@ abstract class RepositoryModule {
     abstract fun bindToReservationsRepository(
         reservationsRepositoryImpl: ReservationsRepositoryImpl
     ): ReservationsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToSearchRepository(
+        searchRepositoryImpl: SearchRepositoryImpl
+    ): SearchRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToStoresRepository(
+        storesRepositoryImpl: StoresRepositoryImpl
+    ): StoresRepository
 }

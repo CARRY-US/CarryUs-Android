@@ -2,6 +2,7 @@ package com.sookmyung.carryus.ui.search.result
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.KeyEvent
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
@@ -10,6 +11,7 @@ import com.sookmyung.carryus.ui.search.result.map.SearchResultMapActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.STORE_ID
 import com.sookmyung.carryus.util.binding.BindingActivity
+import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,7 +47,7 @@ class SearchResultActivity :
     private fun pressEnter() {
         binding.tvSearchResultSearch.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                viewModel.getResult()
+                viewModel.searchCityBase()
                 return@setOnKeyListener true
             }
             false
@@ -54,14 +56,26 @@ class SearchResultActivity :
 
     private fun setFabMapClickListener() {
         binding.fabSearchResultMap.setOnClickListener {
-            val toSearchResultMap = Intent(this, SearchResultMapActivity::class.java)
-            startActivity(toSearchResultMap)
+            if (viewModel.searchResultList.value.isNullOrEmpty()) {
+                applicationContext.toast("지도에 띄울 검색 결과가 없습니다.")
+            } else {
+                val toSearchResultMap = Intent(this, SearchResultMapActivity::class.java)
+                val bundle = Bundle()
+                val searchStoreArrayList =
+                    ArrayList<Parcelable>(viewModel.searchResultList.value.orEmpty())
+                bundle.putParcelableArrayList("searchStoreList", searchStoreArrayList)
+                toSearchResultMap.putExtra("searchStoreList", bundle)
+                startActivity(toSearchResultMap)
+            }
         }
     }
 
-    private fun moveToStoreDetail(){
-        viewModel.selectedStoreId.observe(this){
-            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra(STORE_ID, viewModel.selectedStoreId.value)
+    private fun moveToStoreDetail() {
+        viewModel.selectedStoreId.observe(this) {
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra(
+                STORE_ID,
+                viewModel.selectedStoreId.value
+            )
             startActivity(toStoreDetail)
         }
     }

@@ -1,28 +1,29 @@
 package com.sookmyung.carryus.ui.search.result.map
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.location.Location
-import android.location.LocationManager
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchResultMapBinding
-import com.sookmyung.carryus.domain.entity.Position
+import com.sookmyung.carryus.domain.entity.LocationStore
 import com.sookmyung.carryus.domain.entity.StoreSearchResult
-import com.sookmyung.carryus.ui.search.result.SearchResultViewModel
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import dagger.hilt.android.AndroidEntryPoint
+import net.daum.mf.map.api.CameraUpdate
+import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+
 @AndroidEntryPoint
 class SearchResultMapActivity :
-    BindingActivity<ActivitySearchResultMapBinding>(R.layout.activity_search_result_map) {
-    private val viewModel by viewModels<SearchResultViewModel>()
+    BindingActivity<ActivitySearchResultMapBinding>(R.layout.activity_search_result_map),
+    MapView.POIItemEventListener {
+    private val viewModel by viewModels<SearchResultMapViewModel>()
     private lateinit var mapView: MapView
     private lateinit var mapViewContainer: ViewGroup
 
@@ -30,52 +31,50 @@ class SearchResultMapActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
+        getBundleData()
         initMapView()
         initStoreListView()
+        moveToStoreDetail()
     }
+
+    private fun getBundleData() {
+        val bundle = intent.getBundleExtra("searchStoreList")
+        val searchStoreList = bundle?.getParcelableArrayList<StoreSearchResult>("searchStoreList")
+
+        if (searchStoreList != null) {
+            viewModel.updateSearchStoreList(searchStoreList)
+        } else {
+            viewModel.updateSearchStoreList(emptyList())
+        }
+    }
+
     private fun initMapView() {
         mapView = MapView(this)
-        showMarkerOnMap()
-        startTracking()
+        mapView.setPOIItemEventListener(this)
         mapViewContainer = binding.mapSearchResultMap
         mapViewContainer.addView(mapView)
+
+        moveMapMiddleLocation()
+        showMarkerOnMap()
     }
+
     private fun showMarkerOnMap() {
         viewModel.searchResultList.value?.forEach { list ->
             val marker = MapPoint.mapPointWithGeoCoord(list.latitude, list.longitude)
             val markerIcon = MapPOIItem()
             markerIcon.apply {
-                itemName = "marker name"
+                itemName = list.storeName
                 customImageResourceId = R.drawable.ic_store_default
+                isShowCalloutBalloonOnTouch = false
                 customSelectedImageResourceId = R.drawable.ic_store_select
                 mapPoint = marker
                 setCustomImageAnchor(0.5f, 0.5f)
                 isCustomImageAutoscale = false
                 markerType = MapPOIItem.MarkerType.CustomImage
-                tag = 0
+                tag = list.storeId
             }
             mapView.addPOIItem(markerIcon)
         }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun startTracking() {
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving // 나침반 안돌아가고 현재 위치로 안따라감
-
-        mapView.setCustomCurrentLocationMarkerTrackingImage(
-            R.drawable.ic_store_select,
-            MapPOIItem.ImageOffset(0, 0)
-        )
-
-        val locationManager: LocationManager =
-            this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val currentLocation: Location? =
-            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        val currentLatitude = currentLocation?.latitude ?: 0
-        val currentLongitude = currentLocation?.longitude ?: 0
-        val currentPosition = Position(currentLatitude.toDouble(), currentLongitude.toDouble())
-        viewModel.updateCurrentLocation(currentPosition)
     }
 
     private fun setViewVisibility(firstVisibility: Int, secondVisibility: Int) {
@@ -86,8 +85,8 @@ class SearchResultMapActivity :
     private fun updateStoreInfo(
         firstVisibility: Int,
         secondVisibility: Int,
-        firstStoreInfo: StoreSearchResult,
-        secondStoreInfo: StoreSearchResult? = null
+        firstStoreInfo: LocationStore,
+        secondStoreInfo: LocationStore? = null
     ) {
         setViewVisibility(firstVisibility, secondVisibility)
 
@@ -117,21 +116,21 @@ class SearchResultMapActivity :
     }
 
     private fun initStoreListView() {
-        viewModel.searchResultList.observe(this) { searchResultList ->
-            if (searchResultList == null) {
+        viewModel.locationStoreList.observe(this) { list ->
+            if (list == null) {
                 setViewVisibility(View.GONE, View.GONE)
             } else {
-                when (searchResultList.size) {
+                when (list.size) {
                     1 -> {
-                        updateStoreInfo(View.VISIBLE, View.GONE, searchResultList[0])
+                        updateStoreInfo(View.VISIBLE, View.GONE, list[0])
                     }
 
                     2 -> {
                         updateStoreInfo(
                             View.VISIBLE,
                             View.VISIBLE,
-                            searchResultList[0],
-                            searchResultList[1]
+                            list[0],
+                            list[1]
                         )
                     }
 
@@ -143,10 +142,37 @@ class SearchResultMapActivity :
         }
     }
 
-    override fun onPause() {
-        stopTracking()
-        finishMap()
-        super.onPause()
+    private fun moveMapMiddleLocation() {
+        viewModel.searchResultList.observe(this) {
+            val cameraUpdate: CameraUpdate =
+                CameraUpdateFactory.newMapPoint(
+                    viewModel.searchResultList.value?.let { list ->
+                        MapPoint.mapPointWithGeoCoord(
+                            list[0].latitude,
+                            list[0].longitude
+                        )
+                    }
+                )
+            mapView.moveCamera(cameraUpdate)
+        }
+    }
+
+    private fun moveToStoreDetail() {
+        binding.clSearchResultMapFirstStoreInfo.setOnClickListener {
+            viewModel.locationStoreList.value?.get(0)
+                ?.let { store -> viewModel.updateSelectedStoreId(store.storeId) }
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java).putExtra(
+                StoreDetailActivity.STORE_ID,
+                viewModel.selectedStoreId.value
+            )
+            startActivity(toStoreDetail)
+        }
+        binding.clSearchResultMapSecondStoreInfo.setOnClickListener {
+            viewModel.locationStoreList.value?.get(1)
+                ?.let { store -> viewModel.updateSelectedStoreId(store.storeId) }
+            val toStoreDetail = Intent(this, StoreDetailActivity::class.java)
+            startActivity(toStoreDetail)
+        }
     }
 
     override fun onDestroy() {
@@ -162,5 +188,23 @@ class SearchResultMapActivity :
 
     private fun finishMap() {
         mapViewContainer.removeView(mapView)
+    }
+
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+        val storeId = p1?.tag ?: 0
+        viewModel.findCoordinatesByStoreId(storeId)
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(
+        p0: MapView?,
+        p1: MapPOIItem?,
+        p2: MapPOIItem.CalloutBalloonButtonType?
+    ) {
+    }
+
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
     }
 }

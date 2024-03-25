@@ -2,6 +2,7 @@ package com.sookmyung.carryus.ui.search.storedetail
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityStoreDetailBinding
@@ -33,12 +34,12 @@ class StoreDetailActivity :
     private fun setStoreDetailReviewAdapter() {
         binding.rvStoreDetailReview.adapter = StoreDetailReviewAdapter()
         setReviewObserver()
-        setRecyclerviewHeight()
     }
 
     private fun setReviewObserver() {
         viewModel.storeDetailReview.observe(this) { review ->
             storeDetailReviewAdapter?.submitList(review.reviewList)
+            setRecyclerviewHeight()
         }
     }
 
