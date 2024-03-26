@@ -14,18 +14,15 @@ import com.sookmyung.carryus.databinding.FragmentMyPageBinding
 import com.sookmyung.carryus.domain.entity.MyReviews
 import com.sookmyung.carryus.ui.reservationlist.detail.CustomDialog
 import com.sookmyung.carryus.ui.review.ReviewInquiryActivity
+import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
 import com.sookmyung.carryus.util.dpToPx
 import com.sookmyung.carryus.util.binding.BindingFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
     private val viewModel: MyPageViewModel by viewModels()
-
-    var data = listOf(
-        MyReviews(1,"가게이름",4.5,"정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)"),
-        MyReviews(2,"가게이름",4.5,"정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)"),
-        MyReviews(3,"가게이름",4.5,"정말 최고예요! 거리도 좋고 접근성도 뛰어나서 짐 맡기기 너무 편리했어요 :)")
-    )
 
     private val mypageReviewAdapter by lazy {
         MyPageReviewAdapter(MyPageReviewClickListener { clickedReview ->
@@ -37,19 +34,33 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
+        setMyProfile()
+        setReviewRecyclerView()
         setReviewList()
         setViewModelNavigate()
         setCancelDialog()
     }
 
-    private fun setReviewList(){
+    private fun setMyProfile(){
+        viewModel.getMyProfile()
+        viewModel.myProfile.observe(viewLifecycleOwner) { myProfile ->
+            binding.ivMypageProfileImg.setImage(myProfile.memberProfileImg)
+            binding.tvMypageMemberName.text = myProfile.memberName
+        }
+    }
+    private fun setReviewRecyclerView(){
         binding.rvMypageReview.apply{
             adapter = mypageReviewAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             addItemDecoration(RecyclerViewSpaceItemDecoration(18, 8))
-
         }
-        mypageReviewAdapter.submitList(data)
+    }
+
+    private fun setReviewList(){
+        viewModel.getMyReviews()
+        viewModel.myReviews.observe(viewLifecycleOwner) { myReviews ->
+            mypageReviewAdapter.submitList(myReviews)
+        }
     }
 
     private fun setViewModelNavigate(){
