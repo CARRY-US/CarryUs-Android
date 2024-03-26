@@ -30,6 +30,7 @@ class ReservationRequestActivity :
         getStoreId()
         setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
+        setTimeRecyclerItemDeco()
         setClickListener()
         checkSendBtnClickable()
         checkCheckBtnClickable()
@@ -53,12 +54,13 @@ class ReservationRequestActivity :
         binding.rvReservationRequestTime.itemAnimator = null
         binding.rvReservationRequestTime.adapter = ReservationRequestTimeAdapter { pos, _ ->
             viewModel.itemClick(pos)
-            reservationRequestTimeAdapter?.itemClick(pos)
-            reservationRequestTimeAdapter?.listChange(viewModel.prevStartTime.coerceAtMost(viewModel.startTime), viewModel.prevEndTime.coerceAtLeast(viewModel.endTime))
+            reservationRequestTimeAdapter?.listChange(
+                viewModel.prevStartTime.coerceAtMost(viewModel.startTime),
+                viewModel.prevEndTime.coerceAtLeast(viewModel.endTime)
+            )
             viewModel.checkIsSendBtnClickable()
         }
         submitListTimeRecyclerAdapter()
-        setTimeRecyclerItemDeco()
     }
 
     private fun submitListTimeRecyclerAdapter() {
@@ -88,8 +90,8 @@ class ReservationRequestActivity :
     private fun setReservationCheckBtnClickListener() {
         binding.btnReservationRequestInitialize.setOnClickListener {
             viewModel.clearSuitcase()
-            binding.rvReservationRequestTime.scrollToPosition(0)
-            viewModel.removeTimeRange()
+            binding.rvReservationRequestTime.adapter = null
+            setTimeRecyclerAdapter()
             with(binding) {
                 clReservationRequestReservation.visibility = View.GONE
                 clReservationRequestPayment.visibility = View.GONE

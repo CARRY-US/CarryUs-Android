@@ -12,7 +12,6 @@ import com.sookmyung.carryus.util.ItemDiffCallback
 
 class ReservationRequestTimeAdapter(private val clickListener: ItemClickListener<Time>) :
     ListAdapter<Time, ReservationRequestTimeAdapter.ReservationRequestTimeViewHolder>(DIFF_CALLBACK) {
-    private var selectedPosition: Int = RecyclerView.NO_POSITION
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -28,11 +27,6 @@ class ReservationRequestTimeAdapter(private val clickListener: ItemClickListener
 
     override fun onBindViewHolder(holder: ReservationRequestTimeViewHolder, position: Int) {
         holder.onBind(getItem(position), clickListener)
-    }
-
-    fun itemClick(pos: Int) {
-        selectedPosition = pos
-        notifyItemChanged(selectedPosition)
     }
 
     fun listChange(start: Int, end: Int) {

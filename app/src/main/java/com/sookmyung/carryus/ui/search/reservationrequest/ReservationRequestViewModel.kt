@@ -1,6 +1,5 @@
 package com.sookmyung.carryus.ui.search.reservationrequest
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -97,7 +96,6 @@ class ReservationRequestViewModel @Inject constructor(
     }
 
     fun getReservationRequest() {
-        Log.e("kang","getReservationRequest")
         reservationRequestAvailableTimeList.value?.availableTimeList?.forEachIndexed { index, bool ->
             val hourFormatted = String.format("%02d", index)
             reservationRequestTimeList[index] =
@@ -153,11 +151,13 @@ class ReservationRequestViewModel @Inject constructor(
         prevEndTime = endTime
         endTime = pos
     }
+
     fun removeTimeRange() {
         for (temp in startTime..endTime) {
             reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = false)
         }
     }
+
     private fun selectTimeRange() {
         for (temp in startTime..endTime) {
             reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = true)
