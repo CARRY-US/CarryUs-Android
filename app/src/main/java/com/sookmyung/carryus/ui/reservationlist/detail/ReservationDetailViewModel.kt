@@ -50,7 +50,6 @@ class ReservationDetailViewModel @Inject constructor(
     }
 
     fun navigateToWriteReview() {
-        Log.d("ReservationDetailViewModel", "navigateToWriteReview")
         val intent = Intent(context, ReviewWriteActivity::class.java)
         intent.putExtra("reservation_id", reservationDetailLiveData.value?.reservationId ?: 0)
         context.startActivity(intent)

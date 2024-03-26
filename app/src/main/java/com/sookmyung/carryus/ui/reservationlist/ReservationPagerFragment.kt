@@ -50,22 +50,24 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
     private fun setReservationListData(){
         viewModel.locationStoreList.observe(viewLifecycleOwner) { reservationList ->
             reservationList?.let {
-                if(it.isEmpty()){
-                    binding.tvEmptyText.visibility = View.VISIBLE
-                    binding.ivEmptyIcon.visibility = View.VISIBLE
-                    binding.recyclerView.visibility = View.GONE
-                    return@observe
-                }
-                else{
-                    binding.tvEmptyText.visibility = View.GONE
-                    binding.ivEmptyIcon.visibility = View.GONE
-                    binding.recyclerView.visibility = View.VISIBLE
-
-                    binding.recyclerView.apply{
-                        adapter = reservationShopAdapter
-                        layoutManager = LinearLayoutManager(context)
+                with(binding){
+                    if(it.isEmpty()){
+                        tvEmptyText.visibility = View.VISIBLE
+                        ivEmptyIcon.visibility = View.VISIBLE
+                        recyclerView.visibility = View.GONE
+                        return@observe
                     }
-                    reservationShopAdapter.submitList(it)
+                    else{
+                        tvEmptyText.visibility = View.GONE
+                        ivEmptyIcon.visibility = View.GONE
+                        recyclerView.visibility = View.VISIBLE
+
+                       recyclerView.apply{
+                            adapter = reservationShopAdapter
+                            layoutManager = LinearLayoutManager(context)
+                        }
+                        reservationShopAdapter.submitList(it)
+                    }
                 }
             }
         }
@@ -82,8 +84,12 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
 
     private fun openCreateBuilding(reservationList: ReservationList) {
         val intent = Intent(context, ReservationDetailActivity::class.java)
-        intent.putExtra("reservation_id", reservationList.reservationId)
+        intent.putExtra(RESERVATION_ID, reservationList.reservationId)
         startActivity(intent)
+    }
+
+    companion object{
+        const val RESERVATION_ID = "RESERVATION_ID"
     }
 
 }

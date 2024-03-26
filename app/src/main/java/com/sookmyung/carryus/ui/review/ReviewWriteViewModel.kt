@@ -24,17 +24,10 @@ import javax.inject.Inject
 class ReviewWriteViewModel @Inject constructor(
     private val postReviewUseCase: PostReviewUseCase
 ): ViewModel(){
-    private val _textCount = MutableLiveData<String>()
-    val textCount: LiveData<String> = _textCount
-
     private val _rating = MutableLiveData<Float>()
     val rating: LiveData<Float> = _rating
 
-    private val _reviewContent = MutableLiveData<String>()
-    val reviewContent: LiveData<String> = _reviewContent
-
-    private val _reviewDetailLiveData = MutableLiveData<ReviewDetail>()
-    val reviewDetailLiveData: LiveData<ReviewDetail> = _reviewDetailLiveData
+    val reviewContent = MutableLiveData<String>()
 
     private val _reservationListLiveData = MutableLiveData<ReservationList>()
     val reservationListLiveData: LiveData<ReservationList> = _reservationListLiveData
@@ -46,29 +39,16 @@ class ReviewWriteViewModel @Inject constructor(
     }
 
     init {
-        _textCount.value = "0/1000"
         _rating.value = 0f
-        _reviewContent.value = ""
     }
 
-    companion object{
-        private const val MAXIMUM_LENGTH = 1000
-    }
-
-    fun onTextChanged(s: CharSequence) {
-        val count = s.length
-        _reviewContent.value = s.toString()
-        _textCount.value = "$count/$MAXIMUM_LENGTH"
+    fun setReviewContent(newText: String) {
+        reviewContent.value = newText
     }
 
     fun onRatingChanged(rating: Float) {
         _rating.value = rating
         Log.d("ReviewEditViewModel", "rating: $rating")
-    }
-
-    fun initializeDataSet() {
-        val count = 0
-        _textCount.value = "$count/$MAXIMUM_LENGTH"
     }
 
     fun setReservationList(reservationList: ReservationList) {
@@ -88,25 +68,6 @@ class ReviewWriteViewModel @Inject constructor(
 
     }
 }
-
-@BindingAdapter("app:reviewWriteTextCount")
-fun setReviewWriteTextCount(textView: TextView, count: String) {
-    textView.text = count
-}
-
-@BindingAdapter("app:reviewWriteTextWatcher")
-fun bindReviewWriteTextWatcher(editText: EditText, viewModel: ReviewWriteViewModel?) {
-    viewModel?.let {
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onTextChanged(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-    }
-}
-
 
 @BindingAdapter("app:ratingChangeListener")
 fun setRatingChangeListener(ratingBar: RatingBar, viewModel: ReviewWriteViewModel?) {

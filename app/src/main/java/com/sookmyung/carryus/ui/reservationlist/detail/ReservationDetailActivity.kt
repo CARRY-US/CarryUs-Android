@@ -11,6 +11,7 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
+import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_ID
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,11 +39,9 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun setReservationData(){
-        reservationId = intent.getIntExtra("reservation_id",0)
-        Log.d("ReservationDetailActivity","$reservationId")
+        reservationId = intent.getIntExtra(RESERVATION_ID,0)
 
         viewModel.setReservationDetail(reservationId)
-
     }
     private fun setCancelDialog() {
         val customDialog = CustomDialog(this)
@@ -82,18 +81,19 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun setBottomSheetViewModel(){
-        bottomSheetViewModel.isTextEmpty.observe(this) { isEmpty ->
-            bottomSheetBinding.btnCancelRequest.isEnabled = !isEmpty
-        }
+        bottomSheetViewModel.setCancelReason(bottomSheetBinding.etCancelReason.text.toString())
 
-        bottomSheetViewModel.textCount.observe(this) { count ->
-            bottomSheetBinding.tvTextCount.text = count
+        bottomSheetViewModel.cancelReason.observe(this) { text ->
+            val isTextEmpty = text.isNullOrEmpty()
+            bottomSheetBinding.btnCancelRequest.isEnabled = !isTextEmpty
+            bottomSheetBinding.tvTextCount.text = "${text.length}/$MAXIMUM_LENGTH"
         }
 
         bottomSheetViewModel.cancelResultLiveData.observe(this) { isSuccess ->
             if (isSuccess) {
                 bottomSheetDialog.dismiss()
                 viewModel.setReservationDetail(reservationId)
+                applicationContext.toast("취소 성공")
             } else {
                 applicationContext.toast("취소 실패")
             }
@@ -111,6 +111,10 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
                 bottomSheetViewModel.postCancelReservation(CancelReservationRequest(reservationId = reservationId, cancelReason = cancelReason ?: ""))
             }
         }
+    }
+
+    companion object{
+        const val MAXIMUM_LENGTH = 1000
     }
 
 }

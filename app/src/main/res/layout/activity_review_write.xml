@@ -164,7 +164,7 @@
             android:textColorHint="@color/gray200"
             android:hint="@string/my_review_write_content_hint"
             android:textColor="@color/gray500"
-            app:reviewWriteTextWatcher="@{viewModel}"
+            android:text="@={viewModel.reviewContent}"
             android:background="@drawable/shape_gray500_line_4_rect"
             android:gravity="top"
             android:padding="18dp"
@@ -179,9 +179,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
-            android:text="0/1000"
+            android:text="@{viewModel.reviewContent.length() + `/1000`}"
             android:textColor="@color/gray400"
-            app:reviewWriteTextCount="@{viewModel.textCount}"
             app:layout_constraintEnd_toEndOf="@+id/et_review_write_content"
             app:layout_constraintTop_toBottomOf="@+id/et_review_write_content" />
 
