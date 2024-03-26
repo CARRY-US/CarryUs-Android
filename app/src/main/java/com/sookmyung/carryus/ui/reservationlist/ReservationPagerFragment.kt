@@ -17,10 +17,6 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
 
     private val viewModel: ReservationPagerViewModel by viewModels()
 
-    var data = listOf(ReservationList(1,"shopimg","가게이름 최대 14자","위치 최대 18자 노출되고 나머지는 ...","2024.02.10 14:00 예약"),
-        ReservationList(2,"shopimg","가게이름 최대 14자","위치 최대 18자 노출되고 나머지는 ...","2024.02.10 14:00 예약"),
-        ReservationList(3,"shopimg","가게이름 최대 14자","위치 최대 18자 노출되고 나머지는 ...","2024.02.10 14:00 예약"))
-
     private val reservationShopAdapter by lazy {
         ReservationShopAdapter(ReservationListClickListener { clickedReservation ->
             viewModel.onReservationItemClick(clickedReservation)

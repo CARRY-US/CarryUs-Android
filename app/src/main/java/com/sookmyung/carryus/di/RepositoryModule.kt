@@ -6,10 +6,12 @@ import com.sookmyung.carryus.domain.repository.MyRepository
 import com.sookmyung.carryus.data.repositoryImpl.ReservationsRepositoryImpl
 import com.sookmyung.carryus.domain.repository.ReservationsRepository
 import com.sookmyung.carryus.data.repositoryImpl.ReservationRepositoryImpl
+import com.sookmyung.carryus.data.repositoryImpl.ReviewsRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.StoresRepositoryImpl
 import com.sookmyung.carryus.domain.repository.MainRepository
 import com.sookmyung.carryus.domain.repository.ReservationRepository
+import com.sookmyung.carryus.domain.repository.ReviewsRepository
 import com.sookmyung.carryus.domain.repository.SearchRepository
 import com.sookmyung.carryus.domain.repository.StoresRepository
 import dagger.Binds
@@ -56,4 +58,10 @@ abstract class RepositoryModule {
     abstract fun bindToReservationRepository(
         reservationRepositoryImpl: ReservationRepositoryImpl
     ): ReservationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToReviewsRepository(
+        reviewsRepositoryImpl: ReviewsRepositoryImpl
+    ): ReviewsRepository
 }

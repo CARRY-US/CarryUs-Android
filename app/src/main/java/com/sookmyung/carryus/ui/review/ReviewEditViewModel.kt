@@ -1,19 +1,28 @@
 package com.sookmyung.carryus.ui.review
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
 import android.widget.RatingBar
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sookmyung.carryus.domain.entity.ReservationList
+import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.domain.entity.ReviewDetail
+import com.sookmyung.carryus.domain.entity.ReviewStoreInfo
+import com.sookmyung.carryus.domain.usecase.review.GetReviewDetailUseCase
+import com.sookmyung.carryus.domain.usecase.review.GetReviewStoreInfoUseCase
+import com.sookmyung.carryus.domain.usecase.review.PatchReviewUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ReviewEditViewModel : ViewModel(){
+@HiltViewModel
+class ReviewEditViewModel @Inject constructor(
+    val getReviewDetailUseCase: GetReviewDetailUseCase,
+    val getReviewStoreInfoUseCase: GetReviewStoreInfoUseCase,
+    val patchReviewUseCase: PatchReviewUseCase
+) : ViewModel(){
     private val _rating = MutableLiveData<Float>()
     val rating: LiveData<Float> = _rating
 
@@ -22,10 +31,10 @@ class ReviewEditViewModel : ViewModel(){
     private val _reviewDetailLiveData = MutableLiveData<ReviewDetail>()
     val reviewDetailLiveData: LiveData<ReviewDetail> = _reviewDetailLiveData
 
-    private val _reservationListLiveData = MutableLiveData<ReservationList>()
-    val reservationListLiveData: LiveData<ReservationList> = _reservationListLiveData
+    private val _reviewStoreInfoLiveData = MutableLiveData<ReviewStoreInfo>()
+    val reviewStoreInfoLiveData: LiveData<ReviewStoreInfo> = _reviewStoreInfoLiveData
 
-    val closeActivityEvent = MutableLiveData<Unit>()
+    val updateResultLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     fun setReviewContent(newText: String) {
         reviewContent.value = newText
@@ -36,24 +45,49 @@ class ReviewEditViewModel : ViewModel(){
     }
 
     fun initializeDataSet(reviewDetail: ReviewDetail) {
-        _rating.value = reviewDetail.reviewRating
+        _rating.value = reviewDetail.reviewRating.toFloat()
         reviewContent.value = reviewDetail.reviewContent
     }
 
-    fun setReviewDetail(reviewDetail: ReviewDetail) {
-        _reviewDetailLiveData.value = reviewDetail
-        initializeDataSet(reviewDetail)
+    fun setReviewDetail(reviewId: Int) {
+        viewModelScope.launch {
+            getReviewDetailUseCase(reviewId)
+                .onSuccess { response ->
+                    _reviewDetailLiveData.value = response
+                    initializeDataSet(response)
+                }.onFailure { throwable ->
+                    _reviewDetailLiveData.value = ReviewDetail()
+                }
+        }
     }
 
-    fun setReservationList(reservationList: ReservationList) {
-        _reservationListLiveData.value = reservationList
+    fun setReservationList(reviewId: Int) {
+        viewModelScope.launch {
+            getReviewStoreInfoUseCase(reviewId)
+                .onSuccess { response ->
+                    _reviewStoreInfoLiveData.value = response
+                }.onFailure { throwable ->
+                    _reviewStoreInfoLiveData.value = ReviewStoreInfo()
+                }
+        }
     }
 
-    fun requestCloseActivity() {
-        Log.d("ReviewEditViewModel", "onSaveButtonClick")
-        Log.d("ReviewEditViewModel", "rating: ${_rating.value}")
-        Log.d("ReviewEditViewModel", "reviewContent: ${reviewContent.value}")
-        closeActivityEvent.value = Unit
+    fun updateReview(reviewId: Int) {
+        viewModelScope.launch {
+            rating.value?.let {
+                ReviewRequest(
+                    reviewRating = it.toDouble(),
+                    reviewContent = reviewContent.value ?: ""
+                )
+            }?.let {
+                patchReviewUseCase(reviewId, it)
+                    .onSuccess { response ->
+                        updateResultLiveData.postValue(true)
+                    }.onFailure { response ->
+                        updateResultLiveData.postValue(false)
+                    }
+            }
+        }
     }
 }
 

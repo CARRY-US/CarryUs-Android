@@ -22,7 +22,7 @@ class ReservationsRepositoryImpl @Inject constructor(
         reservationId: Int
     ) : Result<ReservationDetail> = runCatching {
         reservationsDataSource.getReservationDetail(reservationId)
-    }.mapCatching { response -> response.data?.toReservationDetail() ?: throw Exception("Data is null")
+    }.mapCatching { response -> response.data?.toReservationDetail() ?: ReservationDetail()
     }
 
     override suspend fun postCancelReservation(
