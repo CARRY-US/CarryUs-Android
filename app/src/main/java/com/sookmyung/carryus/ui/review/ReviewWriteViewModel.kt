@@ -11,21 +11,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
+import com.sookmyung.carryus.domain.usecase.reservation.PostReviewUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ReviewWriteViewModel: ViewModel(){
-    private val _textCount = MutableLiveData<String>()
-    val textCount: LiveData<String> = _textCount
-
+@HiltViewModel
+class ReviewWriteViewModel @Inject constructor(
+    private val postReviewUseCase: PostReviewUseCase
+): ViewModel(){
     private val _rating = MutableLiveData<Float>()
     val rating: LiveData<Float> = _rating
 
-    private val _reviewContent = MutableLiveData<String>()
-    val reviewContent: LiveData<String> = _reviewContent
-
-    private val _reviewDetailLiveData = MutableLiveData<ReviewDetail>()
-    val reviewDetailLiveData: LiveData<ReviewDetail> = _reviewDetailLiveData
+    val reviewContent = MutableLiveData<String>()
 
     private val _reservationListLiveData = MutableLiveData<ReservationList>()
     val reservationListLiveData: LiveData<ReservationList> = _reservationListLiveData
@@ -37,19 +39,11 @@ class ReviewWriteViewModel: ViewModel(){
     }
 
     init {
-        _textCount.value = "0/1000"
         _rating.value = 0f
-        _reviewContent.value = ""
     }
 
-    companion object{
-        private const val MAXIMUM_LENGTH = 1000
-    }
-
-    fun onTextChanged(s: CharSequence) {
-        val count = s.length
-        _reviewContent.value = s.toString()
-        _textCount.value = "$count/$MAXIMUM_LENGTH"
+    fun setReviewContent(newText: String) {
+        reviewContent.value = newText
     }
 
     fun onRatingChanged(rating: Float) {
@@ -57,46 +51,23 @@ class ReviewWriteViewModel: ViewModel(){
         Log.d("ReviewEditViewModel", "rating: $rating")
     }
 
-    fun initializeDataSet(reviewDetail: ReviewDetail) {
-        val count = reviewDetail.reviewContent.length
-        _textCount.value = "$count/$MAXIMUM_LENGTH"
-    }
-
-    fun setReviewDetail(reviewDetail: ReviewDetail) {
-        _reviewDetailLiveData.value = reviewDetail
-        initializeDataSet(reviewDetail)
-    }
-
     fun setReservationList(reservationList: ReservationList) {
         _reservationListLiveData.value = reservationList
     }
 
-    fun requestCloseActivity() {
-        Log.d("ReviewWriteViewModel", "onSaveButtonClick")
-        Log.d("ReviewWriteViewModel", "rating: ${_rating.value}")
-        Log.d("ReviewWriteViewModel", "reviewContent: ${_reviewContent.value}")
-        closeActivityEvent.value = Unit
+    fun postReview(reservationId: Int, reviewRequest: ReviewRequest) {
+        viewModelScope.launch {
+            postReviewUseCase(reservationId, reviewRequest )
+                .onSuccess { response ->
+                    Log.d("ReviewWriteViewModel", "리뷰 작성 성공 -> ${response}")
+                    closeActivityEvent.postValue(Unit)
+                }.onFailure { throwable ->
+                    Log.e("ReviewWriteViewModel", "리뷰 작성 실패 -> ${throwable.message}")
+                }
+        }
+
     }
 }
-
-@BindingAdapter("app:textCount")
-fun setReviewTextCount(textView: TextView, count: String) {
-    textView.text = count
-}
-
-@BindingAdapter("app:textWatcher")
-fun bindTextWatcher(editText: EditText, viewModel: ReviewWriteViewModel?) {
-    viewModel?.let {
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onTextChanged(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-    }
-}
-
 
 @BindingAdapter("app:ratingChangeListener")
 fun setRatingChangeListener(ratingBar: RatingBar, viewModel: ReviewWriteViewModel?) {

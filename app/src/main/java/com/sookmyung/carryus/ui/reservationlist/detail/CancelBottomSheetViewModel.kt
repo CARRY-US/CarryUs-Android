@@ -2,45 +2,43 @@ package com.sookmyung.carryus.ui.reservationlist.detail
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
+import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
+import com.sookmyung.carryus.domain.usecase.reservation.PostCancelReservationUseCase
+import com.sookmyung.carryus.util.toast
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CancelBottomSheetViewModel : ViewModel() {
-    private val _textCount = MutableLiveData<String>()
-    val textCount: LiveData<String> = _textCount
+@HiltViewModel
+class CancelBottomSheetViewModel @Inject constructor(
+    private val postCancelReservationUseCase: PostCancelReservationUseCase
+) : ViewModel() {
+    val cancelResultLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
-    init {
-        _textCount.value = "0/1000"
+    val cancelReason = MutableLiveData<String>()
+
+    fun setCancelReason(newText: String) {
+        cancelReason.value = newText
     }
 
-    companion object{
-        private const val MAXIMUM_LENGTH = 1000
-    }
-
-    fun onTextChanged(s: CharSequence) {
-        val count = s.length
-        _textCount.value = "$count/$MAXIMUM_LENGTH"
-    }
-}
-
-@BindingAdapter("app:textCount")
-fun setTextCount(textView: TextView, count: String) {
-    textView.text = count
-}
-
-@BindingAdapter("app:textWatcher")
-fun bindTextWatcher(editText: EditText, viewModel: CancelBottomSheetViewModel?) {
-    viewModel?.let {
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.onTextChanged(s.toString())
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
+    fun postCancelReservation(cancelReservationRequest: CancelReservationRequest) {
+        viewModelScope.launch {
+            postCancelReservationUseCase(cancelReservationRequest)
+                .onSuccess { response ->
+                    cancelResultLiveData.postValue(true)
+                }.onFailure { throwable ->
+                    cancelResultLiveData.postValue(false)
+                }
+        }
     }
 }

@@ -5,14 +5,15 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
+import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
-import com.sookmyung.carryus.domain.entity.ReservationDetail
+import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_ID
 import com.sookmyung.carryus.util.binding.BindingActivity
+import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +21,10 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     private val viewModel: ReservationDetailViewModel by viewModels()
     private val bottomSheetViewModel: CancelBottomSheetViewModel by viewModels()
     private var cancelReason: String? = null
+    private var reservationId: Int = 0
 
+    private lateinit var bottomSheetBinding: ItemCustomCancelBottomsheetBinding
+    private lateinit var  bottomSheetDialog: BottomSheetDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
@@ -35,14 +39,9 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun setReservationData(){
-        val reservationId = intent.getIntExtra("reservation_id",0)
-        Log.d("ReservationDetailActivity","$reservationId")
+        reservationId = intent.getIntExtra(RESERVATION_ID,0)
 
-        viewModel.setReservationDetail(
-            ReservationDetail(1,1,"URL","가게 이름","보관완료"
-                ,"2024.02.10 14:00","24인치 1개, 20인치 3개","장나리","010-0000-0000","살살 다뤄주세요.",20000)
-        )
-
+        viewModel.setReservationDetail(reservationId)
     }
     private fun setCancelDialog() {
         val customDialog = CustomDialog(this)
@@ -70,32 +69,52 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun showBottomSheet() {
-        val bottomSheetBinding = ItemCustomCancelBottomsheetBinding.inflate(layoutInflater)
+        bottomSheetBinding = ItemCustomCancelBottomsheetBinding.inflate(layoutInflater)
+        bottomSheetBinding.viewModel = bottomSheetViewModel
+        bottomSheetDialog = BottomSheetDialog(this@ReservationDetailActivity)
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
 
-        with(bottomSheetBinding) {
-            viewModel = bottomSheetViewModel
+        setBottomSheetViewModel()
+        setBottomSheetBtnClickListener()
 
-            bottomSheetViewModel.textCount.observe(this@ReservationDetailActivity) { count ->
-                tvTextCount.text = count
+        bottomSheetDialog.show()
+    }
+
+    private fun setBottomSheetViewModel(){
+        bottomSheetViewModel.setCancelReason(bottomSheetBinding.etCancelReason.text.toString())
+
+        bottomSheetViewModel.cancelReason.observe(this) { text ->
+            val isTextEmpty = text.isNullOrEmpty()
+            bottomSheetBinding.btnCancelRequest.isEnabled = !isTextEmpty
+            bottomSheetBinding.tvTextCount.text = "${text.length}/$MAXIMUM_LENGTH"
+        }
+
+        bottomSheetViewModel.cancelResultLiveData.observe(this) { isSuccess ->
+            if (isSuccess) {
+                bottomSheetDialog.dismiss()
+                viewModel.setReservationDetail(reservationId)
+                applicationContext.toast("취소 성공")
+            } else {
+                applicationContext.toast("취소 실패")
             }
+        }
+    }
 
-            val bottomSheetDialog = BottomSheetDialog(this@ReservationDetailActivity)
-            bottomSheetDialog.setContentView(root)
-
+    private fun setBottomSheetBtnClickListener(){
+        with(bottomSheetBinding){
             btnClose.setOnClickListener {
                 bottomSheetDialog.dismiss()
             }
 
             btnCancelRequest.setOnClickListener {
                 cancelReason = etCancelReason.text.toString()
-                Log.d("CustomCancelBottomSheetFragment", cancelReason ?: "")
-                Toast.makeText(this@ReservationDetailActivity, "예약이 취소되었어요", Toast.LENGTH_SHORT).show()
-                bottomSheetDialog.dismiss()
+                bottomSheetViewModel.postCancelReservation(CancelReservationRequest(reservationId = reservationId, cancelReason = cancelReason ?: ""))
             }
-
-            bottomSheetDialog.show()
         }
+    }
 
+    companion object{
+        const val MAXIMUM_LENGTH = 1000
     }
 
 }
