@@ -2,6 +2,7 @@ package com.sookmyung.carryus.di
 
 import com.sookmyung.carryus.data.service.MainService
 import com.sookmyung.carryus.data.service.ReservationsService
+import com.sookmyung.carryus.data.service.ReservationService
 import com.sookmyung.carryus.data.service.SearchService
 import com.sookmyung.carryus.data.service.StoresService
 import dagger.Module
@@ -28,4 +29,8 @@ object RetrofitServiceModule {
     @Provides
     fun providesStoresService(@RetrofitModule.CarryUsType retrofit: Retrofit): StoresService =
         retrofit.create(StoresService::class.java)
+
+    @Provides
+    fun providesReservationService(@RetrofitModule.CarryUsType retrofit: Retrofit): ReservationService =
+        retrofit.create(ReservationService::class.java)
 }
