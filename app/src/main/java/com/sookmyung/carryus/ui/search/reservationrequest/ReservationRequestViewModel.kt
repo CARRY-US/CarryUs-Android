@@ -9,6 +9,7 @@ import com.sookmyung.carryus.domain.entity.Suitcase
 import com.sookmyung.carryus.domain.entity.Time
 import com.sookmyung.carryus.domain.usecase.GetStoreReservationTimeUseCase
 import com.sookmyung.carryus.domain.usecase.GetUserDefaultInfoUseCase
+import com.sookmyung.carryus.domain.usecase.PostStoreReservationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReservationRequestViewModel @Inject constructor(
     val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase,
-    val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase
+    val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase,
+    val postStoreReservationUseCase: PostStoreReservationUseCase
 ) : ViewModel() {
     private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> =
         MutableLiveData()
@@ -76,6 +78,34 @@ class ReservationRequestViewModel @Inject constructor(
                     Timber.e("서버 통신 실패 -> ${throwable.message}")
                 }
         }
+    }
+
+    fun postReservation() {
+        viewModelScope.launch {
+            postStoreReservationUseCase(
+                _storeId.value ?: 0,
+                suitCase.value?.extraSmall ?: 0,
+                suitCase.value?.small ?: 0,
+                suitCase.value?.large ?: 0,
+                suitCase.value?.extraLarge ?: 0,
+                generateDateTimeString(selectedDate, startTime),
+                generateDateTimeString(selectedDate, endTime),
+                name.value ?: "",
+                phoneNumber.value ?: "",
+                others.value ?: ""
+            )
+                .onSuccess { response ->
+                    Timber.tag("reservationId").d("$response")
+                }
+                .onFailure { throwable ->
+                    Timber.e("서버 통신 실패 -> ${throwable.message}")
+                }
+        }
+    }
+
+    private fun generateDateTimeString(selectedDate: String, selectedTime: Int): String {
+        val timeString = String.format("%02d:00:00", selectedTime)
+        return "$selectedDate" + "T$timeString"
     }
 
     fun getReservationRequestTimeList() {

@@ -77,6 +77,7 @@ class ReservationRequestActivity :
 
     private fun sendRequest() {
         binding.btnReservationRequestSend.setOnClickListener {
+            viewModel.postReservation()
             val intentToReservationDetail = Intent(this, MainActivity::class.java)
             intentToReservationDetail.flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intentToReservationDetail)
