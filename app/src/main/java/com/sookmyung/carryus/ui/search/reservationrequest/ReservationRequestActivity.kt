@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.view.View
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
@@ -24,11 +25,18 @@ class ReservationRequestActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
+        setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
         setClickListener()
         checkSendBtnClickable()
         checkCheckBtnClickable()
         sendRequest()
+    }
+
+    private fun setPhoneNumberFormatTextWatcher() {
+        binding.etReservationRequestReservationPhoneNumber.addTextChangedListener(
+            PhoneNumberFormattingTextWatcher()
+        )
     }
 
     private fun setTimeRecyclerAdapter() {
@@ -89,8 +97,8 @@ class ReservationRequestActivity :
         }
     }
 
-    private fun checkCheckBtnClickable(){
-        viewModel.suitCase.observe(this){
+    private fun checkCheckBtnClickable() {
+        viewModel.suitCase.observe(this) {
             viewModel.checkIsCheckBtnClickable()
         }
     }

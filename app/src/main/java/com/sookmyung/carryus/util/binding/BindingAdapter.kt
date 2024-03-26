@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import coil.decode.SvgDecoder
 import coil.load
 import com.bumptech.glide.Glide
+import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity.Companion.MAXIMUM_LENGTH
 import com.sookmyung.carryus.util.PriceFormatter
 
 object BindingAdapter {
@@ -36,5 +37,12 @@ object BindingAdapter {
         this.let {
             it.text = "${PriceFormatter.formatPrice(amount)}원"
         }
+    }
+
+    @BindingAdapter("characterCount")
+    @JvmStatic
+    fun TextView.setCharacterCount(s: CharSequence) {
+        val count = s.length
+        this.text = "$count/$MAXIMUM_LENGTH"
     }
 }
