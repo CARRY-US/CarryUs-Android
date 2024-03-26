@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.ui.reservationlist.detail
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
 import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_ID
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +34,7 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         setContext()
         setReservationData()
         setCancelDialog()
+        setGotoStoreDetail()
     }
 
     private fun setContext(){
@@ -110,6 +113,14 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
                 cancelReason = etCancelReason.text.toString()
                 bottomSheetViewModel.postCancelReservation(CancelReservationRequest(reservationId = reservationId, cancelReason = cancelReason ?: ""))
             }
+        }
+    }
+
+    private fun setGotoStoreDetail(){
+        binding.clGoToShopDetail.setOnClickListener {
+            val intent = Intent(this, StoreDetailActivity::class.java)
+            intent.putExtra(StoreDetailActivity.STORE_ID, viewModel.reservationDetailLiveData.value?.storeId)
+            startActivity(intent)
         }
     }
 
