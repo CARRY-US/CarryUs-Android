@@ -10,8 +10,10 @@ import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationRequestBinding
 import com.sookmyung.carryus.ui.main.MainActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class ReservationRequestActivity :
@@ -25,12 +27,24 @@ class ReservationRequestActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
+        getStoreId()
         setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
         setClickListener()
         checkSendBtnClickable()
         checkCheckBtnClickable()
         sendRequest()
+        binding.cvReservationRequest.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate =
+                LocalDate.of(year, month + 1, dayOfMonth)
+            viewModel.getFormattedDateString(selectedDate)
+        }
+    }
+
+
+    private fun getStoreId() {
+        val storeId = intent.getIntExtra(StoreDetailActivity.STORE_ID, 0)
+        viewModel.updateStoreId(storeId)
     }
 
     private fun setPhoneNumberFormatTextWatcher() {
@@ -80,8 +94,10 @@ class ReservationRequestActivity :
                 clReservationRequestPayment.visibility = View.GONE
             }
         }
-        with(binding) {
-            btnReservationRequestCheck.setOnClickListener {
+
+        binding.btnReservationRequestCheck.setOnClickListener {
+            viewModel.getReservationRequestTimeList()
+            with(binding) {
                 clReservationRequestReservation.visibility = View.VISIBLE
                 clReservationRequestPayment.visibility = View.VISIBLE
             }

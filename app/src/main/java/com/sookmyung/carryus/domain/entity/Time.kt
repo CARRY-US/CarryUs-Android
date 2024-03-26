@@ -1,9 +1,9 @@
 package com.sookmyung.carryus.domain.entity
 
 data class Time(
-    val timeId: Int,
-    val hour: String,
-    val minute: String,
-    val available: Boolean,
-    val select: Boolean
+    val timeId: Int = 0,
+    val hour: String = "00",
+    val minute: String = "00",
+    val available: Boolean = false,
+    val select: Boolean = false
 )
