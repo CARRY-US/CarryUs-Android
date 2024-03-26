@@ -6,6 +6,7 @@ import com.sookmyung.carryus.data.entitiy.response.StoreDetailInfoResponse
 import com.sookmyung.carryus.data.entitiy.response.StoreDetailReviewResponse
 import com.sookmyung.carryus.data.entitiy.response.StoreReservationResponse
 import com.sookmyung.carryus.data.entitiy.response.StoreReservationTimeResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -35,6 +36,6 @@ interface StoresService {
     @POST("/stores/{storeId}/reservation")
     suspend fun postStoreReservationRequest(
         @Path("storeId") storeId: Int,
-        storeReservationRequest: StoreReservationRequest
+        @Body storeReservationRequest: StoreReservationRequest
     ): BaseResponse<StoreReservationResponse>
 }

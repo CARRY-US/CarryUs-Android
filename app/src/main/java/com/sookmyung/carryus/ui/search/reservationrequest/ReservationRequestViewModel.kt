@@ -93,13 +93,11 @@ class ReservationRequestViewModel @Inject constructor(
                 name.value ?: "",
                 phoneNumber.value ?: "",
                 others.value ?: ""
-            )
-                .onSuccess { response ->
-                    Timber.tag("reservationId").d("$response")
-                }
-                .onFailure { throwable ->
-                    Timber.e("서버 통신 실패 -> ${throwable.message}")
-                }
+            ).onSuccess { response ->
+                Timber.tag("reservationId").d("$response")
+            }.onFailure { throwable ->
+                Timber.e("서버 통신 실패 -> ${throwable.message}")
+            }
         }
     }
 
