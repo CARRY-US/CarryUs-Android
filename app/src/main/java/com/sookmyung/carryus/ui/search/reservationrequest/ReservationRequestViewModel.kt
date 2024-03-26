@@ -3,12 +3,21 @@ package com.sookmyung.carryus.ui.search.reservationrequest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.domain.entity.Suitcase
 import com.sookmyung.carryus.domain.entity.Time
+import com.sookmyung.carryus.domain.usecase.GetUserDefaultInfoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.Date
 import java.util.Random
+import javax.inject.Inject
 
-class ReservationRequestViewModel : ViewModel() {
+@HiltViewModel
+class ReservationRequestViewModel @Inject constructor(
+    val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase
+) : ViewModel() {
     val reservationRequestTimeList: MutableList<Time> = mutableListOf()
     private val _reservationRequestAvailableTimeList: MutableLiveData<List<Boolean>> =
         MutableLiveData()
@@ -32,6 +41,7 @@ class ReservationRequestViewModel : ViewModel() {
 
     init {
         initReservationRequestTimeList()
+        getUserDefault()
         getReservationRequest()
     }
 
@@ -48,6 +58,19 @@ class ReservationRequestViewModel : ViewModel() {
             )
         }
 
+    }
+
+    private fun getUserDefault() {
+        viewModelScope.launch {
+            getUserDefaultInfoUseCase()
+                .onSuccess { response ->
+                    name.value = response.memberName
+                    phoneNumber.value = response.memberPhoneNumber
+                }
+                .onFailure { throwable ->
+                    Timber.e("서버 통신 실패 -> ${throwable.message}")
+                }
+        }
     }
 
     private fun getReservationRequest() {
