@@ -38,6 +38,9 @@ class ReservationRequestViewModel @Inject constructor(
     private val _isCheckBtnClickable = MutableLiveData(false)
     val isCheckBtnClickable: LiveData<Boolean> get() = _isCheckBtnClickable
 
+    private val _isGetReservationInfo = MutableLiveData(false)
+    val isGetReservationInfo: LiveData<Boolean> get() = _isGetReservationInfo
+
     private val _amount = MutableLiveData(0)
     val amount: LiveData<Int> get() = _amount
 
@@ -122,6 +125,7 @@ class ReservationRequestViewModel @Inject constructor(
                 _suitCase.value?.extraLarge ?: 0,
             ).onSuccess { response ->
                 _reservationRequestAvailableTimeList.value = response
+                _isGetReservationInfo.value = true
             }.onFailure { throwable ->
                 Timber.e("서버 통신 실패 -> ${throwable.message}")
             }

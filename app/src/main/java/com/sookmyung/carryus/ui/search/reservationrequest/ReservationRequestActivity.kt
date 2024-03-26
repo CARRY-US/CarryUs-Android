@@ -16,6 +16,7 @@ import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.SUITCASE_FEE
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setFormattedPrice
+import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -33,6 +34,7 @@ class ReservationRequestActivity :
 
         getStoreId()
         getBundleData()
+        observeIsGetReservationInfo()
         setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
         setTimeRecyclerItemDeco()
@@ -41,11 +43,7 @@ class ReservationRequestActivity :
         checkCheckBtnClickable()
         sendRequest()
         setCalenderDateClickListener()
-        viewModel.amount.observe(this) {
-            binding.tvReservationRequestReservationFee.setFormattedPrice(
-                viewModel.amount.value ?: 0
-            )
-        }
+        setPriceFormat()
     }
 
 
@@ -85,10 +83,24 @@ class ReservationRequestActivity :
         submitListTimeRecyclerAdapter()
     }
 
+    private fun setPriceFormat() {
+        viewModel.amount.observe(this) {
+            binding.tvReservationRequestReservationFee.setFormattedPrice(
+                viewModel.amount.value ?: 0
+            )
+        }
+    }
+
     private fun submitListTimeRecyclerAdapter() {
         viewModel.reservationRequestAvailableTimeList.observe(this) {
             viewModel.getReservationRequest()
             reservationRequestTimeAdapter?.submitList(viewModel.reservationRequestTimeList)
+        }
+    }
+
+    private fun observeIsGetReservationInfo() {
+        viewModel.isGetReservationInfo.observe(this) { isGetReservationInfo ->
+            if (isGetReservationInfo) this.toast(getString(R.string.get_reservation_info_success))
         }
     }
 
