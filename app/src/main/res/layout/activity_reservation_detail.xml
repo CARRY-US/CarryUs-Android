@@ -93,16 +93,36 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tv_shop_name"
                     app:layout_constraintStart_toEndOf="@+id/tv_shop_name" />
 
-                <TextView
-                    android:id="@+id/tv_go_to_shop_detail"
-                    style="@style/detail2_regular"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_go_to_shop_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="가게 상세정보 보러가기"
-                    android:textColor="@color/gray700"
                     app:layout_constraintStart_toStartOf="@+id/tv_shop_name"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_shop_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_shop_name">
+
+                    <TextView
+                        android:id="@+id/tv_go_to_shop_detail"
+                        style="@style/detail2_regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/reservation_detail_go_to_store"
+                        android:textColor="@color/gray700"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_go_to_shop_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/ic_enter"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_go_to_shop_detail"
+                        app:layout_constraintStart_toEndOf="@+id/tv_go_to_shop_detail"
+                        app:layout_constraintTop_toTopOf="@+id/tv_go_to_shop_detail" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <View
                     android:id="@+id/view"
@@ -112,7 +132,7 @@
                     android:background="@color/gray100"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_go_to_shop_detail" />
+                    app:layout_constraintTop_toBottomOf="@+id/cl_go_to_shop_detail" />
 
                 <View
                     android:id="@+id/view2"
@@ -195,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="20dp"
-                    android:text="예약 정보"
+                    android:text="@string/reservation_detail_reservation_info"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -206,7 +226,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="14dp"
-                    android:text="날짜"
+                    android:text="@string/reservation_detail_date"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_reservation_info" />
 
@@ -217,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="10dp"
-                    android:text="캐리어 정보"
+                    android:text="@string/reservation_detail_carrier_info"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -248,7 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="20dp"
-                    android:text="예약자 정보"
+                    android:text="@string/reservation_detail_reservation_client_info"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view4" />
 
@@ -259,7 +279,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="14dp"
-                    android:text="이름"
+                    android:text="@string/reservation_detail_reservation_client_name"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_client_info" />
 
@@ -270,7 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="10dp"
-                    android:text="전화번호"
+                    android:text="@string/reservation_detail_reservation_client_phone_number"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view5" />
 
@@ -301,7 +321,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
                     android:layout_marginTop="10dp"
-                    android:text="기타 요청 사항"
+                    android:text="@string/reservation_detail_reservation_client_others"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view6" />
 
@@ -322,7 +342,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="20dp"
-                    android:text="결제 정보"
+                    android:text="@string/reservation_detail_reservation_payment_info"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view7" />
 
@@ -334,7 +354,7 @@
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="19dp"
                     android:layout_marginBottom="92dp"
-                    android:text="결제 금액"
+                    android:text="@string/reservation_detail_reservation_payment_fee"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_pay_info" />
@@ -382,8 +402,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
 
