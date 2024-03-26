@@ -22,21 +22,11 @@ class ReservationRequestViewModel @Inject constructor(
     val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase,
     val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase
 ) : ViewModel() {
-    val reservationRequestTimeList: MutableList<Time> = mutableListOf()
-    private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> =
-        MutableLiveData()
+    private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> = MutableLiveData()
     val reservationRequestAvailableTimeList: LiveData<StoreReservationTime> get() = _reservationRequestAvailableTimeList
 
     private val _suitCase: MutableLiveData<Suitcase> = MutableLiveData(Suitcase(0, 0, 0, 0))
     val suitCase: LiveData<Suitcase> get() = _suitCase
-
-    private val _storeId: MutableLiveData<Int> = MutableLiveData()
-    val todayDate: Long = getFormattedDateLong()
-    private var selectedDate: String = ""
-    val name = MutableLiveData("")
-    val phoneNumber = MutableLiveData("")
-    val others = MutableLiveData("")
-    private val reservationTime: MutableList<Int> = mutableListOf()
 
     private val _isSendBtnClickable = MutableLiveData(false)
     val isSendBtnClickable: LiveData<Boolean> get() = _isSendBtnClickable
@@ -44,6 +34,14 @@ class ReservationRequestViewModel @Inject constructor(
     private val _isCheckBtnClickable = MutableLiveData(false)
     val isCheckBtnClickable: LiveData<Boolean> get() = _isCheckBtnClickable
 
+    private val _storeId: MutableLiveData<Int> = MutableLiveData()
+    private val reservationTime: MutableList<Int> = mutableListOf()
+    private var selectedDate: String = ""
+    val reservationRequestTimeList: MutableList<Time> = mutableListOf()
+    val todayDate: Long = getFormattedDateLong()
+    val name = MutableLiveData("")
+    val phoneNumber = MutableLiveData("")
+    val others = MutableLiveData("")
 
     init {
         initReservationRequestTimeList()
