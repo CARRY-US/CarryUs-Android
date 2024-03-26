@@ -41,6 +41,11 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
         setCancelDialog()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMyReviews()
+    }
+
     private fun setMyProfile(){
         viewModel.getMyProfile()
         viewModel.myProfile.observe(viewLifecycleOwner) { myProfile ->

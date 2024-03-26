@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReviewResponse(
     @SerialName("reviewId")
-    val reviewId: Int
-)
+    val reviewId: Int = 0
+){
+    fun toReviewResponse() = this
+}

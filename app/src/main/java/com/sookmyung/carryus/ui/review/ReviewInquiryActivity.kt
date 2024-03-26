@@ -2,6 +2,7 @@ package com.sookmyung.carryus.ui.review
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReviewInquiryBinding
@@ -26,9 +27,16 @@ class ReviewInquiryActivity : BindingActivity<ActivityReviewInquiryBinding>(R.la
         setReviewDetailData()
         setReservationDetailData()
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setReviewDetail(reviewId)
+    }
+
     private fun setReviewInquiryEdit(){
         binding.tvReviewInquiryEdit.setOnClickListener {
             val intent = Intent(this, ReviewEditActivity::class.java)
+            intent.putExtra(MyPageFragment.REVIEW_ID, reviewId)
             startActivity(intent)
         }
     }

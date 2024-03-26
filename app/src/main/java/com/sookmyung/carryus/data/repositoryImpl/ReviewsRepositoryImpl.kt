@@ -1,5 +1,7 @@
 package com.sookmyung.carryus.data.repositoryImpl
 
+import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
+import com.sookmyung.carryus.data.entitiy.response.ReviewResponse
 import com.sookmyung.carryus.data.source.ReviewsDataSource
 import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.domain.entity.ReviewStoreInfo
@@ -21,5 +23,12 @@ class ReviewsRepositoryImpl @Inject constructor(
         reviewsDataSource.getReviewStoreInfo(reviewId)
     }.mapCatching { response ->
         response.data?.toReviewStoreInfo() ?: ReviewStoreInfo()
+    }
+
+    override suspend fun updateReview(reviewId: Int, reviewRequest: ReviewRequest) : Result<ReviewResponse>
+    = runCatching {
+        reviewsDataSource.updateReview(reviewId, reviewRequest)
+    }.mapCatching { response ->
+        response.data?.toReviewResponse() ?: ReviewResponse()
     }
 }

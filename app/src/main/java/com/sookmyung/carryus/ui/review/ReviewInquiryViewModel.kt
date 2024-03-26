@@ -29,7 +29,7 @@ class ReviewInquiryViewModel @Inject constructor(
                 .onSuccess { response ->
                     _reviewDetailLiveData.value = response
                 }.onFailure { throwable ->
-                    throwable.printStackTrace()
+                    _reviewDetailLiveData.value = ReviewDetail()
                 }
         }
     }
@@ -40,7 +40,7 @@ class ReviewInquiryViewModel @Inject constructor(
                 .onSuccess { response ->
                     _reviewStoreInfoLiveData.value = response
                 }.onFailure { throwable ->
-                    throwable.printStackTrace()
+                    _reviewStoreInfoLiveData.value = ReviewStoreInfo()
                 }
         }
     }
