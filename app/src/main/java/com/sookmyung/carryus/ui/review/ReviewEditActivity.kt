@@ -6,6 +6,7 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReviewEditBinding
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
+import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity.Companion.MAXIMUM_LENGTH
 import com.sookmyung.carryus.util.binding.BindingActivity
 
 
@@ -21,8 +22,12 @@ class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.a
         setSaveBtnAction()
     }
     private fun setTextCount(){
-        viewModel.textCount.observe(this) { count ->
-            binding.tvReviewEditTextCount.text = count
+        viewModel.setReviewContent(binding.etReviewEditContent.text.toString())
+
+        viewModel.reviewContent.observe(this) { text ->
+            val isTextEmpty = text.isNullOrEmpty()
+            binding.tvReviewEditSaveButton.isEnabled = !isTextEmpty
+            binding.tvReviewEditTextCount.text = "${text.length}/$MAXIMUM_LENGTH"
         }
     }
     private fun setReviewDetailData(){
