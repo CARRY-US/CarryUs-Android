@@ -26,7 +26,7 @@
             android:value="587e1e6dd22e364bf42b2e9be8041033" />
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -35,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.search.result.SearchResultActivity"
             android:exported="false"
