@@ -22,11 +22,6 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
             viewModel.onReservationItemClick(clickedReservation)
         })
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
@@ -34,6 +29,11 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
         setContent()
         setViewModelNavigate()
         setReservationListData()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setContent()
     }
 
     private fun setContent(){
