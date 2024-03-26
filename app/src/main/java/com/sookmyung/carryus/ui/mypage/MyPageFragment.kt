@@ -41,6 +41,11 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
         setCancelDialog()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMyReviews()
+    }
+
     private fun setMyProfile(){
         viewModel.getMyProfile()
         viewModel.myProfile.observe(viewLifecycleOwner) { myProfile ->
@@ -74,7 +79,7 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
 
     private fun openCreateBuilding(myReviews: MyReviews) {
         val intent = Intent(context, ReviewInquiryActivity::class.java)
-        intent.putExtra("review_id", myReviews.reviewId)
+        intent.putExtra(REVIEW_ID, myReviews.reviewId)
         startActivity(intent)
     }
 
@@ -99,6 +104,10 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
                 alertDialog.dismiss()
             }
         }
+    }
+
+    companion object{
+        const val REVIEW_ID = "REVIEW_ID"
     }
 }
 

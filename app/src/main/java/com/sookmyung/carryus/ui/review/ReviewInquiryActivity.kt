@@ -2,39 +2,69 @@ package com.sookmyung.carryus.ui.review
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReviewInquiryBinding
-import com.sookmyung.carryus.domain.entity.ReservationList
-import com.sookmyung.carryus.domain.entity.ReviewDetail
+import com.sookmyung.carryus.ui.mypage.MyPageFragment
 import com.sookmyung.carryus.util.binding.BindingActivity
+import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ReviewInquiryActivity : BindingActivity<ActivityReviewInquiryBinding>(R.layout.activity_review_inquiry)
 {
     private val viewModel: ReviewInquiryViewModel by viewModels()
+
+    private var reviewId = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
+
+        reviewId = intent.getIntExtra(MyPageFragment.REVIEW_ID,0)
 
         setReviewInquiryEdit()
         setReviewDetailData()
         setReservationDetailData()
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.setReviewDetail(reviewId)
+    }
+
     private fun setReviewInquiryEdit(){
         binding.tvReviewInquiryEdit.setOnClickListener {
             val intent = Intent(this, ReviewEditActivity::class.java)
+            intent.putExtra(MyPageFragment.REVIEW_ID, reviewId)
             startActivity(intent)
         }
     }
     private fun setReviewDetailData(){
-        viewModel.setReviewDetail(
-            ReviewDetail(1,4.5f,"캐리어스 짱짱~"))
+        viewModel.setReviewDetail(reviewId)
+
+        viewModel.reviewDetailLiveData.observe(this) { reviewDetail ->
+            with(binding){
+                rbReviewInquiryStarPoint.rating = reviewDetail.reviewRating.toFloat()
+                tvReviewInquiryContent.text = reviewDetail.reviewContent
+            }
+        }
+
     }
 
     private fun setReservationDetailData(){
-        viewModel.setReservationList(
-            ReservationList(1,"shopimg","가게이름 최대 14자","위치 최대 18자 노출되고 나머지는 ...","2024.02.10 14:00 예약")
-        )
+        viewModel.setReservationList(reviewId)
+
+        viewModel.reviewStoreInfoLiveData.observe(this){reviewstoreInfo ->
+            with(binding){
+                ivReviewInquiryShopIcon.setImage(reviewstoreInfo.storeImgUrl)
+                tvReviewInquiryShopName.text = reviewstoreInfo.storeName
+                tvReviewInquiryShopLocation.text = reviewstoreInfo.storeLocation
+                tvReviewInquiryReservationDate.text = reviewstoreInfo.reservationInfo
+            }
+
+        }
+
     }
 
 

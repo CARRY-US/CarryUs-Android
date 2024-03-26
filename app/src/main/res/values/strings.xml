@@ -86,4 +86,5 @@
     <string name="reservation_request_reservation_person_name_title">이름</string>
     <string name="reservation_request_reservation_fee">예약 금액</string>
     <string name="reservation_request_item_time">%s:%s</string>
+    <string name="get_reservation_info_success">조회에 성공했습니다.</string>
 </resources>

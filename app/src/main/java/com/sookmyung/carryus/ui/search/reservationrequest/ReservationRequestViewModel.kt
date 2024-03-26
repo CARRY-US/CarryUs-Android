@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
 import com.sookmyung.carryus.domain.entity.StoreReservationTime
 import com.sookmyung.carryus.domain.entity.Suitcase
 import com.sookmyung.carryus.domain.entity.Time
 import com.sookmyung.carryus.domain.usecase.GetStoreReservationTimeUseCase
 import com.sookmyung.carryus.domain.usecase.GetUserDefaultInfoUseCase
+import com.sookmyung.carryus.domain.usecase.PostStoreReservationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ReservationRequestViewModel @Inject constructor(
     val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase,
-    val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase
+    val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase,
+    val postStoreReservationUseCase: PostStoreReservationUseCase
 ) : ViewModel() {
     private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> =
         MutableLiveData()
@@ -35,7 +38,14 @@ class ReservationRequestViewModel @Inject constructor(
     private val _isCheckBtnClickable = MutableLiveData(false)
     val isCheckBtnClickable: LiveData<Boolean> get() = _isCheckBtnClickable
 
+    private val _isGetReservationInfo = MutableLiveData(false)
+    val isGetReservationInfo: LiveData<Boolean> get() = _isGetReservationInfo
+
+    private val _amount = MutableLiveData(0)
+    val amount: LiveData<Int> get() = _amount
+
     private val _storeId: MutableLiveData<Int> = MutableLiveData()
+    private val suitCaseFee = mutableListOf<Int>(0, 0, 0, 0)
     private val reservationTime: MutableList<Int> = mutableListOf()
     private var selectedDate: String = ""
     val reservationRequestTimeList: MutableList<Time> = mutableListOf()
@@ -78,6 +88,32 @@ class ReservationRequestViewModel @Inject constructor(
         }
     }
 
+    fun postReservation() {
+        viewModelScope.launch {
+            postStoreReservationUseCase(
+                _storeId.value ?: 0,
+                suitCase.value?.extraSmall ?: 0,
+                suitCase.value?.small ?: 0,
+                suitCase.value?.large ?: 0,
+                suitCase.value?.extraLarge ?: 0,
+                generateDateTimeString(selectedDate, startTime),
+                generateDateTimeString(selectedDate, endTime),
+                name.value ?: "",
+                phoneNumber.value ?: "",
+                others.value ?: ""
+            ).onSuccess { response ->
+                Timber.tag("reservationId").d("$response")
+            }.onFailure { throwable ->
+                Timber.e("서버 통신 실패 -> ${throwable.message}")
+            }
+        }
+    }
+
+    private fun generateDateTimeString(selectedDate: String, selectedTime: Int): String {
+        val timeString = String.format("%02d:00:00", selectedTime)
+        return "$selectedDate" + "T$timeString"
+    }
+
     fun getReservationRequestTimeList() {
         viewModelScope.launch {
             getStoreReservationTimeUseCase(
@@ -89,6 +125,7 @@ class ReservationRequestViewModel @Inject constructor(
                 _suitCase.value?.extraLarge ?: 0,
             ).onSuccess { response ->
                 _reservationRequestAvailableTimeList.value = response
+                _isGetReservationInfo.value = true
             }.onFailure { throwable ->
                 Timber.e("서버 통신 실패 -> ${throwable.message}")
             }
@@ -129,12 +166,13 @@ class ReservationRequestViewModel @Inject constructor(
 
     private fun handleSecondItemClick(pos: Int) {
         if (pos <= reservationTime.min()) {
-            reservationTime.removeFirst()
+            removeTimeRange()
+            reservationTime.removeAll { it < 24 }
             reservationTime.add(pos)
-            prevStartTime = pos
-            endTime = startTime
+            prevStartTime = startTime
             startTime = pos
-            prevEndTime = pos
+            prevEndTime = prevStartTime
+            endTime = pos
         } else {
             reservationTime.add(pos)
             prevEndTime = pos
@@ -152,8 +190,10 @@ class ReservationRequestViewModel @Inject constructor(
         endTime = pos
     }
 
-    fun removeTimeRange() {
-        for (temp in startTime..endTime) {
+    private fun removeTimeRange() {
+        val min = prevStartTime.coerceAtMost(startTime)
+        val max = prevEndTime.coerceAtLeast(endTime)
+        for (temp in min..max) {
             reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = false)
         }
     }
@@ -211,6 +251,18 @@ class ReservationRequestViewModel @Inject constructor(
 
     fun updateStoreId(storeId: Int) {
         _storeId.value = storeId
+    }
+
+    fun updateSearchSuitCaseFee(list: List<BaggageTypeInfo>) {
+        for (i in 0 until minOf(4, list.size)) {
+            suitCaseFee[i] = list[i].baggagePrice
+        }
+    }
+
+    fun getAmount() {
+        val suit = _suitCase.value ?: Suitcase(0, 0, 0, 0)
+        _amount.value =
+            suit.run { extraSmall * suitCaseFee[0] + small * suitCaseFee[1] + large * suitCaseFee[2] + extraLarge * suitCaseFee[3] } * reservationTime.size
     }
 
     companion object {
