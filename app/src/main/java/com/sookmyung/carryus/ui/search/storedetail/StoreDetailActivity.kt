@@ -3,11 +3,9 @@ package com.sookmyung.carryus.ui.search.storedetail
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityStoreDetailBinding
-import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
 import com.sookmyung.carryus.ui.search.reservationrequest.ReservationRequestActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,7 +90,7 @@ class StoreDetailActivity :
             }
         }
     }
-    
+
     companion object {
         const val STORE_ID = "STORE_ID"
         const val SUITCASE_FEE = "SUITCASE_FEE"
