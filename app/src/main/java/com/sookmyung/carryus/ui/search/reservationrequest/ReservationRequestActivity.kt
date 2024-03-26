@@ -9,9 +9,13 @@ import android.view.View
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationRequestBinding
+import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
+import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.SUITCASE_FEE
 import com.sookmyung.carryus.util.binding.BindingActivity
+import com.sookmyung.carryus.util.binding.BindingAdapter.setFormattedPrice
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -28,6 +32,7 @@ class ReservationRequestActivity :
         binding.viewModel = viewModel
 
         getStoreId()
+        getBundleData()
         setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
         setTimeRecyclerItemDeco()
@@ -36,12 +41,28 @@ class ReservationRequestActivity :
         checkCheckBtnClickable()
         sendRequest()
         setCalenderDateClickListener()
+        viewModel.amount.observe(this) {
+            binding.tvReservationRequestReservationFee.setFormattedPrice(
+                viewModel.amount.value ?: 0
+            )
+        }
     }
 
 
     private fun getStoreId() {
         val storeId = intent.getIntExtra(StoreDetailActivity.STORE_ID, 0)
         viewModel.updateStoreId(storeId)
+    }
+
+    private fun getBundleData() {
+        val bundle = intent.getBundleExtra(SUITCASE_FEE)
+        val suitCaseInfoList = bundle?.getParcelableArrayList<BaggageTypeInfo>(SUITCASE_FEE)
+
+        if (suitCaseInfoList != null) {
+            viewModel.updateSearchSuitCaseFee(suitCaseInfoList)
+        } else {
+            viewModel.updateSearchSuitCaseFee(emptyList())
+        }
     }
 
     private fun setPhoneNumberFormatTextWatcher() {
@@ -59,6 +80,7 @@ class ReservationRequestActivity :
                 viewModel.prevEndTime.coerceAtLeast(viewModel.endTime)
             )
             viewModel.checkIsSendBtnClickable()
+            viewModel.getAmount()
         }
         submitListTimeRecyclerAdapter()
     }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
 import com.sookmyung.carryus.domain.entity.StoreReservationTime
 import com.sookmyung.carryus.domain.entity.Suitcase
 import com.sookmyung.carryus.domain.entity.Time
@@ -37,7 +38,11 @@ class ReservationRequestViewModel @Inject constructor(
     private val _isCheckBtnClickable = MutableLiveData(false)
     val isCheckBtnClickable: LiveData<Boolean> get() = _isCheckBtnClickable
 
+    private val _amount = MutableLiveData(0)
+    val amount: LiveData<Int> get() = _amount
+
     private val _storeId: MutableLiveData<Int> = MutableLiveData()
+    private val suitCaseFee = mutableListOf<Int>(0, 0, 0, 0)
     private val reservationTime: MutableList<Int> = mutableListOf()
     private var selectedDate: String = ""
     val reservationRequestTimeList: MutableList<Time> = mutableListOf()
@@ -180,7 +185,7 @@ class ReservationRequestViewModel @Inject constructor(
         endTime = pos
     }
 
-    fun removeTimeRange() {
+    private fun removeTimeRange() {
         for (temp in startTime..endTime) {
             reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = false)
         }
@@ -239,6 +244,18 @@ class ReservationRequestViewModel @Inject constructor(
 
     fun updateStoreId(storeId: Int) {
         _storeId.value = storeId
+    }
+
+    fun updateSearchSuitCaseFee(list: List<BaggageTypeInfo>) {
+        for (i in 0 until minOf(4, list.size)) {
+            suitCaseFee[i] = list[i].baggagePrice
+        }
+    }
+
+    fun getAmount() {
+        val suit = _suitCase.value ?: Suitcase(0, 0, 0, 0)
+        _amount.value =
+            suit.run { extraSmall * suitCaseFee[0] + small * suitCaseFee[1] + large * suitCaseFee[2] + extraLarge * suitCaseFee[3] } * reservationTime.size
     }
 
     companion object {
