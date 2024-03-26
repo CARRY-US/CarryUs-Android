@@ -10,8 +10,10 @@ import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationRequestBinding
 import com.sookmyung.carryus.ui.main.MainActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class ReservationRequestActivity :
@@ -25,12 +27,21 @@ class ReservationRequestActivity :
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
 
+        getStoreId()
         setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
+        setTimeRecyclerItemDeco()
         setClickListener()
         checkSendBtnClickable()
         checkCheckBtnClickable()
         sendRequest()
+        setCalenderDateClickListener()
+    }
+
+
+    private fun getStoreId() {
+        val storeId = intent.getIntExtra(StoreDetailActivity.STORE_ID, 0)
+        viewModel.updateStoreId(storeId)
     }
 
     private fun setPhoneNumberFormatTextWatcher() {
@@ -40,17 +51,21 @@ class ReservationRequestActivity :
     }
 
     private fun setTimeRecyclerAdapter() {
+        binding.rvReservationRequestTime.itemAnimator = null
         binding.rvReservationRequestTime.adapter = ReservationRequestTimeAdapter { pos, _ ->
             viewModel.itemClick(pos)
-            reservationRequestTimeAdapter?.itemClick(pos)
+            reservationRequestTimeAdapter?.listChange(
+                viewModel.prevStartTime.coerceAtMost(viewModel.startTime),
+                viewModel.prevEndTime.coerceAtLeast(viewModel.endTime)
+            )
             viewModel.checkIsSendBtnClickable()
         }
         submitListTimeRecyclerAdapter()
-        setTimeRecyclerItemDeco()
     }
 
     private fun submitListTimeRecyclerAdapter() {
         viewModel.reservationRequestAvailableTimeList.observe(this) {
+            viewModel.getReservationRequest()
             reservationRequestTimeAdapter?.submitList(viewModel.reservationRequestTimeList)
         }
     }
@@ -75,13 +90,17 @@ class ReservationRequestActivity :
     private fun setReservationCheckBtnClickListener() {
         binding.btnReservationRequestInitialize.setOnClickListener {
             viewModel.clearSuitcase()
+            binding.rvReservationRequestTime.adapter = null
+            setTimeRecyclerAdapter()
             with(binding) {
                 clReservationRequestReservation.visibility = View.GONE
                 clReservationRequestPayment.visibility = View.GONE
             }
         }
-        with(binding) {
-            btnReservationRequestCheck.setOnClickListener {
+
+        binding.btnReservationRequestCheck.setOnClickListener {
+            viewModel.getReservationRequestTimeList()
+            with(binding) {
                 clReservationRequestReservation.visibility = View.VISIBLE
                 clReservationRequestPayment.visibility = View.VISIBLE
             }
@@ -100,6 +119,14 @@ class ReservationRequestActivity :
     private fun checkCheckBtnClickable() {
         viewModel.suitCase.observe(this) {
             viewModel.checkIsCheckBtnClickable()
+        }
+    }
+
+    private fun setCalenderDateClickListener() {
+        binding.cvReservationRequest.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate =
+                LocalDate.of(year, month + 1, dayOfMonth)
+            viewModel.getFormattedDateString(selectedDate)
         }
     }
 }

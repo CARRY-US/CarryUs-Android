@@ -4,33 +4,30 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.domain.entity.StoreReservationTime
 import com.sookmyung.carryus.domain.entity.Suitcase
 import com.sookmyung.carryus.domain.entity.Time
+import com.sookmyung.carryus.domain.usecase.GetStoreReservationTimeUseCase
 import com.sookmyung.carryus.domain.usecase.GetUserDefaultInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
-import java.util.Random
 import javax.inject.Inject
 
 @HiltViewModel
 class ReservationRequestViewModel @Inject constructor(
-    val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase
+    val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase,
+    val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase
 ) : ViewModel() {
-    val reservationRequestTimeList: MutableList<Time> = mutableListOf()
-    private val _reservationRequestAvailableTimeList: MutableLiveData<List<Boolean>> =
+    private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> =
         MutableLiveData()
-    val reservationRequestAvailableTimeList: LiveData<List<Boolean>> get() = _reservationRequestAvailableTimeList
+    val reservationRequestAvailableTimeList: LiveData<StoreReservationTime> get() = _reservationRequestAvailableTimeList
 
     private val _suitCase: MutableLiveData<Suitcase> = MutableLiveData(Suitcase(0, 0, 0, 0))
     val suitCase: LiveData<Suitcase> get() = _suitCase
-
-    val todayDate: Long = getFormattedDateLong()
-    val name = MutableLiveData("")
-    val phoneNumber = MutableLiveData("")
-    val others = MutableLiveData("")
-    private val reservationTime: MutableList<Int> = mutableListOf()
 
     private val _isSendBtnClickable = MutableLiveData(false)
     val isSendBtnClickable: LiveData<Boolean> get() = _isSendBtnClickable
@@ -38,26 +35,34 @@ class ReservationRequestViewModel @Inject constructor(
     private val _isCheckBtnClickable = MutableLiveData(false)
     val isCheckBtnClickable: LiveData<Boolean> get() = _isCheckBtnClickable
 
+    private val _storeId: MutableLiveData<Int> = MutableLiveData()
+    private val reservationTime: MutableList<Int> = mutableListOf()
+    private var selectedDate: String = ""
+    val reservationRequestTimeList: MutableList<Time> = mutableListOf()
+    var prevStartTime: Int = 0
+    var prevEndTime: Int = 0
+    var startTime: Int = 0
+    var endTime: Int = 0
+    val todayDate: Long = getFormattedDateLong()
+    val name = MutableLiveData("")
+    val phoneNumber = MutableLiveData("")
+    val others = MutableLiveData("")
 
     init {
         initReservationRequestTimeList()
+        getFormattedDateString()
         getUserDefault()
-        getReservationRequest()
     }
 
     private fun initReservationRequestTimeList() {
-        for (hour in 0..24) {
-            reservationRequestTimeList.add(
-                Time(
-                    hour,
-                    "%02d".format(hour),
-                    "00",
-                    available = false,
-                    select = false
-                )
-            )
+        repeat(24) {
+            val time = Time(timeId = it + 1)
+            reservationRequestTimeList.add(time)
         }
+    }
 
+    fun getFormattedDateString(date: LocalDate = LocalDate.now()) {
+        selectedDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
     }
 
     private fun getUserDefault() {
@@ -73,27 +78,90 @@ class ReservationRequestViewModel @Inject constructor(
         }
     }
 
-    private fun getReservationRequest() {
-        _reservationRequestAvailableTimeList.value = generateRandomBooleanList(24)
-        reservationRequestAvailableTimeList.value?.forEachIndexed { index, bool ->
-            reservationRequestTimeList[index] =
-                reservationRequestTimeList[index].copy(available = bool)
+    fun getReservationRequestTimeList() {
+        viewModelScope.launch {
+            getStoreReservationTimeUseCase(
+                _storeId.value ?: 0,
+                selectedDate,
+                _suitCase.value?.extraSmall ?: 0,
+                _suitCase.value?.small ?: 0,
+                _suitCase.value?.large ?: 0,
+                _suitCase.value?.extraLarge ?: 0,
+            ).onSuccess { response ->
+                _reservationRequestAvailableTimeList.value = response
+            }.onFailure { throwable ->
+                Timber.e("서버 통신 실패 -> ${throwable.message}")
+            }
         }
     }
 
-    //TODO server값 대신용 삭제할 것
-    private fun generateRandomBooleanList(size: Int): List<Boolean> {
-        return List(size) { Random().nextBoolean() }
+    fun getReservationRequest() {
+        reservationRequestAvailableTimeList.value?.availableTimeList?.forEachIndexed { index, bool ->
+            val hourFormatted = String.format("%02d", index)
+            reservationRequestTimeList[index] =
+                reservationRequestTimeList[index].copy(
+                    timeId = index,
+                    hour = hourFormatted,
+                    minute = "00",
+                    available = bool,
+                    select = false
+                )
+        }
     }
 
     fun itemClick(pos: Int) {
-        val currentTime = reservationRequestTimeList[pos]
-        val updatedTime = currentTime.copy(select = !currentTime.select)
+        when {
+            reservationTime.isEmpty() -> handleFirstItemClick(pos)
+            reservationTime.size == 1 -> handleSecondItemClick(pos)
+            else -> handleBothItemClicks(pos)
+        }
+        selectTimeRange()
+    }
 
-        if (updatedTime.select) reservationTime.add(pos)
-        else reservationTime.remove(pos)
 
-        reservationRequestTimeList[pos] = updatedTime
+    private fun handleFirstItemClick(pos: Int) {
+        reservationTime.add(pos)
+        prevStartTime = pos
+        startTime = pos
+        prevEndTime = pos
+        endTime = pos
+    }
+
+    private fun handleSecondItemClick(pos: Int) {
+        if (pos <= reservationTime.min()) {
+            reservationTime.removeFirst()
+            reservationTime.add(pos)
+            prevStartTime = pos
+            endTime = startTime
+            startTime = pos
+            prevEndTime = pos
+        } else {
+            reservationTime.add(pos)
+            prevEndTime = pos
+            endTime = pos
+        }
+    }
+
+    private fun handleBothItemClicks(pos: Int) {
+        removeTimeRange()
+        reservationTime.removeAll { it < 24 }
+        reservationTime.add(pos)
+        prevStartTime = startTime
+        startTime = pos
+        prevEndTime = endTime
+        endTime = pos
+    }
+
+    fun removeTimeRange() {
+        for (temp in startTime..endTime) {
+            reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = false)
+        }
+    }
+
+    private fun selectTimeRange() {
+        for (temp in startTime..endTime) {
+            reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = true)
+        }
     }
 
     fun clickSuitCase(suitcase: Int, oper: Int) {
@@ -141,6 +209,9 @@ class ReservationRequestViewModel @Inject constructor(
         return currentDate.time
     }
 
+    fun updateStoreId(storeId: Int) {
+        _storeId.value = storeId
+    }
 
     companion object {
         const val EXTRA_SMALL = 1
