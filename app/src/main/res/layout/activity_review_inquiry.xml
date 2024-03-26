@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="4dp"
-            android:text="@{viewModel.reservationListLiveData.storeName}"
+            android:text="@{viewModel.reviewStoreInfoLiveData.storeName}"
             android:textColor="@color/black000"
             app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_review_inquiry_shop_icon" />
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
             android:layout_marginTop="27dp"
-            android:text="@{viewModel.reservationListLiveData.storeLocation}"
+            android:text="@{viewModel.reviewStoreInfoLiveData.storeLocation}"
             android:textColor="@color/gray700"
             app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_shop_icon"
             app:layout_constraintTop_toTopOf="@+id/iv_review_inquiry_shop_icon" />
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:layout_marginBottom="8dp"
-            android:text="@{viewModel.reservationListLiveData.reservationDate}"
+            android:text="@{viewModel.reviewStoreInfoLiveData.reservationInfo}"
             android:textColor="@color/blue400"
             app:layout_constraintBottom_toBottomOf="@+id/iv_review_inquiry_shop_icon"
             app:layout_constraintStart_toEndOf="@+id/iv_review_inquiry_check_icon" />
@@ -134,7 +134,6 @@
             android:layout_marginTop="12dp"
             android:isIndicator="true"
             android:numStars="5"
-            android:rating="@{viewModel.reviewDetailLiveData.reviewRating}"
             android:stepSize="0.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

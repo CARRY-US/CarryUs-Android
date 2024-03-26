@@ -1,11 +1,7 @@
 package com.sookmyung.carryus.ui.review
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
 import android.widget.RatingBar
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -36,7 +32,7 @@ class ReviewEditViewModel : ViewModel(){
     }
 
     fun initializeDataSet(reviewDetail: ReviewDetail) {
-        _rating.value = reviewDetail.reviewRating
+        _rating.value = reviewDetail.reviewRating.toFloat()
         reviewContent.value = reviewDetail.reviewContent
     }
 

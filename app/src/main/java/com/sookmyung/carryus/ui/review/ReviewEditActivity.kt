@@ -9,7 +9,6 @@ import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity.Companion.MAXIMUM_LENGTH
 import com.sookmyung.carryus.util.binding.BindingActivity
 
-
 class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.activity_review_edit) {
     private val viewModel: ReviewEditViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +31,11 @@ class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.a
     }
     private fun setReviewDetailData(){
         viewModel.setReviewDetail(
-            ReviewDetail(1,4.5f,"캐리어스 짱짱~")
+            ReviewDetail(1,4.5,"캐리어스 짱짱~")
         )
+        viewModel.rating.observe(this) { rating ->
+            binding.rbReviewEditStarPoint.rating = rating
+        }
     }
 
     private fun setReservationDetailData(){
