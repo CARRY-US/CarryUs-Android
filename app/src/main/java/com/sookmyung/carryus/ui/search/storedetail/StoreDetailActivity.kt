@@ -3,11 +3,9 @@ package com.sookmyung.carryus.ui.search.storedetail
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityStoreDetailBinding
-import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
 import com.sookmyung.carryus.ui.search.reservationrequest.ReservationRequestActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +39,7 @@ class StoreDetailActivity :
     private fun setReviewObserver() {
         viewModel.storeDetailReview.observe(this) { review ->
             storeDetailReviewAdapter?.submitList(review.reviewList)
+            setStarRating()
             setRecyclerviewHeight()
         }
     }
@@ -63,6 +62,32 @@ class StoreDetailActivity :
             moveToReservationRequestIntent.putExtra(SUITCASE_FEE, bundle)
             moveToReservationRequestIntent.putExtra(STORE_ID, viewModel.storeId.value)
             startActivity(moveToReservationRequestIntent)
+        }
+    }
+
+    private fun setStarRating() {
+        val starImageViewIds = arrayOf(
+            binding.ivStoreDetailStarOne,
+            binding.ivStoreDetailStarTwo,
+            binding.ivStoreDetailStarThree,
+            binding.ivStoreDetailStarFour,
+            binding.ivStoreDetailStarFive
+        )
+        val fullStarDrawable = R.drawable.ic_star_medium_full
+        val halfStarDrawable = R.drawable.ic_star_medium_half
+        val emptyStarDrawable = R.drawable.ic_star_medium_gray
+
+        val ratingDouble = viewModel.storeDetailReview.value?.reviewRatingAverage ?: 0.0
+        val fullStarCount = ratingDouble.toInt()
+        val hasHalfStar = ratingDouble - fullStarCount >= 0.5f
+
+        for (i in starImageViewIds.indices) {
+            val imageView = starImageViewIds[i]
+            when {
+                i < fullStarCount -> imageView.setImageResource(fullStarDrawable)
+                i == fullStarCount && hasHalfStar -> imageView.setImageResource(halfStarDrawable)
+                else -> imageView.setImageResource(emptyStarDrawable)
+            }
         }
     }
 
