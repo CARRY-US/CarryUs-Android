@@ -34,11 +34,7 @@ class ReservationRequestActivity :
         checkSendBtnClickable()
         checkCheckBtnClickable()
         sendRequest()
-        binding.cvReservationRequest.setOnDateChangeListener { _, year, month, dayOfMonth ->
-            val selectedDate =
-                LocalDate.of(year, month + 1, dayOfMonth)
-            viewModel.getFormattedDateString(selectedDate)
-        }
+        setCalenderDateClickListener()
     }
 
 
@@ -54,9 +50,11 @@ class ReservationRequestActivity :
     }
 
     private fun setTimeRecyclerAdapter() {
+        binding.rvReservationRequestTime.itemAnimator = null
         binding.rvReservationRequestTime.adapter = ReservationRequestTimeAdapter { pos, _ ->
             viewModel.itemClick(pos)
             reservationRequestTimeAdapter?.itemClick(pos)
+            reservationRequestTimeAdapter?.listChange(viewModel.prevStartTime.coerceAtMost(viewModel.startTime), viewModel.prevEndTime.coerceAtLeast(viewModel.endTime))
             viewModel.checkIsSendBtnClickable()
         }
         submitListTimeRecyclerAdapter()
@@ -65,6 +63,7 @@ class ReservationRequestActivity :
 
     private fun submitListTimeRecyclerAdapter() {
         viewModel.reservationRequestAvailableTimeList.observe(this) {
+            viewModel.getReservationRequest()
             reservationRequestTimeAdapter?.submitList(viewModel.reservationRequestTimeList)
         }
     }
@@ -89,6 +88,8 @@ class ReservationRequestActivity :
     private fun setReservationCheckBtnClickListener() {
         binding.btnReservationRequestInitialize.setOnClickListener {
             viewModel.clearSuitcase()
+            binding.rvReservationRequestTime.scrollToPosition(0)
+            viewModel.removeTimeRange()
             with(binding) {
                 clReservationRequestReservation.visibility = View.GONE
                 clReservationRequestPayment.visibility = View.GONE
@@ -116,6 +117,14 @@ class ReservationRequestActivity :
     private fun checkCheckBtnClickable() {
         viewModel.suitCase.observe(this) {
             viewModel.checkIsCheckBtnClickable()
+        }
+    }
+
+    private fun setCalenderDateClickListener() {
+        binding.cvReservationRequest.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate =
+                LocalDate.of(year, month + 1, dayOfMonth)
+            viewModel.getFormattedDateString(selectedDate)
         }
     }
 }

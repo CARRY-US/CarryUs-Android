@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.ui.search.reservationrequest
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,7 +23,8 @@ class ReservationRequestViewModel @Inject constructor(
     val getUserDefaultInfoUseCase: GetUserDefaultInfoUseCase,
     val getStoreReservationTimeUseCase: GetStoreReservationTimeUseCase
 ) : ViewModel() {
-    private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> = MutableLiveData()
+    private val _reservationRequestAvailableTimeList: MutableLiveData<StoreReservationTime> =
+        MutableLiveData()
     val reservationRequestAvailableTimeList: LiveData<StoreReservationTime> get() = _reservationRequestAvailableTimeList
 
     private val _suitCase: MutableLiveData<Suitcase> = MutableLiveData(Suitcase(0, 0, 0, 0))
@@ -38,6 +40,10 @@ class ReservationRequestViewModel @Inject constructor(
     private val reservationTime: MutableList<Int> = mutableListOf()
     private var selectedDate: String = ""
     val reservationRequestTimeList: MutableList<Time> = mutableListOf()
+    var prevStartTime: Int = 0
+    var prevEndTime: Int = 0
+    var startTime: Int = 0
+    var endTime: Int = 0
     val todayDate: Long = getFormattedDateLong()
     val name = MutableLiveData("")
     val phoneNumber = MutableLiveData("")
@@ -84,33 +90,78 @@ class ReservationRequestViewModel @Inject constructor(
                 _suitCase.value?.extraLarge ?: 0,
             ).onSuccess { response ->
                 _reservationRequestAvailableTimeList.value = response
-                getReservationRequest()
             }.onFailure { throwable ->
                 Timber.e("서버 통신 실패 -> ${throwable.message}")
             }
         }
     }
 
-    private fun getReservationRequest() {
+    fun getReservationRequest() {
+        Log.e("kang","getReservationRequest")
         reservationRequestAvailableTimeList.value?.availableTimeList?.forEachIndexed { index, bool ->
             val hourFormatted = String.format("%02d", index)
             reservationRequestTimeList[index] =
                 reservationRequestTimeList[index].copy(
                     timeId = index,
                     hour = hourFormatted,
-                    available = bool
+                    minute = "00",
+                    available = bool,
+                    select = false
                 )
         }
     }
 
     fun itemClick(pos: Int) {
-        val currentTime = reservationRequestTimeList[pos]
-        val updatedTime = currentTime.copy(select = !currentTime.select)
+        when {
+            reservationTime.isEmpty() -> handleFirstItemClick(pos)
+            reservationTime.size == 1 -> handleSecondItemClick(pos)
+            else -> handleBothItemClicks(pos)
+        }
+        selectTimeRange()
+    }
 
-        if (updatedTime.select) reservationTime.add(pos)
-        else reservationTime.remove(pos)
 
-        reservationRequestTimeList[pos] = updatedTime
+    private fun handleFirstItemClick(pos: Int) {
+        reservationTime.add(pos)
+        prevStartTime = pos
+        startTime = pos
+        prevEndTime = pos
+        endTime = pos
+    }
+
+    private fun handleSecondItemClick(pos: Int) {
+        if (pos <= reservationTime.min()) {
+            reservationTime.removeFirst()
+            reservationTime.add(pos)
+            prevStartTime = startTime
+            startTime = pos
+            prevEndTime = pos
+            endTime = pos
+        } else {
+            reservationTime.add(pos)
+            prevEndTime = pos
+            endTime = pos
+        }
+    }
+
+    private fun handleBothItemClicks(pos: Int) {
+        removeTimeRange()
+        reservationTime.removeAll { it < 24 }
+        reservationTime.add(pos)
+        prevStartTime = startTime
+        startTime = pos
+        prevEndTime = endTime
+        endTime = pos
+    }
+    fun removeTimeRange() {
+        for (temp in startTime..endTime) {
+            reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = false)
+        }
+    }
+    private fun selectTimeRange() {
+        for (temp in startTime..endTime) {
+            reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = true)
+        }
     }
 
     fun clickSuitCase(suitcase: Int, oper: Int) {
