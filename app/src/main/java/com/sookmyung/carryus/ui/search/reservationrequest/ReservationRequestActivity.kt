@@ -9,9 +9,14 @@ import android.view.View
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationRequestBinding
+import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
+import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
+import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.SUITCASE_FEE
 import com.sookmyung.carryus.util.binding.BindingActivity
+import com.sookmyung.carryus.util.binding.BindingAdapter.setFormattedPrice
+import com.sookmyung.carryus.util.toast
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 
@@ -28,6 +33,8 @@ class ReservationRequestActivity :
         binding.viewModel = viewModel
 
         getStoreId()
+        getBundleData()
+        observeIsGetReservationInfo()
         setPhoneNumberFormatTextWatcher()
         setTimeRecyclerAdapter()
         setTimeRecyclerItemDeco()
@@ -36,12 +43,24 @@ class ReservationRequestActivity :
         checkCheckBtnClickable()
         sendRequest()
         setCalenderDateClickListener()
+        setPriceFormat()
     }
 
 
     private fun getStoreId() {
         val storeId = intent.getIntExtra(StoreDetailActivity.STORE_ID, 0)
         viewModel.updateStoreId(storeId)
+    }
+
+    private fun getBundleData() {
+        val bundle = intent.getBundleExtra(SUITCASE_FEE)
+        val suitCaseInfoList = bundle?.getParcelableArrayList<BaggageTypeInfo>(SUITCASE_FEE)
+
+        if (suitCaseInfoList != null) {
+            viewModel.updateSearchSuitCaseFee(suitCaseInfoList)
+        } else {
+            viewModel.updateSearchSuitCaseFee(emptyList())
+        }
     }
 
     private fun setPhoneNumberFormatTextWatcher() {
@@ -59,14 +78,29 @@ class ReservationRequestActivity :
                 viewModel.prevEndTime.coerceAtLeast(viewModel.endTime)
             )
             viewModel.checkIsSendBtnClickable()
+            viewModel.getAmount()
         }
         submitListTimeRecyclerAdapter()
+    }
+
+    private fun setPriceFormat() {
+        viewModel.amount.observe(this) {
+            binding.tvReservationRequestReservationFee.setFormattedPrice(
+                viewModel.amount.value ?: 0
+            )
+        }
     }
 
     private fun submitListTimeRecyclerAdapter() {
         viewModel.reservationRequestAvailableTimeList.observe(this) {
             viewModel.getReservationRequest()
             reservationRequestTimeAdapter?.submitList(viewModel.reservationRequestTimeList)
+        }
+    }
+
+    private fun observeIsGetReservationInfo() {
+        viewModel.isGetReservationInfo.observe(this) { isGetReservationInfo ->
+            if (isGetReservationInfo) this.toast(getString(R.string.get_reservation_info_success))
         }
     }
 
@@ -77,6 +111,7 @@ class ReservationRequestActivity :
 
     private fun sendRequest() {
         binding.btnReservationRequestSend.setOnClickListener {
+            viewModel.postReservation()
             val intentToReservationDetail = Intent(this, MainActivity::class.java)
             intentToReservationDetail.flags = FLAG_ACTIVITY_CLEAR_TOP or FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intentToReservationDetail)

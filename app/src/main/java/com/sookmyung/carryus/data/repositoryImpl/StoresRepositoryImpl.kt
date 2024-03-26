@@ -1,6 +1,7 @@
 package com.sookmyung.carryus.data.repositoryImpl
 
 import com.sookmyung.carryus.data.source.StoresDataSource
+import com.sookmyung.carryus.domain.entity.ReservationId
 import com.sookmyung.carryus.domain.entity.StoreDetail
 import com.sookmyung.carryus.domain.entity.StoreDetailReview
 import com.sookmyung.carryus.domain.entity.StoreReservationTime
@@ -42,4 +43,32 @@ class StoresRepositoryImpl @Inject constructor(
     }.mapCatching { response ->
         response.data?.toStoreReservationTime() ?: StoreReservationTime()
     }
+
+    override suspend fun postStoreReservationRequest(
+        storeId: Int,
+        extraSmallCount: Int,
+        smallCount: Int,
+        largeCount: Int,
+        extraLargeCount: Int,
+        reservationStartTime: String,
+        reservationEndTime: String,
+        memberName: String,
+        memberPhoneNumber: String,
+        memberRequestContent: String
+    ): Result<ReservationId> = runCatching {
+        storesDataSource.postStoreReservationRequest(
+            storeId,
+            extraSmallCount,
+            smallCount,
+            largeCount,
+            extraLargeCount,
+            reservationStartTime,
+            reservationEndTime,
+            memberName,
+            memberPhoneNumber,
+            memberRequestContent
+        )
+    }.mapCatching { response -> response.data?.toReservationId() ?: ReservationId() }
+
+
 }
