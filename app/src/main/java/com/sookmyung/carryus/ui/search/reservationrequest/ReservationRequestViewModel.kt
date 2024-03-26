@@ -131,10 +131,10 @@ class ReservationRequestViewModel @Inject constructor(
         if (pos <= reservationTime.min()) {
             reservationTime.removeFirst()
             reservationTime.add(pos)
-            prevStartTime = startTime
+            prevStartTime = pos
+            endTime = startTime
             startTime = pos
             prevEndTime = pos
-            endTime = pos
         } else {
             reservationTime.add(pos)
             prevEndTime = pos
