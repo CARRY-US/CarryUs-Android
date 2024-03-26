@@ -16,9 +16,9 @@ data class MyReviewsResponse (
     val reviewContent: String,
 ){
     fun toMyReviews() = MyReviews(
-        reviewId = reviewId,
-        storeName = storeName,
-        reviewRating = reviewRating,
-        reviewContent = reviewContent
+        reviewId = this.reviewId,
+        storeName = this.storeName,
+        reviewRating = this.reviewRating,
+        reviewContent = this.reviewContent
     )
 }

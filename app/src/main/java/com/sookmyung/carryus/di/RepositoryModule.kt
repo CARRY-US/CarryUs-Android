@@ -36,9 +36,9 @@ abstract class RepositoryModule {
     ): MyRepository
 
     @Binds
-    @Singletonabstract 
-    fun bindToStoresRepository(
+    @Singleton
+    abstract fun bindToStoresRepository(
         storesRepositoryImpl: StoresRepositoryImpl
     ): StoresRepository
-  
+
 }

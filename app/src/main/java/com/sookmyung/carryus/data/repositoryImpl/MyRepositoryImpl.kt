@@ -13,7 +13,7 @@ class MyRepositoryImpl @Inject constructor(
     ): Result<MyProfile> = runCatching {
         myDataSource.getMyProfile()
     }.mapCatching { response ->
-        response.data?.toMyProfile() ?: throw Exception("Data is null")
+        response.data?.toMyProfile() ?: MyProfile("","")
     }
 
     override suspend fun getMyReviews(
