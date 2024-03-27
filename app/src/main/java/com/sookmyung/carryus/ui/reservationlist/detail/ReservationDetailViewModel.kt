@@ -8,8 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.domain.entity.ReservationDetail
+import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReservationStatus
 import com.sookmyung.carryus.domain.usecase.reservation.GetReservationDetailUseCase
+import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_INFO
 import com.sookmyung.carryus.ui.review.ReviewWriteActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +27,10 @@ class ReservationDetailViewModel @Inject constructor(
     val reservationDetailLiveData: LiveData<ReservationDetail>
         get() = _reservationDetailLiveData
 
+    private val _reservationListLiveData = MutableLiveData<ReservationList>()
+    val reservationListLiveData: LiveData<ReservationList>
+        get() = _reservationListLiveData
+
     private lateinit var context: Context
 
     fun toggleDialog() {
@@ -33,6 +39,10 @@ class ReservationDetailViewModel @Inject constructor(
 
     fun setContext(context: Context) {
         this.context = context
+    }
+
+    fun setReservationList(reservationInfo: ReservationList) {
+        _reservationListLiveData.value = reservationInfo
     }
 
     fun onButtonClick() {
@@ -51,7 +61,7 @@ class ReservationDetailViewModel @Inject constructor(
 
     fun navigateToWriteReview() {
         val intent = Intent(context, ReviewWriteActivity::class.java)
-        intent.putExtra("reservation_id", reservationDetailLiveData.value?.reservationId ?: 0)
+        intent.putExtra(RESERVATION_INFO, reservationListLiveData.value)
         context.startActivity(intent)
     }
 

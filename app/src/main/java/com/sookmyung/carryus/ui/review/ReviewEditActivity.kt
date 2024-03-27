@@ -53,7 +53,7 @@ class ReviewEditActivity : BindingActivity<ActivityReviewEditBinding>(R.layout.a
     }
 
     private fun setReservationDetailData(){
-        viewModel.setReservationList(reviewId)
+        viewModel.setReviewStoreInfo(reviewId)
 
         viewModel.reviewStoreInfoLiveData.observe(this){reviewstoreInfo ->
             with(binding){

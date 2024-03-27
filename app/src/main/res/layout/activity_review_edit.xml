@@ -161,6 +161,7 @@
             android:layout_height="161dp"
             android:layout_marginTop="10dp"
             android:textColorHint="@color/gray200"
+            android:hint="@string/my_review_write_content_hint"
             android:text="@={viewModel.reviewContent}"
             android:textColor="@color/gray500"
             android:background="@drawable/shape_gray500_line_4_rect"

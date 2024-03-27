@@ -1,14 +1,15 @@
 package com.sookmyung.carryus.ui.review
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.databinding.ActivityReviewWriteBinding
 import com.sookmyung.carryus.domain.entity.ReservationList
-import com.sookmyung.carryus.domain.entity.ReviewDetail
-import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity
+import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_INFO
 import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity.Companion.MAXIMUM_LENGTH
 import com.sookmyung.carryus.util.binding.BindingActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,7 @@ class ReviewWriteActivity : BindingActivity<ActivityReviewWriteBinding>(R.layout
     private val viewModel: ReviewWriteViewModel by viewModels()
 
     private var reservationId: Int = 0
+    private var reservationInfo : ReservationList? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,12 +37,10 @@ class ReviewWriteActivity : BindingActivity<ActivityReviewWriteBinding>(R.layout
             binding.tvReviewWriteTextCount.text = "${text.length}/$MAXIMUM_LENGTH"
         }
     }
-    private fun setReservationDetailData(){
-        reservationId = intent.getIntExtra("reservation_id",0)
 
-        viewModel.setReservationList(
-            ReservationList(1,"shopimg","가게이름 최대 14자","위치 최대 18자 노출되고 나머지는 ...","2024.02.10 14:00 예약")
-        )
+    private fun setReservationDetailData(){
+        reservationInfo = intent.getParcelableExtra(RESERVATION_INFO) as ReservationList?
+        reservationInfo?.let { viewModel.setReservationList(it) }
     }
 
     private fun setSaveBtnAction(){

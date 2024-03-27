@@ -61,7 +61,7 @@ class ReviewEditViewModel @Inject constructor(
         }
     }
 
-    fun setReservationList(reviewId: Int) {
+    fun setReviewStoreInfo(reviewId: Int) {
         viewModelScope.launch {
             getReviewStoreInfoUseCase(reviewId)
                 .onSuccess { response ->

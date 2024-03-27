@@ -13,8 +13,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
+import com.sookmyung.carryus.domain.entity.ReservationDetail
 import com.sookmyung.carryus.domain.entity.ReservationList
 import com.sookmyung.carryus.domain.entity.ReviewDetail
+import com.sookmyung.carryus.domain.entity.ReviewStoreInfo
 import com.sookmyung.carryus.domain.usecase.reservation.PostReviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -51,8 +53,8 @@ class ReviewWriteViewModel @Inject constructor(
         Log.d("ReviewEditViewModel", "rating: $rating")
     }
 
-    fun setReservationList(reservationList: ReservationList) {
-        _reservationListLiveData.value = reservationList
+    fun setReservationList(reservationInfo: ReservationList) {
+        _reservationListLiveData.value = reservationInfo
     }
 
     fun postReview(reservationId: Int, reviewRequest: ReviewRequest) {
