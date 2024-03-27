@@ -18,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReviewWriteActivity : BindingActivity<ActivityReviewWriteBinding>(R.layout.activity_review_write) {
     private val viewModel: ReviewWriteViewModel by viewModels()
 
-    private var reservationId: Int = 0
     private var reservationInfo : ReservationList? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +48,7 @@ class ReviewWriteActivity : BindingActivity<ActivityReviewWriteBinding>(R.layout
                 binding.rbStarPoint.rating.toDouble(),
                 binding.etReviewWriteContent.text.toString()
             )
-            viewModel.postReview(reservationId,reviewRequest)
+            reservationInfo?.let { it1 -> viewModel.postReview(it1.reservationId,reviewRequest) }
         }
 
         viewModel.closeActivityEvent.observe(this) {

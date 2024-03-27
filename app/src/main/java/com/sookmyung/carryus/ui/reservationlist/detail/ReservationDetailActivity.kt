@@ -105,6 +105,7 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
                 bottomSheetDialog.dismiss()
                 reservationInfo?.let { viewModel.setReservationDetail(it.reservationId) }
                 applicationContext.toast("취소 성공")
+                finish()
             } else {
                 applicationContext.toast("취소 실패")
             }
