@@ -1,10 +1,7 @@
 package com.sookmyung.carryus.ui.review
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.databinding.ActivityReviewWriteBinding

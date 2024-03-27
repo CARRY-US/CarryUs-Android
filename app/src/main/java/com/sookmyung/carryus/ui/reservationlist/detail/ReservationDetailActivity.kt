@@ -3,12 +3,9 @@ package com.sookmyung.carryus.ui.reservationlist.detail
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
@@ -46,7 +43,6 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
 
     private fun setReservationData(){
         reservationInfo = intent.getParcelableExtra(RESERVATION_INFO) as ReservationList?
-        Log.d("ReservationDetailActivity", "setReservationData: ${reservationInfo!!.reservationId}")
         reservationInfo?.let {
             with(viewModel){
                 setReservationList(it)

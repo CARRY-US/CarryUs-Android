@@ -1,6 +1,5 @@
 package com.sookmyung.carryus.ui.review
 
-import android.util.Log
 import android.widget.RatingBar
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData

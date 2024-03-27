@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReviewEditBinding
-import com.sookmyung.carryus.domain.entity.ReservationList
-import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.ui.mypage.MyPageFragment.Companion.REVIEW_ID
 import com.sookmyung.carryus.ui.reservationlist.detail.ReservationDetailActivity.Companion.MAXIMUM_LENGTH
 import com.sookmyung.carryus.util.binding.BindingActivity
