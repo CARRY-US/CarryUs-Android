@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="29dp"
-                android:text="@string/my_review_edit_toolbar_title"
+                android:text="@string/my_review_write_toolbar_title"
                 android:textColor="@color/black000" />
 
             <TextView
@@ -64,6 +64,7 @@
 
         <ImageView
             android:id="@+id/iv_review_write_shop_icon"
+            setImage="@{viewModel.reservationListLiveData.storeImgUrl}"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"

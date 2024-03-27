@@ -1,11 +1,7 @@
 package com.sookmyung.carryus.ui.review
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
-import android.widget.EditText
 import android.widget.RatingBar
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +10,6 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.sookmyung.carryus.data.entitiy.request.ReviewRequest
 import com.sookmyung.carryus.domain.entity.ReservationList
-import com.sookmyung.carryus.domain.entity.ReviewDetail
 import com.sookmyung.carryus.domain.usecase.reservation.PostReviewUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -51,8 +46,8 @@ class ReviewWriteViewModel @Inject constructor(
         Log.d("ReviewEditViewModel", "rating: $rating")
     }
 
-    fun setReservationList(reservationList: ReservationList) {
-        _reservationListLiveData.value = reservationList
+    fun setReservationList(reservationInfo: ReservationList) {
+        _reservationListLiveData.value = reservationInfo
     }
 
     fun postReview(reservationId: Int, reviewRequest: ReviewRequest) {

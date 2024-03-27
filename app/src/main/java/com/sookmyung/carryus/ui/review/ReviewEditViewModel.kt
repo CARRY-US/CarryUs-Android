@@ -1,6 +1,5 @@
 package com.sookmyung.carryus.ui.review
 
-import android.util.Log
 import android.widget.RatingBar
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
@@ -61,7 +60,7 @@ class ReviewEditViewModel @Inject constructor(
         }
     }
 
-    fun setReservationList(reviewId: Int) {
+    fun setReviewStoreInfo(reviewId: Int) {
         viewModelScope.launch {
             getReviewStoreInfoUseCase(reviewId)
                 .onSuccess { response ->

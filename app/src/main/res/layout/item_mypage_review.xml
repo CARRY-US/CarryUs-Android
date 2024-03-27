@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="204dp"
         android:layout_height="97dp"
-        android:background="@drawable/shape_gray50_fill_4_rect"
+        android:background="@drawable/shape_white000_fill_orange400_line_4_rect"
         android:onClick="@{() -> clickListener.onClick(item)}">
 
 

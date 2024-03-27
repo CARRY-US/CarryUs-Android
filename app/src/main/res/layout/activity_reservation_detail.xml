@@ -83,13 +83,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@drawable/shape_blue400_line_2_rect"
+                    android:background="@{viewModel.reservationDetailLiveData.reservationType.equals(reservationStatus.CANCELED_STRING) ? @drawable/shape_gray400_line_2_rect : @drawable/shape_blue400_line_2_rect}"
                     android:paddingLeft="8dp"
                     android:paddingTop="2dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="2dp"
                     android:text="@{viewModel.reservationDetailLiveData.reservationType}"
-                    android:textColor="@color/blue400"
+                    android:textColor="@{viewModel.reservationDetailLiveData.reservationType.equals(reservationStatus.CANCELED_STRING) ? @color/gray400 : @color/blue400}"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_shop_name"
                     app:layout_constraintStart_toEndOf="@+id/tv_shop_name" />
 

@@ -80,12 +80,12 @@ class ReservationPagerFragment : BindingFragment<FragmentReservationPagerBinding
 
     private fun openCreateBuilding(reservationList: ReservationList) {
         val intent = Intent(context, ReservationDetailActivity::class.java)
-        intent.putExtra(RESERVATION_ID, reservationList.reservationId)
+        intent.putExtra(RESERVATION_INFO, reservationList)
         startActivity(intent)
     }
 
     companion object{
-        const val RESERVATION_ID = "RESERVATION_ID"
+        const val RESERVATION_INFO = "RESERVATION_INFO"
     }
 
 }

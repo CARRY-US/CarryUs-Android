@@ -46,6 +46,9 @@
 
     <!-- my page -->
     <string name="mypage_my_review">나의 후기</string>
+    <string name="mypage_user_security">개인정보 처리방침</string>
+    <string name="mypage_user_terms">서비스 이용약관</string>
+    <string name="mypage_feedback">피드백</string>
     <string name="mypage_logout">로그아웃</string>
     <string name="mypage_unsubscribe">회원탈퇴</string>
 

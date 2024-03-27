@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -12,7 +11,8 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.data.entitiy.request.CancelReservationRequest
 import com.sookmyung.carryus.databinding.ActivityReservationDetailBinding
 import com.sookmyung.carryus.databinding.ItemCustomCancelBottomsheetBinding
-import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_ID
+import com.sookmyung.carryus.domain.entity.ReservationList
+import com.sookmyung.carryus.ui.reservationlist.ReservationPagerFragment.Companion.RESERVATION_INFO
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 import com.sookmyung.carryus.util.toast
@@ -23,10 +23,10 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     private val viewModel: ReservationDetailViewModel by viewModels()
     private val bottomSheetViewModel: CancelBottomSheetViewModel by viewModels()
     private var cancelReason: String? = null
-    private var reservationId: Int = 0
+    private var reservationInfo: ReservationList? = ReservationList()
 
     private lateinit var bottomSheetBinding: ItemCustomCancelBottomsheetBinding
-    private lateinit var  bottomSheetDialog: BottomSheetDialog
+    private lateinit var bottomSheetDialog: BottomSheetDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.viewModel = viewModel
@@ -42,9 +42,13 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
     }
 
     private fun setReservationData(){
-        reservationId = intent.getIntExtra(RESERVATION_ID,0)
-
-        viewModel.setReservationDetail(reservationId)
+        reservationInfo = intent.getParcelableExtra(RESERVATION_INFO) as ReservationList?
+        reservationInfo?.let {
+            with(viewModel){
+                setReservationList(it)
+                setReservationDetail(it.reservationId)
+            }
+        }
     }
     private fun setCancelDialog() {
         val customDialog = CustomDialog(this)
@@ -95,8 +99,9 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         bottomSheetViewModel.cancelResultLiveData.observe(this) { isSuccess ->
             if (isSuccess) {
                 bottomSheetDialog.dismiss()
-                viewModel.setReservationDetail(reservationId)
+                reservationInfo?.let { viewModel.setReservationDetail(it.reservationId) }
                 applicationContext.toast("취소 성공")
+                finish()
             } else {
                 applicationContext.toast("취소 실패")
             }
@@ -111,7 +116,8 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
 
             btnCancelRequest.setOnClickListener {
                 cancelReason = etCancelReason.text.toString()
-                bottomSheetViewModel.postCancelReservation(CancelReservationRequest(reservationId = reservationId, cancelReason = cancelReason ?: ""))
+                reservationInfo?.let { it1 -> CancelReservationRequest(reservationId = it1.reservationId, cancelReason = cancelReason ?: "") }
+                    ?.let { it2 -> bottomSheetViewModel.postCancelReservation(it2) }
             }
         }
     }
