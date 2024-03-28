@@ -67,6 +67,7 @@
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:scaleType="center"
             setImage="@{viewModel.reviewStoreInfoLiveData.storeImgUrl}"
             app:layout_constraintStart_toStartOf="@+id/view"
             app:layout_constraintTop_toBottomOf="@+id/view11" />
