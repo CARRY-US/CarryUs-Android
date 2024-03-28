@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
+import androidx.core.view.contains
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySearchResultMapBinding
 import com.sookmyung.carryus.domain.entity.LocationStore
@@ -18,6 +19,7 @@ import net.daum.mf.map.api.CameraUpdateFactory
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SearchResultMapActivity :
@@ -35,6 +37,17 @@ class SearchResultMapActivity :
         initMapView()
         initStoreListView()
         moveToStoreDetail()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!mapViewContainer.contains(mapView)) {
+            try {
+                initMapView()
+            } catch (e: RuntimeException) {
+                Timber.e(e.toString())
+            }
+        }
     }
 
     private fun getBundleData() {
@@ -165,11 +178,15 @@ class SearchResultMapActivity :
                 StoreDetailActivity.STORE_ID,
                 viewModel.selectedStoreId.value
             )
+            stopTracking()
+            finishMap()
             startActivity(toStoreDetail)
         }
         binding.clSearchResultMapSecondStoreInfo.setOnClickListener {
             viewModel.locationStoreList.value?.get(1)
                 ?.let { store -> viewModel.updateSelectedStoreId(store.storeId) }
+            stopTracking()
+            finishMap()
             val toStoreDetail = Intent(this, StoreDetailActivity::class.java)
             startActivity(toStoreDetail)
         }
