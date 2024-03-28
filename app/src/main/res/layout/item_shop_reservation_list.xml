@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="item"
             type="com.sookmyung.carryus.domain.entity.ReservationList" />
+
         <variable
             name="clickListener"
             type="com.sookmyung.carryus.ui.reservationlist.ReservationListClickListener" />
@@ -16,24 +17,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:paddingBottom="8dp"
-        android:onClick="@{() -> clickListener.onClick(item)}">
+        android:onClick="@{() -> clickListener.onClick(item)}"
+        android:paddingBottom="8dp">
 
         <ImageView
             android:id="@+id/iv_shop_icon"
+            setImage="@{item.storeImgUrl}"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            setImage="@{item.storeImgUrl}"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            style="@style/body2_bold"
             android:id="@+id/tv_shop_name"
+            style="@style/body2_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"
@@ -44,8 +46,8 @@
             app:layout_constraintTop_toTopOf="@+id/iv_shop_icon" />
 
         <TextView
-            style="@style/detail3_regular"
             android:id="@+id/tv_shop_location"
+            style="@style/detail3_regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="14dp"

@@ -16,13 +16,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white000">
 
             <ImageView
                 android:id="@+id/iv_store_detail"
+                setImage="@{viewModel.storeInfo.storeImgUrl}"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                setImage="@{viewModel.storeInfo.storeImgUrl}"
+                android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="1.8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
