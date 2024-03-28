@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivityReservationRequestBinding
 import com.sookmyung.carryus.domain.entity.BaggageTypeInfo
-import com.sookmyung.carryus.domain.entity.StoreSearchResult
 import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity
 import com.sookmyung.carryus.ui.search.storedetail.StoreDetailActivity.Companion.SUITCASE_FEE
@@ -45,7 +44,6 @@ class ReservationRequestActivity :
         setCalenderDateClickListener()
         setPriceFormat()
     }
-
 
     private fun getStoreId() {
         val storeId = intent.getIntExtra(StoreDetailActivity.STORE_ID, 0)
@@ -125,8 +123,10 @@ class ReservationRequestActivity :
     private fun setReservationCheckBtnClickListener() {
         binding.btnReservationRequestInitialize.setOnClickListener {
             viewModel.clearSuitcase()
+            viewModel.clearReservationTimeList()
             binding.rvReservationRequestTime.adapter = null
             setTimeRecyclerAdapter()
+            viewModel.checkIsSendBtnClickable()
             with(binding) {
                 clReservationRequestReservation.visibility = View.GONE
                 clReservationRequestPayment.visibility = View.GONE
