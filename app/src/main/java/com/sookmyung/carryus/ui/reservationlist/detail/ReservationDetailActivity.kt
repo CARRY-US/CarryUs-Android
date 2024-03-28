@@ -37,6 +37,11 @@ class ReservationDetailActivity : BindingActivity<ActivityReservationDetailBindi
         setGotoStoreDetail()
     }
 
+    override fun onResume() {
+        super.onResume()
+        setReservationData()
+    }
+
     private fun setContext(){
         viewModel.setContext(this)
     }

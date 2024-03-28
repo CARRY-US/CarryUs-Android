@@ -15,13 +15,16 @@ data class ReservationListResponse(
     @SerialName("storeLocation")
     val storeLocation: String,
     @SerialName("reservationInfo")
-    val reservationInfo: String
+    val reservationInfo: String,
+    @SerialName("isReviewExist")
+    val isReviewExist: Boolean
 ){
     fun toReservationList(): ReservationList = ReservationList(
         reservationId = this.reservationId,
         storeImgUrl = this.storeImgUrl,
         storeName = this.storeName,
         storeLocation = this.storeLocation,
-        reservationDate = this.reservationInfo
+        reservationDate = this.reservationInfo,
+        isReviewExist = this.isReviewExist
     )
 }
