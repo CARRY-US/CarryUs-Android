@@ -97,7 +97,7 @@ class ReservationRequestViewModel @Inject constructor(
                 suitCase.value?.large ?: 0,
                 suitCase.value?.extraLarge ?: 0,
                 generateDateTimeString(selectedDate, startTime),
-                generateDateTimeString(selectedDate, endTime),
+                generateDateTimeString(selectedDate, endTime + 1),
                 name.value ?: "",
                 phoneNumber.value ?: "",
                 others.value ?: ""
@@ -111,7 +111,7 @@ class ReservationRequestViewModel @Inject constructor(
 
     private fun generateDateTimeString(selectedDate: String, selectedTime: Int): String {
         val timeString = String.format("%02d:00:00", selectedTime)
-        return "$selectedDate" + "T$timeString"
+        return selectedDate + "T$timeString"
     }
 
     fun getReservationRequestTimeList() {
@@ -122,7 +122,7 @@ class ReservationRequestViewModel @Inject constructor(
                 _suitCase.value?.extraSmall ?: 0,
                 _suitCase.value?.small ?: 0,
                 _suitCase.value?.large ?: 0,
-                _suitCase.value?.extraLarge ?: 0,
+                _suitCase.value?.extraLarge ?: 0
             ).onSuccess { response ->
                 _reservationRequestAvailableTimeList.value = response
                 _isGetReservationInfo.value = true
@@ -155,7 +155,6 @@ class ReservationRequestViewModel @Inject constructor(
         selectTimeRange()
     }
 
-
     private fun handleFirstItemClick(pos: Int) {
         reservationTime.add(pos)
         prevStartTime = pos
@@ -167,7 +166,7 @@ class ReservationRequestViewModel @Inject constructor(
     private fun handleSecondItemClick(pos: Int) {
         if (pos <= reservationTime.min()) {
             removeTimeRange()
-            reservationTime.removeAll { it < 24 }
+            clearReservationTimeList()
             reservationTime.add(pos)
             prevStartTime = startTime
             startTime = pos
@@ -182,7 +181,7 @@ class ReservationRequestViewModel @Inject constructor(
 
     private fun handleBothItemClicks(pos: Int) {
         removeTimeRange()
-        reservationTime.removeAll { it < 24 }
+        clearReservationTimeList()
         reservationTime.add(pos)
         prevStartTime = startTime
         startTime = pos
@@ -202,6 +201,10 @@ class ReservationRequestViewModel @Inject constructor(
         for (temp in startTime..endTime) {
             reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = true)
         }
+    }
+
+    fun clearReservationTimeList() {
+        reservationTime.removeAll { it < 24 }
     }
 
     fun clickSuitCase(suitcase: Int, oper: Int) {

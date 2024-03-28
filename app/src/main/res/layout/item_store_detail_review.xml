@@ -29,10 +29,9 @@
 
         <View
             android:id="@+id/view_item_store_detail"
-            android:layout_width="0.5dp"
-            android:layout_height="0dp"
-            android:layout_marginVertical="4dp"
-            android:layout_marginStart="2dp"
+            android:layout_width="1dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="8dp"
             android:background="@color/gray300"
             app:layout_constraintBottom_toBottomOf="@id/tv_item_store_detail_name"
             app:layout_constraintStart_toEndOf="@id/tv_item_store_detail_name"
@@ -44,7 +43,7 @@
             android:text="@{data.reviewCreatedAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:textColor="@color/gray300"
             app:layout_constraintBottom_toBottomOf="@id/tv_item_store_detail_name"
             app:layout_constraintStart_toEndOf="@id/view_item_store_detail"
