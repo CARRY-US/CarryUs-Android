@@ -10,4 +10,5 @@ data class ReservationList(
     val storeName: String = "",
     val storeLocation: String = "",
     val reservationDate: String = "",
+    val isReviewExist: Boolean = false
 ) : Parcelable
