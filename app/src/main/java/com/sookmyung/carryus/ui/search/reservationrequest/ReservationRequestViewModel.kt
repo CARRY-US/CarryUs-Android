@@ -166,7 +166,7 @@ class ReservationRequestViewModel @Inject constructor(
     private fun handleSecondItemClick(pos: Int) {
         if (pos <= reservationTime.min()) {
             removeTimeRange()
-            reservationTime.removeAll { it < 24 }
+            clearReservationTimeList()
             reservationTime.add(pos)
             prevStartTime = startTime
             startTime = pos
@@ -181,7 +181,7 @@ class ReservationRequestViewModel @Inject constructor(
 
     private fun handleBothItemClicks(pos: Int) {
         removeTimeRange()
-        reservationTime.removeAll { it < 24 }
+        clearReservationTimeList()
         reservationTime.add(pos)
         prevStartTime = startTime
         startTime = pos
@@ -201,6 +201,10 @@ class ReservationRequestViewModel @Inject constructor(
         for (temp in startTime..endTime) {
             reservationRequestTimeList[temp] = reservationRequestTimeList[temp].copy(select = true)
         }
+    }
+
+    fun clearReservationTimeList() {
+        reservationTime.removeAll { it < 24 }
     }
 
     fun clickSuitCase(suitcase: Int, oper: Int) {
