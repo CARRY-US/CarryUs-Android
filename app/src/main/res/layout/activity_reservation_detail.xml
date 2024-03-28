@@ -395,7 +395,7 @@
                 android:layout_marginBottom="18dp"
                 android:background="@drawable/shape_orange400_fill_5_rect"
                 android:text="@{viewModel.reservationDetailLiveData.reservationType.equals(reservationStatus.ACCEPTED_STRING) ? `예약 취소 요청하기` : (viewModel.reservationDetailLiveData.reservationType.equals(reservationStatus.WAITING_STRING) ? `예약 취소하기` : `후기 작성하기`)}"
-                android:enabled="@{viewModel.reservationListLiveData.reviewExist == false}"
+                android:enabled="@{!viewModel.reservationListLiveData.reviewExist}"
                 android:textColor="@color/white000"
                 android:onClick="@{() -> viewModel.onButtonClick()}"
                 app:layout_constraintBottom_toBottomOf="parent"
