@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.di
 
+import com.sookmyung.carryus.data.service.AuthService
 import com.sookmyung.carryus.data.service.MainService
 import com.sookmyung.carryus.data.service.MyService
 import com.sookmyung.carryus.data.service.ReservationsService
@@ -43,4 +44,8 @@ object RetrofitServiceModule {
     @Provides
     fun providesReviewsService(@RetrofitModule.CarryUsType retrofit: Retrofit): ReviewsService =
         retrofit.create(ReviewsService::class.java)
+
+    @Provides
+    fun providesAuthService(@RetrofitModule.CarryUsType retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 }

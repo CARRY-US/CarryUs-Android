@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.di
 
+import com.sookmyung.carryus.data.repositoryImpl.AuthRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.MainRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.MyRepositoryImpl
 import com.sookmyung.carryus.domain.repository.MyRepository
@@ -9,6 +10,7 @@ import com.sookmyung.carryus.data.repositoryImpl.ReservationRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.ReviewsRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.StoresRepositoryImpl
+import com.sookmyung.carryus.domain.repository.AuthRepository
 import com.sookmyung.carryus.domain.repository.MainRepository
 import com.sookmyung.carryus.domain.repository.ReservationRepository
 import com.sookmyung.carryus.domain.repository.ReviewsRepository
@@ -64,4 +66,10 @@ abstract class RepositoryModule {
     abstract fun bindToReviewsRepository(
         reviewsRepositoryImpl: ReviewsRepositoryImpl
     ): ReviewsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindToAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 }
