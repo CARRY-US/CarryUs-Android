@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.ActivitySplashBinding
+import com.sookmyung.carryus.ui.login.LoginActivity
 import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.util.binding.BindingActivity
 
@@ -19,7 +20,7 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
 
     private fun initSplash() {
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }, SPLASH_DELAY)
