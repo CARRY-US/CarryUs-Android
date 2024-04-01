@@ -24,7 +24,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="587e1e6dd22e364bf42b2e9be8041033" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -79,6 +78,18 @@
             android:name=".ui.search.reservationrequest.ReservationRequestActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="oauth"
+                    android:scheme="kakao${KAKAO_NATIVE_APP_KEY}" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

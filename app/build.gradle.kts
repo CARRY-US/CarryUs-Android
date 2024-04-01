@@ -24,6 +24,8 @@ android {
         buildConfigField("String", "BASE_URL", getApiKey("BASE_URL"))
         buildConfigField("String", "ACCESS_TOKEN", getApiKey("ACCESS_TOKEN"))
         buildConfigField("String", "REFRESH_TOKEN", getApiKey("REFRESH_TOKEN"))
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY")
     }
 
     buildTypes {
