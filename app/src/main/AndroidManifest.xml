@@ -23,8 +23,7 @@
         tools:targetApi="33">
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="587e1e6dd22e364bf42b2e9be8041033" />
-
+            android:value="${KAKAO_NATIVE_APP_KEY}" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -35,6 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
@@ -66,7 +69,7 @@
         <activity
             android:name=".ui.review.ReviewWriteActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.search.storedetail.StoreDetailActivity"
             android:exported="false"
@@ -75,6 +78,19 @@
             android:name=".ui.search.reservationrequest.ReservationRequestActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="oauth"
+                    android:scheme="${KAKAO_REDIRECT_SCHEME}" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
