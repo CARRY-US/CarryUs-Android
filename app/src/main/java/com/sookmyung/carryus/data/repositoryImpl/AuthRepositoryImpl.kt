@@ -25,4 +25,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun getSignedUp(): Boolean = localDataSource.isUserSignUp
+
+    override fun resetAccessToken() {
+        localDataSource.accessToken = ""
+        localDataSource.refreshToken = ""
+    }
 }

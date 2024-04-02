@@ -3,6 +3,7 @@ package com.sookmyung.carryus.di
 import com.sookmyung.carryus.data.service.AuthService
 import com.sookmyung.carryus.data.service.MainService
 import com.sookmyung.carryus.data.service.MyService
+import com.sookmyung.carryus.data.service.RefreshTokenService
 import com.sookmyung.carryus.data.service.ReservationsService
 import com.sookmyung.carryus.data.service.ReservationService
 import com.sookmyung.carryus.data.service.ReviewsService
@@ -48,4 +49,8 @@ object RetrofitServiceModule {
     @Provides
     fun providesAuthService(@RetrofitModule.CarryUsType retrofit: Retrofit): AuthService =
         retrofit.create(AuthService::class.java)
+
+    @Provides
+    fun providesRefreshTokenService(@RefreshTokenModule.RefreshTokenType retrofit: Retrofit): RefreshTokenService =
+        retrofit.create(RefreshTokenService::class.java)
 }

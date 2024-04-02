@@ -7,4 +7,5 @@ interface AuthRepository {
     fun initToken(accessToken: String, refreshToken: String)
     fun getSignedUp(): Boolean
     fun initSignUpState(isSignUpState: Boolean)
+    fun resetAccessToken()
 }

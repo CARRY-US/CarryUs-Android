@@ -3,6 +3,7 @@ package com.sookmyung.carryus.di
 import com.sookmyung.carryus.data.repositoryImpl.AuthRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.MainRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.MyRepositoryImpl
+import com.sookmyung.carryus.data.repositoryImpl.RefreshTokenRepositoryImpl
 import com.sookmyung.carryus.domain.repository.MyRepository
 import com.sookmyung.carryus.data.repositoryImpl.ReservationsRepositoryImpl
 import com.sookmyung.carryus.domain.repository.ReservationsRepository
@@ -12,6 +13,7 @@ import com.sookmyung.carryus.data.repositoryImpl.SearchRepositoryImpl
 import com.sookmyung.carryus.data.repositoryImpl.StoresRepositoryImpl
 import com.sookmyung.carryus.domain.repository.AuthRepository
 import com.sookmyung.carryus.domain.repository.MainRepository
+import com.sookmyung.carryus.domain.repository.RefreshTokenRepository
 import com.sookmyung.carryus.domain.repository.ReservationRepository
 import com.sookmyung.carryus.domain.repository.ReviewsRepository
 import com.sookmyung.carryus.domain.repository.SearchRepository
@@ -72,4 +74,10 @@ abstract class RepositoryModule {
     abstract fun bindToAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRefreshRepository(
+        refreshTokenRepositoryImpl: RefreshTokenRepositoryImpl
+    ): RefreshTokenRepository
 }

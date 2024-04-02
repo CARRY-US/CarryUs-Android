@@ -30,17 +30,13 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     }
 
     private fun initKakaoLoginBtnClickListener() {
-        Log.d("loginactivity","카카오 로그인 버튼")
         binding.btnLoginKakao.setOnClickListener {
-            Log.d("loginactivity","카카오 로그인 버튼 클릭")
             startKakaoLogin()
         }
     }
 
     private fun startKakaoLogin() {
-        Log.d("loginactivity","카카오 로그인 시작")
         kakaoLoginService.startKakaoLogin(viewModel.kakaoLoginCallback)
-        Log.d("loginactivity","카카오 로그인 끝")
     }
 
     private fun observeKakaoLogin() {
