@@ -21,10 +21,10 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override fun initSignUpState(isSignUpState: Boolean) {
-        localDataSource.isUserSignUp = isSignUpState
+        localDataSource.isUserSignIn = isSignUpState
     }
 
-    override fun getSignedUp(): Boolean = localDataSource.isUserSignUp
+    override fun getSignedIn(): Boolean = localDataSource.isUserSignIn
 
     override fun resetAccessToken() {
         localDataSource.accessToken = ""

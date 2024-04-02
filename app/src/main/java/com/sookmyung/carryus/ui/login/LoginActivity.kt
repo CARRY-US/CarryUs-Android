@@ -48,7 +48,7 @@ class LoginActivity : BindingActivity<ActivityLoginBinding>(R.layout.activity_lo
     }
 
     private fun observeSignUp() {
-        viewModel.isSignedUp.observe(this) { isSignedUp ->
+        viewModel.isSignedIn.observe(this) { isSignedUp ->
             if (isSignedUp) {
                 startActivity(
                     Intent(this, MainActivity::class.java)

@@ -22,8 +22,8 @@ class LoginViewModel @Inject constructor(
     private val _isKakaoLogin = MutableLiveData(false)
     val isKakaoLogin get() = _isKakaoLogin
 
-    private val _isSignedUp = MutableLiveData(false)
-    val isSignedUp get() = _isSignedUp
+    private val _isSignedIn = MutableLiveData(false)
+    val isSignedIn get() = _isSignedIn
 
     val kakaoLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         KakaoLoginCallback { accessToken ->
@@ -41,8 +41,8 @@ class LoginViewModel @Inject constructor(
             postLoginUseCase(localDataSource.accessToken, PLATFORM_TYPE, ROLE)
                 .onSuccess { response ->
                     initTokenUseCase(response.accessToken, response.refreshToken)
-                    localDataSource.isUserSignUp = true
-                    _isSignedUp.value = true
+                    localDataSource.isUserSignIn = true
+                    _isSignedIn.value = true
                     Timber.e("accessToken: ${response.accessToken}, refreshToken: ${response.refreshToken}")
                 }.onFailure { throwable ->
                     Timber.e("$throwable")

@@ -26,7 +26,7 @@ class SplashActivity : BindingActivity<ActivitySplashBinding>(R.layout.activity_
     private fun initSplash() {
         lateinit var intent: Intent
         Handler(Looper.getMainLooper()).postDelayed({
-            intent = if (viewModel.isSignedUp()) {
+            intent = if (viewModel.isSignedIn()) {
                 Intent(this, MainActivity::class.java)
             } else {
                 Intent(this, LoginActivity::class.java)

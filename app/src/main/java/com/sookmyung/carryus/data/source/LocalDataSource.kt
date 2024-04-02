@@ -15,7 +15,7 @@ class LocalDataSource @Inject constructor(
         set(value) = prefs.edit { putString(REFRESH_TOKEN, value) }
         get() = prefs.getString(REFRESH_TOKEN, "") ?: ""
 
-    var isUserSignUp: Boolean
+    var isUserSignIn: Boolean
         set(value) = prefs.edit { putBoolean(USER, value) }
         get() = prefs.getBoolean(USER, false)
 

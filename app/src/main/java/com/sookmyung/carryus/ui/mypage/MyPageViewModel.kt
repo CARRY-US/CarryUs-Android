@@ -82,7 +82,7 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun logout() {
-        localDataSource.isUserSignUp = false
+        localDataSource.isUserSignIn = false
         authRepository.resetAccessToken()
     }
 }
