@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentMyPageBinding
 import com.sookmyung.carryus.domain.entity.MyReviews
+import com.sookmyung.carryus.ui.login.LoginActivity
+import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.ui.reservationlist.detail.CustomDialog
 import com.sookmyung.carryus.ui.review.ReviewInquiryActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
@@ -89,7 +91,10 @@ class MyPageFragment : BindingFragment<FragmentMyPageBinding>(R.layout.fragment_
 
         customDialog.setTitle("로그아웃 하시겠습니까?")
         customDialog.setPositiveButton("로그아웃", View.OnClickListener {
+            viewModel.logout()
             alertDialog.dismiss()
+            startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            requireActivity().finish()
         })
 
         customDialog.setNegativeButton("취소", View.OnClickListener {

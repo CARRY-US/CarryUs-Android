@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sookmyung.carryus.data.source.LocalDataSource
 import com.sookmyung.carryus.domain.entity.MyProfile
 import com.sookmyung.carryus.domain.entity.MyReviews
+import com.sookmyung.carryus.domain.repository.AuthRepository
 import com.sookmyung.carryus.domain.usecase.my.GetMyProfileUseCase
 import com.sookmyung.carryus.domain.usecase.my.GetMyReviewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val getMyProfileUseCase: GetMyProfileUseCase,
-    private val getMyReviewsUseCase: GetMyReviewsUseCase
+    private val getMyReviewsUseCase: GetMyReviewsUseCase,
+    private val localDataSource: LocalDataSource,
+    private val authRepository: AuthRepository
 ): ViewModel(){
     private val _navigateToDetail = MutableLiveData<MyReviews>()
 
@@ -33,6 +37,10 @@ class MyPageViewModel @Inject constructor(
 
     val navigateToDetail: LiveData<MyReviews>
         get() = _navigateToDetail
+
+    private val _isLogout = MutableLiveData<Boolean>()
+    val isLogout: LiveData<Boolean>
+        get() = _isLogout
 
     fun onReservationItemClick(myReviews: MyReviews) {
         _navigateToDetail.value = myReviews
@@ -71,5 +79,10 @@ class MyPageViewModel @Inject constructor(
                     Timber.e("서버 통신 실패 -> ${throwable.message}")
                 }
         }
+    }
+
+    fun logout() {
+        localDataSource.isUserSignUp = false
+        authRepository.resetAccessToken()
     }
 }
