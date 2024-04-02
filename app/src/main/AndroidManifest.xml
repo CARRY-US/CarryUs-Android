@@ -23,7 +23,7 @@
         tools:targetApi="33">
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="587e1e6dd22e364bf42b2e9be8041033" />
+            android:value="${KAKAO_NATIVE_APP_KEY}" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true"
@@ -78,6 +78,7 @@
             android:name=".ui.search.reservationrequest.ReservationRequestActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
@@ -87,7 +88,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="oauth"
-                    android:scheme="kakao${KAKAO_NATIVE_APP_KEY}" />
+                    android:scheme="${KAKAO_REDIRECT_SCHEME}" />
             </intent-filter>
         </activity>
     </application>

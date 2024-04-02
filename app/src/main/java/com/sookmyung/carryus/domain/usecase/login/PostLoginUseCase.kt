@@ -6,5 +6,5 @@ import javax.inject.Inject
 class PostLoginUseCase @Inject constructor(
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke(socialPlatform: String, role: String) = authRepository.postLogin(socialPlatform, role)
+    suspend operator fun invoke(token: String, socialPlatform: String, role: String) = authRepository.postLogin(token, socialPlatform, role)
 }

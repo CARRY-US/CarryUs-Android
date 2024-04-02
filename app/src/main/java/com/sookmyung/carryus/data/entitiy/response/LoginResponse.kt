@@ -8,8 +8,8 @@ import kotlinx.serialization.Serializable
 data class LoginResponse(
     @SerialName("memberId")
     val memberId: Int,
-    @SerialName("type")
-    val type: String,
+    @SerialName("authType")
+    val authType: String,
     @SerialName("role")
     val role: String,
     @SerialName("accessToken")

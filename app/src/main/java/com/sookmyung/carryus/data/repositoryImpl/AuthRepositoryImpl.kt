@@ -10,8 +10,8 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataSource: AuthDataSource,
     private val localDataSource: LocalDataSource
 ) : AuthRepository {
-    override suspend fun postLogin(platformType: String, role: String): Result<Token> =
-        kotlin.runCatching { authDataSource.postLogin(platformType, role) }.map { response ->
+    override suspend fun postLogin(token: String, platformType: String, role: String): Result<Token> =
+        kotlin.runCatching { authDataSource.postLogin(token, platformType, role) }.map { response ->
             requireNotNull(response.data).toToken()
         }
 

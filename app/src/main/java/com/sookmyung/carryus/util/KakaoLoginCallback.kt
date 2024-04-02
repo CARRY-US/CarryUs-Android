@@ -1,5 +1,6 @@
 package com.sookmyung.carryus.util
 
+import android.util.Log
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import timber.log.Timber
@@ -8,6 +9,7 @@ class KakaoLoginCallback(
     private val onSuccess: (accessToken: String) -> Unit
 ) {
     fun handleResult(token: OAuthToken?, error: Throwable?) {
+        Log.d("KakaoLoginCallback", "token: $token, error: $error")
         if (error != null) {
             when {
                 error.toString() == AuthErrorCause.AccessDenied.toString() -> {
