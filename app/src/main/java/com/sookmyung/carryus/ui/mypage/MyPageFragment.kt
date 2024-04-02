@@ -13,7 +13,6 @@ import com.sookmyung.carryus.R
 import com.sookmyung.carryus.databinding.FragmentMyPageBinding
 import com.sookmyung.carryus.domain.entity.MyReviews
 import com.sookmyung.carryus.ui.login.LoginActivity
-import com.sookmyung.carryus.ui.main.MainActivity
 import com.sookmyung.carryus.ui.reservationlist.detail.CustomDialog
 import com.sookmyung.carryus.ui.review.ReviewInquiryActivity
 import com.sookmyung.carryus.util.binding.BindingAdapter.setImage
